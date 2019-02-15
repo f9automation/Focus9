@@ -12,12 +12,14 @@ import com.focus.constants.LaunchApplication;
 
 public class TransactionLink extends LaunchApplication
 {
-  //@Test
-  public void transactionLinkLoad(String documentno) throws InterruptedException 
-  {
+ 
+	/* METHOD TO LOAD THE PENDING LINKS FROM THE TRANSACTIONS WHILE ENTERING BODY DATA BY PASSING THE RESPECTIVE DOCUMENT NUMBER AS PARAMETER */
+	public void transactionLinkLoad(String documentno) throws InterruptedException 
+	{		
 	
 	  List<WebElement> linkheaders= driver.findElements(By.xpath("//div[@id='id_transactionentry_workflow_popup_modalcontent']/div[@id='id_transactionentry_workflow_popup_body']/div[@id='id_transaction_workflow_popup_detail']/div[@id='id_transaction_workflow_popup_detail_area_grid']/table[@id='id_transaction_entry_detail_workflow_popup']/thead[@id='id_transaction_entry_detail_workflow_popup_head']/tr[@id='id_transaction_entry_detail_workflow_popup_row_heading']/th[not(contains(@style, 'display: none'))]"));
 	  int vouchernocol=0;
+	  /* GET ALL THE WORKFLOW HEADER NAMES AND GOING TO VOUCHER NO COLUMN */
 	  for(int header=1;header<=linkheaders.size();header++)
 		{
 		  	wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='id_transactionentry_workflow_popup_modalcontent']/div[@id='id_transactionentry_workflow_popup_body']/div[@id='id_transaction_workflow_popup_detail']/div[@id='id_transaction_workflow_popup_detail_area_grid']/table[@id='id_transaction_entry_detail_workflow_popup']/thead[@id='id_transaction_entry_detail_workflow_popup_head']/tr[@id='id_transaction_entry_detail_workflow_popup_row_heading']/th[not(contains(@style, 'display: none'))]["+header+"]")));
@@ -33,6 +35,7 @@ public class TransactionLink extends LaunchApplication
 	  linkelems.clear();
 	  ArrayList<String> linkelem=new ArrayList<String>();
 	  List<WebElement> linkbodys=driver.findElements(By.xpath("//div[@id='id_transactionentry_workflow_popup_modalcontent']/div[@id='id_transactionentry_workflow_popup_body']/div[@id='id_transaction_workflow_popup_detail']/div[@id='id_transaction_workflow_popup_detail_area_grid']/table[@id='id_transaction_entry_detail_workflow_popup']/tbody[@id='id_transaction_entry_detail_workflow_popup_body']/tr"));
+	  /* GO TO EACH ROW AND GET THE VOUCHER NUMBERS  */
 	  for(int row=1;row<=linkbodys.size();row++)
 	  {
 		  WebElement linkbodyrow=driver.findElement(By.xpath("//div[@id='id_transactionentry_workflow_popup_modalcontent']/div[@id='id_transactionentry_workflow_popup_body']/div[@id='id_transaction_workflow_popup_detail']/div[@id='id_transaction_workflow_popup_detail_area_grid']/table[@id='id_transaction_entry_detail_workflow_popup']/tbody[@id='id_transaction_entry_detail_workflow_popup_body']/tr["+row+"]/td[not(contains(@style, 'display: none'))]["+vouchernocol+"]"));
@@ -41,17 +44,11 @@ public class TransactionLink extends LaunchApplication
 		  linkelem=new ArrayList<String>(Arrays.asList(linkbodyelem.split(":")));
 		  String splitelem= linkelem.get(1);
 		  linkelems.add(splitelem);
-		  /*
-		  if(documentno.equalsIgnoreCase(linkelem.get(1)))
-		  {
-			  shortwait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='id_transactionentry_workflow_popup_modalcontent']/div[@id='id_transactionentry_workflow_popup_body']/div[@id='id_transaction_workflow_popup_detail']/div[@id='id_transaction_workflow_popup_detail_area_grid']/table[@id='id_transaction_entry_detail_workflow_popup']/tbody[@id='id_transaction_entry_detail_workflow_popup_body']/tr[\"+row+\"]/td[not(contains(@style, 'display: none'))][2]")));
-			  driver.findElement(By.xpath("//div[@id='id_transactionentry_workflow_popup_modalcontent']/div[@id='id_transactionentry_workflow_popup_body']/div[@id='id_transaction_workflow_popup_detail']/div[@id='id_transaction_workflow_popup_detail_area_grid']/table[@id='id_transaction_entry_detail_workflow_popup']/tbody[@id='id_transaction_entry_detail_workflow_popup_body']/tr["+row+"]/td[not(contains(@style, 'display: none'))][2]")).click();
-			  break;
-		  }
-		  */
+		  
 		  
 	  }
 	  System.out.println("linkelems "+linkelems);
+	  /* IF THE DOUMENT NUMBER EQUALS TO THAT OF THE DOCUMENT NUMBER WHICH IS SENT FROM EXCEL, SELECT THAT PARTICUAL ROW */
 	  if(linkelems.contains(documentno))
 	  {
 		 int elemrow= linkelems.indexOf(documentno)+1;
@@ -63,6 +60,7 @@ public class TransactionLink extends LaunchApplication
 		 Thread.sleep(1000);
 		 //break;
 	  }
+	  /* IF DOCUMENT NUMBER WHICH IS SENT FROM EXCEL DOESN'T EQUALS THEN CLOSE THE WORKFLOW POPUP */
 	  else
 	  {
 		  	System.out.println("executing final close of links");

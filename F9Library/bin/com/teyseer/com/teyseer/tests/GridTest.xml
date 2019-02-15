@@ -8,7 +8,7 @@
         </classes>
         </test>
     <test name="SecondTEst" thread-count="5" parallel="classes" >
-   <parameter name="parentxlfile" value="F:\\Focus9Automation\\Focus9Automation\\Resources\\src\\Keywords\\Price Book Names.xlsx"/>
+   <parameter name="parentxlfile" value="\\DESKTOP-C918GTAKeywords\\Price Book Names.xlsx"/>
     <classes>
     	<class name="com.teyseer.com.teyseer.tests.PriceBook"/>
     	

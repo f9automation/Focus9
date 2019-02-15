@@ -128,7 +128,7 @@ public class TransactionBody extends LaunchApplication
 			for (String voucherattribute : unmodifiedbodylabels) 
 			{
 				excellist:
-				//use unmodifiable excelattribs list in case of to click only excelattributes
+				//USE UNMODIFIABLE EXCELATTRIBS LIST IN  CASE TO CLICK ONLY ON THE LABELS WHIH ARE SENT FROM EXCEL INSTEAD OF ALL
 				for (String excelattribute : excelattribs) 
 		        {
 					ifloop:
@@ -166,6 +166,7 @@ public class TransactionBody extends LaunchApplication
         						}
 	        					if((actvalue==0))
 	        					{
+	        						/* IF IT IS A BATCH COLUMN */
 	        						if(voucherattribute.equalsIgnoreCase("Batch"))
 	        						{
         								Thread.sleep(1000);
@@ -188,6 +189,7 @@ public class TransactionBody extends LaunchApplication
 	        							}
 	        							
 	        							}
+	        							/* IF IT IS A LINK COLUMN */
 		        						if(voucherattribute.startsWith("L-"))
 			        					{
 		        							if(gridcol.getAttribute("data-voucherno")==null)
@@ -267,7 +269,7 @@ public class TransactionBody extends LaunchApplication
 			
 		}
 		tbody= table.findElements(By.cssSelector("div[id='id_transactionentry_body_section'] div:nth-of-type(4) div:nth-of-type(1) table[id='id_transaction_entry_detail_table'] tbody[id='id_transaction_entry_detail_table_body'] tr[class='fgridrow']"));
-		/*If the row has no product data entered*/
+		/* IF THE ROW HAS DATA ENTERED */
 		if(attr==null)
 		{
 			Actions act2=new Actions(driver);
@@ -336,7 +338,7 @@ public class TransactionBody extends LaunchApplication
 			        						}
 		        						}
 		        					}
-			        						
+			        				/* IF IT IS A BATCH COLUMN */		
 			        				if((actvalue==0)&&(voucherattribute.equalsIgnoreCase("Batch")))
 		        					{
 	        							Thread.sleep(1000);
@@ -409,6 +411,7 @@ public class TransactionBody extends LaunchApplication
 	        							
 	        						
 			        				}
+			        				/* IF IT IS A LINK COLUMN */
 		        					if(voucherattribute.startsWith("L-"))
 		        					{
 		        						if(gridcol.getAttribute("data-voucherno")==null)

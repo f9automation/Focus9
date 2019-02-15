@@ -28,6 +28,7 @@ public class TransactionFooter extends LaunchApplication
 	ArrayList<String> unmodifiedfooterlabels= new ArrayList<String>();
 	WebElement table ;
 	
+	/* METHOD TO GET ALL THE LABEL NAMES OF THE FOOTER */
   public void getLabelNames() throws InterruptedException 
   {
 	try
@@ -36,8 +37,7 @@ public class TransactionFooter extends LaunchApplication
 	  wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.col-xs-2:nth-child(3) > div:nth-child(1) > span:nth-child(2)")));
 	  WebElement footerexpand=driver.findElement(By.cssSelector("div.col-xs-2:nth-child(3) > div:nth-child(1) > span:nth-child(2)"));
 	  String footerexpcoll=footerexpand.getAttribute("class");
-	  
-	  //System.out.println(" last exp footerexpcoll "+footerexpcoll);
+	  /* EXPAND FOOTER SECTION IF NOT SO */
 	  if(!footerexpcoll.equalsIgnoreCase("col-xs-6 icon-expand icon-font6 no_padding_left_right theme_color-inverse"))
 	  {
 		  footerexpand.click();
@@ -45,7 +45,6 @@ public class TransactionFooter extends LaunchApplication
 	  wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#id_transactionentry_footer > div:nth-child(2) > div:nth-child(1) > span:nth-child(2)")));
 	  WebElement footermenuexpand=driver.findElement(By.cssSelector("#id_transactionentry_footer > div:nth-child(2) > div:nth-child(1) > span:nth-child(2)"));
 	  String footermenuexpcoll=footermenuexpand.getAttribute("class");
-	  //System.out.println(" footermenuexpcoll is "+footermenuexpcoll);
 	  if(footermenuexpcoll.equalsIgnoreCase("col-xs-6 icon-font6 no_padding_left_right theme_color-inverse icon-expand"))
 	  {
 		  footermenuexpand.click();
@@ -57,6 +56,7 @@ public class TransactionFooter extends LaunchApplication
 	  table = driver.findElement(By.xpath("//div[@id='id_transactionentry_footer']/div[@id='id_transactionentry_footer_panel_entry']"));
 	  footerlabels.clear();
 	  footerids.clear();
+	  /* GO TO EACH ROW GET ALL THE FOOTER LABEL NAMES AND STORE IT IN AN ARRAYLIST */
 	  for(int row=1;row<=footerrows;row++)
 	  {
 		  List<WebElement> cols=table.findElements(By.cssSelector(" div[class='row']:nth-child("+row+") div"));
@@ -66,52 +66,46 @@ public class TransactionFooter extends LaunchApplication
 		  {
 			  footercols=4;
 		  }
-		  //System.out.println("col size "+footercols);
 		  for(int label=1;label<footercols;label++)
 		  {
-			  //System.out.println(footercols+" LABEL AND ROW ARE "+label+" : "+row);
-			  WebElement labelname;
-		  int label2=label+1;
-			  try {
-				 // System.out.println("try");
-			  wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(" div[class='row']:nth-child("+row+") div[class^='col-vsm-12']:nth-child("+label+") label[class='Flabel'], div[class='row']:nth-child("+row+") div[class^='col-vsm-12']:nth-child("+label2+") label[class='Flabel']")));
-			  labelname=table.findElement(By.cssSelector(" div[class='row']:nth-child("+row+") div[class^='col-vsm-12']:nth-child("+label+") label[class='Flabel'],div[class='row']:nth-child("+row+") div[class^='col-vsm-12']:nth-child("+label2+") label[class='Flabel']"));
-			  //System.out.println("try end");
+			 WebElement labelname;
+			 int label2=label+1;
+			  try 
+			  {
+				  wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(" div[class='row']:nth-child("+row+") div[class^='col-vsm-12']:nth-child("+label+") label[class='Flabel'], div[class='row']:nth-child("+row+") div[class^='col-vsm-12']:nth-child("+label2+") label[class='Flabel']")));
+				  labelname=table.findElement(By.cssSelector(" div[class='row']:nth-child("+row+") div[class^='col-vsm-12']:nth-child("+label+") label[class='Flabel'],div[class='row']:nth-child("+row+") div[class^='col-vsm-12']:nth-child("+label2+") label[class='Flabel']"));
 			  }
 			  catch(Exception e)
-			  { //System.out.println("catch");
-			  label++;
+			  {
+				  label++;
 				  wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(" div[class='row']:nth-child("+row+") div[class^='col-vsm-12']:nth-child("+label2+") label[class='Flabel']")));
 				  labelname=table.findElement(By.cssSelector(" div[class='row']:nth-child("+row+") div[class^='col-vsm-12']:nth-child("+label2+") label[class='Flabel']"));  
-				  //System.out.println("catch end");
-				 // break;
+				  
 			  }
-		// System.out.println("finally");
-		  Thread.sleep(1000);
-		  name=labelname.getText();
-		  id=labelname.getAttribute("for");
-		  //System.out.println("name "+name);
-		 // System.out.println(" id "+id);
-		  footerlabels.add(name);
-		  footerids.add(id);
-		  label++;
-		  
-		  }
+			  Thread.sleep(1000);
+			  name=labelname.getText();
+			  id=labelname.getAttribute("for");
+			  footerlabels.add(name);
+			  footerids.add(id);
+			  label++;
+		}
 		  unmodifiedfooterlabels.clear();
 		  unmodifiedfooterlabels.addAll(footerlabels);
 	  }
 	}
+	//DO NOTHING IF THERE ARE NO FOOTER VALUES
 	catch(Exception ex)
 	{
-		System.out.println("No footer is available");
+		//System.out.println("No footer is available");
 	}
   }
-  
+  /* METHOD TO ENTER FOOTER LABEL VALUES BY PASSING THE LABEL NAMES AND ITS RESPECTIVE VALUES AS PARAMETERS */
   public void transactionFooter(ArrayList<String> excelattributes, ArrayList<String> unmodifiedexcelattributes,ArrayList<String> excelvales) throws InterruptedException
   {
 	  ArrayList<String> excelattribs=new ArrayList<String>();
 	  ArrayList<String> values=new ArrayList<String>();
 	  ArrayList<String> unmodifiableexcelattribs= new ArrayList<String>();
+	  /* COMPARE EACH AND EVERY LABEL WHICH IS SENT FROM EXCEL TO THE ONE WHCIH IS CAPTURED FROM APPLICATION */
 	  unmodifiableexcelattribs.clear();
 	  unmodifiableexcelattribs.addAll(unmodifiedexcelattributes);
 	  excelattribs=excelattributes;
@@ -128,44 +122,43 @@ public class TransactionFooter extends LaunchApplication
 		{
 		  excelattribs.remove(excelattribs.size()-1);
 			excellist:
-			//use unmodifiable excelattribs list in case of to click only excelattributes
+			//USE UNMODIFIABLE EXCEL ATTRIBS IN CASE TO CLICK ONLY ON THE LABEL NAMES WHICH ARE SENT FROM EXCEL, ELSE IT WILL CLICK ALL THE LABELS 
 			for (String excelattribute : excelattribs) 
 	        {
+				
+				/* IF THE LABEL NAME WHICH IS SENT FROM EXCEL EQUALS TO THE ONE WHICH IS CAPTURED FROM APPLICAITON */
 				ifloop:
 				if(voucherattribute.equalsIgnoreCase(excelattribute))
 	        	{
-					try {
-					
-					int excelindex=unmodifiableexcelattribs.indexOf(excelattribute);
-					//System.out.println("excel index "+values);
-					
-					wait.until(ExpectedConditions.visibilityOf(table.findElement(By.xpath("//div/label[text()= '"+voucherattribute+"']"))));
-					String actid=table.findElement(By.xpath("//div/label[text()= '"+voucherattribute+"']")).getAttribute("for");
-					wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(actid)));
-					WebElement actcontrol=driver.findElement(By.id(actid));
-					actcontrol.click();
-					if(values.get(excelindex).length()>0)
-					{
-					actcontrol.clear();
-					}
-					//System.out.println("act id "+actid+" attr "+voucherattribute+" value "+values.get(excelindex));
-					for (int i=0; i<values.get(excelindex).length(); i++)
-					{	
-						char ch=values.get(excelindex).charAt(i);
-						actcontrol.sendKeys(String.valueOf(ch));
-						Thread.sleep((long)slowkeys);
+						try 
+						{
 						
-					}
-					
-					actcontrol.sendKeys(Keys.TAB);
-					}
-					//actcontrol.sendKeys(Keys.TAB);
-				
-					catch(Exception e)
-					{
-						//System.out.println("val not available");
-					}
-					break;
+							int excelindex=unmodifiableexcelattribs.indexOf(excelattribute);
+							wait.until(ExpectedConditions.visibilityOf(table.findElement(By.xpath("//div/label[text()= '"+voucherattribute+"']"))));
+							String actid=table.findElement(By.xpath("//div/label[text()= '"+voucherattribute+"']")).getAttribute("for");
+							wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(actid)));
+							WebElement actcontrol=driver.findElement(By.id(actid));
+							actcontrol.click();
+							//SEND THE RESPECTIVE VALUE TO THE LABEL
+							if(values.get(excelindex).length()>0)
+							{
+								actcontrol.clear();
+							}
+							for (int i=0; i<values.get(excelindex).length(); i++)
+							{	
+								char ch=values.get(excelindex).charAt(i);
+								actcontrol.sendKeys(String.valueOf(ch));
+								Thread.sleep((long)slowkeys);
+								
+							}
+						
+							actcontrol.sendKeys(Keys.TAB);
+						}
+						catch(Exception e)
+						{
+							//System.out.println("val not available");
+						}
+						break;
 	        	}
 	        }
 		}

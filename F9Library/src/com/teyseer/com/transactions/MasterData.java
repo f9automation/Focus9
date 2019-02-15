@@ -34,15 +34,6 @@ public class MasterData extends LaunchApplication
 	double slowkeys=250;
 	@Test
 	
-	/* 
-	public void newClick() throws InterruptedException 
-	  {
-		  	hp.LoginApp("su", "focus", "TEYSEER MOTORS CO W.L.L. [0B0]");
-			menu.menuSelection("Home", "Masters", "Account","//*[@id=\"spnHeaderText\"]", "account");
-			mhp.masterNew();
-
-			masterdataentry(xllables,unmodifiedxllables,values);	  }
-			 */
 	
 	/* METHOD TO MAKE DATA ENTRY TO THE MASTER BY PROVIDING THE LABEL NAMES WITH ITS RESPECTIVE VALUES FROM EXCEL AS PARAMETERS */
 	public void masterdataentry(ArrayList<String> xllables, ArrayList<String> unmodifiedxllables, ArrayList<String> values ) throws InterruptedException

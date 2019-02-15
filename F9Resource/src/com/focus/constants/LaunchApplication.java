@@ -45,8 +45,7 @@ public class LaunchApplication extends BasicExtentReport
 	 public  static void LaunchApp() throws MalformedURLException, InterruptedException
 	 {
 		//Getting log4j properties to log files 
-		 PropertyConfigurator.configure("F:\\Focus9Automation\\Focus9Automation\\Resources\\log\\log4j.properties");
-		 
+		 PropertyConfigurator.configure("D:\\Eclipse-Focus9\\Focus9\\F9Resource\\log\\log4j.properties");
 		 logger.info("Browser Opened");
 		 Set<String> allwindow=driver.getWindowHandles() ;
 		 int i=1;
@@ -56,32 +55,21 @@ public class LaunchApplication extends BasicExtentReport
 		 {
 
 		driver.switchTo().window(eachwindow);
-
-		 logger.info(eachwindow+ " & "+i);
-		 lastwindow=eachwindow;
+		lastwindow=eachwindow;
 		 i++;
 
 		 }
 		 logger.info(i);
-		 
+		 	
 		 driver.switchTo().window(lastwindow);
-		/* Thread.sleep(3000);
-		 if(driver.findElement(By.id("reset")).isDisplayed())
-		 {
-			 driver.findElement(By.id("cancel")).click();
-		 }*/
+		
 		 driver.navigate().to(url);
 		 logger.info("Application launched");
 		 driver.manage().window().maximize();
 		 logger.info("Browser Maximized");
 		 driver.manage().timeouts().implicitlyWait(70, TimeUnit.SECONDS);
 		 
-		/*Set<String> a = driver.getWindowHandles();
-		// DesiredCapabilities capability = new DesiredCapabilities().chrome();
-        // capability.setBrowserName("chrome");
-        // capability.setPlatform(Platform.WINDOWS);
-        // driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capability);
-	 	*/
+		
 	 }
 	 
 	 /* METHOD TO TAKE SCREENSHOT OF THE CURRENT WEBDRIVER AND SAVING .PNG FILE, BY PASSING THE DRIVER AND THE PATH TO THE LOCATION WHERE THE FILE NEED TO BE SAVED */

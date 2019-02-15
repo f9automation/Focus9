@@ -32,7 +32,7 @@ import autoitx4java.AutoItX;
 public class Transactions extends LaunchApplication
 {
 	XLutlitities xl=new XLutlitities();
-	public String parentxlfile="F:\\Focus9Automation\\Focus9Automation\\Resources\\src\\Keywords\\Vouchers Names Sheet.xlsx";
+	public String parentxlfile="\\\\DESKTOP-C918GTA\\Keywords\\Vouchers Names Sheet.xlsx";
 	public String sheet="XLNames";
 	public ArrayList<String> xlnames= new ArrayList<String>();
 	int xlvouchersavemsg=1;
@@ -84,7 +84,7 @@ public class Transactions extends LaunchApplication
 	 {
 		 ArrayList<String> keywordorder=new ArrayList<String>(Arrays.asList("VOUCHERWORKFLOW","VOUCHERHEADERDATA", "VOUCHERBODYDATA", "VOUCHERFOOTERDATA", "VOUCHERNET", "BASECURRENCY","VOUCHERSAVE", "NEWREFERENCE SAVE"));
 		 ArrayList<String> actkeywords=new ArrayList<String>();
-		 String xlfile="F:\\Focus9Automation\\Focus9Automation\\Resources\\src\\Keywords\\Automation Test Cases\\"+xlname;
+		 String xlfile="\\\\DESKTOP-C918GTA\\Keywords\\Automation Test Cases\\"+xlname;
 		 String senariosheet="TestScenarios";
 		 String casessheet;
 		 int sheetno;

@@ -3067,3 +3067,151 @@ Main -> CashBankAC & res is true
 16:53:45 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is MASTERNEW whose Test Case ID is TC005
 16:53:52 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
 16:53:53 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is MASTERDATA whose Test Case ID is TC005
+12:52:09 [main] INFO Google - Browser Opened
+12:52:09 [main] INFO Google - CDwindow-6008429696387B9B587EC4DEA770FB03 & 1
+12:52:09 [main] INFO Google - 2
+12:52:12 [main] INFO Google - Application launched
+12:52:13 [main] INFO Google - Browser Maximized
+12:52:13 [pool-1-thread-2] INFO Google - Workbook's of Masters which need to be executed are []
+12:52:13 [pool-1-thread-1] INFO Google - 1in
+12:52:13 [pool-1-thread-2] INFO Google - Excel sheets to be executed are: [OpeningStocks.xlsx, PurchaseVoucher.xlsx, Payments.xlsx, SalesInvoice.xlsx, Receipts.xlsx, PurchaseReturn.xlsx, SalesReturn.xlsx]
+12:52:13 [pool-1-thread-1] INFO Google - \\DESKTOP-C918GTA\\Keywords\\Master Names Sheet.xlsx
+12:52:13 [pool-1-thread-1] INFO Google - 2in
+12:52:13 [pool-1-thread-1] INFO Google - java.io.FileInputStream@70ef71b7
+12:52:13 [pool-1-thread-1] INFO Google - 3in
+12:52:13 [pool-1-thread-1] INFO Google - 3Out
+12:52:13 [pool-1-thread-1] INFO Google - 4in
+12:52:13 [pool-1-thread-1] INFO Google - 4Out
+12:52:13 [pool-1-thread-1] INFO Google - [MasterData.xlsx]
+12:52:13 [pool-1-thread-2] INFO Google - Worksheet TestCases Login&Menu is getting executed of Workbook\\DESKTOP-C918GTA\Keywords\Automation Test Cases\OpeningStocks.xlsx
+12:52:16 [pool-1-thread-2] INFO Google - User Name: su
+12:52:16 [pool-1-thread-2] INFO Google - Password: su
+12:52:16 [pool-1-thread-2] INFO Google - Company: AUTO040119
+12:53:34 [pool-1-thread-2] INFO Google - Exception occured Expected condition failed: waiting for visibility of element located by By.linkText: Home (tried for 30 second(s) with 500 milliseconds interval)
+12:53:38 [pool-1-thread-2] INFO Google - Result to be printed for Test Case: TC002 is Fail
+12:59:08 [main] INFO Google - Browser Opened
+12:59:09 [main] INFO Google - CDwindow-6F1D52A9FE4ECA4A166FF0E8D17CB168 & 1
+12:59:09 [main] INFO Google - 2
+12:59:11 [main] INFO Google - Application launched
+12:59:12 [main] INFO Google - Browser Maximized
+12:59:12 [TestNG-test=Test1-1] INFO Google - 1in
+12:59:12 [TestNG-test=Test1-1] INFO Google - \\DESKTOP-C918GTA\\Keywords\\Master Names Sheet.xlsx
+12:59:12 [TestNG-test=Test1-1] INFO Google - 2in
+12:59:12 [TestNG-test=Test1-1] INFO Google - java.io.FileInputStream@2338c9aa
+12:59:12 [TestNG-test=Test1-1] INFO Google - 3in
+12:59:12 [TestNG-test=Test1-1] INFO Google - 3Out
+12:59:12 [TestNG-test=Test1-1] INFO Google - 4in
+12:59:12 [TestNG-test=Test1-1] INFO Google - 4Out
+12:59:12 [TestNG-test=Test1-1] INFO Google - [MasterData.xlsx]
+12:59:12 [TestNG-test=Test1-2] INFO Google - Workbook's of Masters which need to be executed are [MasterData.xlsx]
+12:59:13 [TestNG-test=Test1-2] INFO Google - Executing Workbook sheet TestCases Login of Workbook \\DESKTOP-C918GTA\Keywords\Automation Test Cases\MasterData.xlsx
+12:59:14 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is LOGIN whose Test Case ID is TC001
+12:59:15 [TestNG-test=Test1-2] INFO Google - User Name: su
+12:59:15 [TestNG-test=Test1-2] INFO Google - Password: su
+12:59:15 [TestNG-test=Test1-2] INFO Google - Company Name: AUTO110918
+12:59:37 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC001 is Pass
+12:59:41 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is FOURTREE whose Test Case ID is TC001
+12:59:55 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC001 is Pass
+12:59:59 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is COMPANYCREATION whose Test Case ID is TC001
+13:03:13 [TestNG-test=Test1-2] INFO Google - acc Company Created Successfully exp Company Created Successfully ret true & eq true
+13:03:13 [TestNG-test=Test1-2] INFO Google - msg Company Created Successfully
+13:03:29 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC001 is Pass
+13:03:40 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is LOGIN whose Test Case ID is TC002
+13:03:40 [TestNG-test=Test1-2] INFO Google - User Name: su
+13:03:40 [TestNG-test=Test1-2] INFO Google - Password: su
+13:03:40 [TestNG-test=Test1-2] INFO Google - Company Name: AUTO040119
+13:05:13 [TestNG-test=Test1-2] INFO Google - Exception occured Expected condition failed: waiting for visibility of element located by By.linkText: Home (tried for 30 second(s) with 500 milliseconds interval)
+13:05:20 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC002 is Fail
+13:06:51 [TestNG-test=Test1-2] INFO Google - Executing Workbook sheet TestCases AccountMaster of Workbook \\DESKTOP-C918GTA\Keywords\Automation Test Cases\MasterData.xlsx
+13:07:04 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is THREETREE whose Test Case ID is TC003
+13:08:15 [TestNG-test=Test1-2] INFO Google - Excel sheets to be executed are: [OpeningStocks.xlsx, PurchaseVoucher.xlsx, Payments.xlsx, SalesInvoice.xlsx, Receipts.xlsx, PurchaseReturn.xlsx, SalesReturn.xlsx]
+13:08:15 [TestNG-test=Test2-1] INFO Google - 1in
+13:08:15 [TestNG-test=Test2-2] INFO Google - Workbook's of Masters which need to be executed are []
+13:08:15 [TestNG-test=Test3-2] INFO Google - Workbook's of Masters which need to be executed are [] 24
+13:08:15 [TestNG-test=Test4-2] INFO Google - Workbook's of Masters which need to be executed are []
+13:08:15 [TestNG-test=Test5-2] INFO Google - Workbook's of Masters which need to be executed are []
+15:01:36 [main] INFO Google - Browser Opened
+15:01:36 [main] INFO Google - 2
+15:01:38 [main] INFO Google - Application launched
+15:01:39 [main] INFO Google - Browser Maximized
+15:01:39 [TestNG-test=Test1-1] INFO Google - 1in
+15:01:39 [TestNG-test=Test1-1] INFO Google - \\DESKTOP-C918GTA\\Keywords\\Master Names Sheet.xlsx
+15:01:39 [TestNG-test=Test1-1] INFO Google - 2in
+15:01:39 [TestNG-test=Test1-1] INFO Google - java.io.FileInputStream@3fc0de72
+15:01:39 [TestNG-test=Test1-1] INFO Google - 3in
+15:01:39 [TestNG-test=Test1-1] INFO Google - 3Out
+15:01:39 [TestNG-test=Test1-1] INFO Google - 4in
+15:01:39 [TestNG-test=Test1-1] INFO Google - 4Out
+15:01:39 [TestNG-test=Test1-1] INFO Google - [MasterData.xlsx]
+15:01:39 [TestNG-test=Test1-2] INFO Google - Workbook's of Masters which need to be executed are [MasterData.xlsx]
+15:01:39 [TestNG-test=Test1-2] INFO Google - Executing Workbook sheet TestCases Login of Workbook \\DESKTOP-C918GTA\Keywords\Automation Test Cases\MasterData.xlsx
+15:01:41 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is LOGIN whose Test Case ID is TC001
+15:01:41 [TestNG-test=Test1-2] INFO Google - User Name: su
+15:01:41 [TestNG-test=Test1-2] INFO Google - Password: su
+15:01:41 [TestNG-test=Test1-2] INFO Google - Company Name: AUTO110918
+15:02:00 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC001 is Pass
+15:02:05 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is FOURTREE whose Test Case ID is TC001
+15:02:20 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC001 is Pass
+15:02:25 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is COMPANYCREATION whose Test Case ID is TC001
+15:04:50 [TestNG-test=Test1-2] INFO Google - acc Company Created Successfully exp Company Created Successfully ret true & eq true
+15:04:50 [TestNG-test=Test1-2] INFO Google - msg Company Created Successfully
+15:05:01 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC001 is Pass
+15:05:13 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is LOGIN whose Test Case ID is TC002
+15:05:13 [TestNG-test=Test1-2] INFO Google - User Name: su
+15:05:13 [TestNG-test=Test1-2] INFO Google - Password: su
+15:05:13 [TestNG-test=Test1-2] INFO Google - Company Name: AUTO040119
+15:05:43 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC002 is Pass
+15:07:20 [TestNG-test=Test1-2] INFO Google - Executing Workbook sheet TestCases AccountMaster of Workbook \\DESKTOP-C918GTA\Keywords\Automation Test Cases\MasterData.xlsx
+15:07:34 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is THREETREE whose Test Case ID is TC003
+15:07:44 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC003 is Pass
+15:08:04 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is MASTERNEW whose Test Case ID is TC004
+15:08:17 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC004 is Pass
+15:08:37 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is MASTERDATA whose Test Case ID is TC005
+15:12:21 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
+15:12:25 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is MASTERSAVE whose Test Case ID is TC005
+15:12:44 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
+15:12:49 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is MASTERNEW whose Test Case ID is TC005
+15:13:02 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
+15:13:08 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is MASTERDATA whose Test Case ID is TC005
+15:16:53 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
+15:16:58 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is MASTERSAVE whose Test Case ID is TC005
+15:17:16 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
+15:17:20 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is MASTERNEW whose Test Case ID is TC005
+15:17:32 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
+15:17:37 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is MASTERDATA whose Test Case ID is TC005
+15:21:18 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
+15:21:35 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is MASTERSAVE whose Test Case ID is TC005
+15:22:29 [TestNG-test=Test1-2] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
+15:23:51 [TestNG-test=Test1-2] INFO Google - Keyword which is getting exeucted is MASTERNEW whose Test Case ID is TC006
+15:23:52 [TestNG-test=Test1-2] INFO Google - Excel sheets to be executed are: [OpeningStocks.xlsx, PurchaseVoucher.xlsx, Payments.xlsx, SalesInvoice.xlsx, Receipts.xlsx, PurchaseReturn.xlsx, SalesReturn.xlsx]
+15:23:52 [TestNG-test=Test1-2] INFO Google - Worksheet TestCases Login&Menu is getting executed of Workbook\\DESKTOP-C918GTA\Keywords\Automation Test Cases\OpeningStocks.xlsx
+15:23:53 [TestNG-test=Test1-2] INFO Google - User Name: su
+15:23:53 [TestNG-test=Test1-2] INFO Google - Password: su
+15:23:53 [TestNG-test=Test1-2] INFO Google - Company: AUTO040119
+15:25:04 [TestNG-test=Test2-1] INFO Google - 1in
+15:25:04 [TestNG-test=Test2-1] INFO Google - \\DESKTOP-C918GTA\\Keywords\\Master Others Sheet.xlsx
+15:25:04 [TestNG-test=Test2-1] INFO Google - 2in
+15:25:04 [TestNG-test=Test2-1] INFO Google - java.io.FileInputStream@62e0a87c
+15:25:04 [TestNG-test=Test2-1] INFO Google - 3in
+15:25:04 [TestNG-test=Test2-1] INFO Google - 3Out
+15:25:04 [TestNG-test=Test2-1] INFO Google - 4in
+15:25:04 [TestNG-test=Test2-1] INFO Google - 4Out
+15:25:04 [TestNG-test=Test2-1] INFO Google - [MasterDataTrans.xlsx]
+15:25:04 [TestNG-test=Test2-2] INFO Google - Workbook's of Masters which need to be executed are [MasterDataTrans.xlsx]
+15:25:04 [TestNG-test=Test2-2] INFO Google - Executing Workbook sheet TestCases ProductMaster of Workbook \\DESKTOP-C918GTA\Keywords\Automation Test Cases\MasterDataTrans.xlsx
+15:25:04 [TestNG-test=Test2-2] INFO Google - Keyword which is getting exeucted is LOGIN whose Test Case ID is TC001
+15:25:04 [TestNG-test=Test2-2] INFO Google - User Name: su
+15:25:04 [TestNG-test=Test2-2] INFO Google - Password: su
+15:25:04 [TestNG-test=Test2-2] INFO Google - Company Name: AUTO040119
+15:26:14 [TestNG-test=Test3-2] INFO Google - Workbook's of Masters which need to be executed are [CurrencyMasterData.xlsx, BuyerPriceBook.xlsx, SellerPriceBook.xlsx] 24
+15:26:14 [TestNG-test=Test3-2] INFO Google - Executing Workbook sheet TestCases Login of Workbook \\DESKTOP-C918GTA\Keywords\Automation Test Cases\CurrencyMasterData.xlsx
+15:26:15 [TestNG-test=Test3-2] INFO Google - Keyword which is getting exeucted is LOGIN whose Test Case ID is TC002
+15:26:15 [TestNG-test=Test3-2] INFO Google - User Name: su
+15:26:15 [TestNG-test=Test3-2] INFO Google - Password: su
+15:26:15 [TestNG-test=Test3-2] INFO Google - Company Name: A0407[010]
+15:27:29 [TestNG-test=Test4-2] INFO Google - Workbook's of Masters which need to be executed are [UnitConvData.xlsx]
+15:27:31 [TestNG-test=Test4-2] INFO Google - Executing Workbook sheet TestCases Login of Workbook \\DESKTOP-C918GTA\Keywords\Automation Test Cases\UnitConvData.xlsx
+15:27:31 [TestNG-test=Test4-2] INFO Google - Keyword which is getting exeucted is LOGIN whose Test Case ID is TC001
+15:27:31 [TestNG-test=Test4-2] INFO Google - User Name: su
+15:27:31 [TestNG-test=Test4-2] INFO Google - Password: su
+15:27:31 [TestNG-test=Test4-2] INFO Google - Company Name: AUTO040119
