@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite thread-count="3" name="Suite" parallel="tests">
+    <test name="FirstTest" thread-count="5" parallel="classes" >
+    <parameter name="browser" value="chrome"/>
+        <classes>
+        <class name="com.focus.constants.ParallelTestA"/>
+        </classes>
+        </test>
+    <test name="SecondTEst" thread-count="5" parallel="classes" >
+   <parameter name="parentxlfile" value="F:\\Focus9Automation\\Focus9Automation\\Resources\\src\\Keywords\\Price Book Names.xlsx"/>
+    <classes>
+    	<class name="com.teyseer.com.teyseer.tests.PriceBook"/>
+    	
+   </classes>
+    </test> <!-- Default test -->
+ </suite>

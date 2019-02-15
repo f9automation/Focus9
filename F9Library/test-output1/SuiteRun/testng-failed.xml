@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="-1" guice-stage="DEVELOPMENT" name="Failed suite [SuiteRun]">
+  <listeners>
+    <listener class-name="com.focus.constants.AnnotationTransformer"/>
+  </listeners>
+  <test name="Default test(failed)">
+    <parameter name="parentxlfile" value="E:\\Eclipse Workspace\\TestProject170118\\src\\Keywords\\Preferences Names Sheet.xlsx"/>
+    <classes>
+      <class name="com.teyseer.com.teyseer.tests.Preferences">
+        <methods>
+          <include name="LaunchApp"/>
+          <include name="priceBook"/>
+        </methods>
+      </class> <!-- com.teyseer.com.teyseer.tests.Preferences -->
+    </classes>
+  </test> <!-- Default test(failed) -->
+</suite> <!-- Failed suite [SuiteRun] -->

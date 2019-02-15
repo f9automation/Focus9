@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="-1" guice-stage="DEVELOPMENT" verbose="2" name="Failed suite [Main Test Suite]">
+  <test verbose="2" name="Grid firefox Test(failed)">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="com.focus.constants.ParallelTestA">
+        <methods>
+          <include name="tearDown"/>
+          <include name="setUp"/>
+          <include name="testGooglePageTitleInFirefox"/>
+        </methods>
+      </class> <!-- com.focus.constants.ParallelTestA -->
+    </classes>
+  </test> <!-- Grid firefox Test(failed) -->
+</suite> <!-- Failed suite [Main Test Suite] -->

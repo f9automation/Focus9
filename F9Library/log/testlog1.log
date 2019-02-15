@@ -1,0 +1,58 @@
+2018-08-31 18:11:32,583 [main] INFO Google - Browser Opened
+2018-08-31 18:11:34,029 [main] INFO Google - Application launched
+2018-08-31 18:11:35,170 [main] INFO Google - Browser Maximized
+2018-08-31 18:11:35,745 [main] INFO Google - Workbook's of Masters which need to be executed are [MasterData.xlsx]
+2018-08-31 18:11:35,976 [main] INFO Google - Executing Workbook sheet TestCases Login of Workbook E:\Eclipse Workspace\TestProject170118\src\Keywords\Automation Test Cases\MasterData.xlsx
+2018-08-31 18:11:37,288 [main] INFO Google - Keyword which is getting exeucted is LOGIN whose Test Case ID is TC002
+2018-08-31 18:11:37,473 [main] INFO Google - User Name: su
+2018-08-31 18:11:37,473 [main] INFO Google - Password: su
+2018-08-31 18:11:37,474 [main] INFO Google - Company Name: DEF3108
+2018-08-31 18:11:50,064 [main] INFO Google - Result which is getting printed for  Test Case ID TC002 is Pass
+2018-08-31 18:12:15,855 [main] INFO Google - Executing Workbook sheet TestCases AccountMaster of Workbook E:\Eclipse Workspace\TestProject170118\src\Keywords\Automation Test Cases\MasterData.xlsx
+2018-08-31 18:12:19,606 [main] INFO Google - Keyword which is getting exeucted is THREETREE whose Test Case ID is TC003
+2018-08-31 18:12:26,857 [main] INFO Google - Result which is getting printed for  Test Case ID TC003 is Pass
+2018-08-31 18:12:30,714 [main] INFO Google - Keyword which is getting exeucted is MASTERNEW whose Test Case ID is TC004
+2018-08-31 18:12:36,188 [main] INFO Google - Result which is getting printed for  Test Case ID TC004 is Pass
+2018-08-31 18:12:40,628 [main] INFO Google - Keyword which is getting exeucted is MASTERDATA whose Test Case ID is TC005
+%31{18:13:51}1 [main] INFO Google - Browser Opened
+%31{18:13:53}1 [main] INFO Google - Application launched
+%31{18:13:54}1 [main] INFO Google - Browser Maximized
+%31{18:13:54}1 [main] INFO Google - Workbook's of Masters which need to be executed are [MasterData.xlsx]
+%31{18:13:55}1 [main] INFO Google - Executing Workbook sheet TestCases Login of Workbook E:\Eclipse Workspace\TestProject170118\src\Keywords\Automation Test Cases\MasterData.xlsx
+%31{18:13:56}1 [main] INFO Google - Keyword which is getting exeucted is LOGIN whose Test Case ID is TC002
+%31{18:13:56}1 [main] INFO Google - User Name: su
+%31{18:13:56}1 [main] INFO Google - Password: su
+%31{18:13:56}1 [main] INFO Google - Company Name: DEF3108
+%31{18:14:08}1 [main] INFO Google - Result which is getting printed for  Test Case ID TC002 is Pass
+%31{18:14:34}1 [main] INFO Google - Executing Workbook sheet TestCases AccountMaster of Workbook E:\Eclipse Workspace\TestProject170118\src\Keywords\Automation Test Cases\MasterData.xlsx
+%31{18:14:38}1 [main] INFO Google - Keyword which is getting exeucted is THREETREE whose Test Case ID is TC003
+%31{18:14:45}1 [main] INFO Google - Result which is getting printed for  Test Case ID TC003 is Pass
+%31{18:14:49}1 [main] INFO Google - Keyword which is getting exeucted is MASTERNEW whose Test Case ID is TC004
+%31{18:14:54}1 [main] INFO Google - Result which is getting printed for  Test Case ID TC004 is Pass
+%31{18:14:58}1 [main] INFO Google - Keyword which is getting exeucted is MASTERDATA whose Test Case ID is TC005
+%31{18:16:17}1 [main] INFO Google - totl heads size 5
+%31{18:16:17}1 [main] INFO Google - col is 2
+%31{18:16:17}1 [main] INFO Google - HEader text 
+%31{18:16:17}1 [main] INFO Google - col is 3
+%31{18:16:17}1 [main] INFO Google - HEader text 
+%31{18:16:17}1 [main] INFO Google - col is 4
+%31{18:16:17}1 [main] INFO Google - HEader text Voucher Type
+%31{18:16:18}1 [main] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
+%31{18:16:18}1 [main] INFO Google - Keyword which is getting exeucted is MASTERSAVE whose Test Case ID is TC005
+%31{18:16:33}1 [main] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
+%31{18:16:34}1 [main] INFO Google - Keyword which is getting exeucted is MASTERNEW whose Test Case ID is TC005
+%31{18:16:44}1 [main] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
+%31{18:16:44}1 [main] INFO Google - Keyword which is getting exeucted is MASTERDATA whose Test Case ID is TC005
+%31{18:20:57}1 [main] INFO Google - totl heads size 5
+%31{18:20:57}1 [main] INFO Google - col is 2
+%31{18:20:57}1 [main] INFO Google - HEader text 
+%31{18:20:57}1 [main] INFO Google - col is 3
+%31{18:20:57}1 [main] INFO Google - HEader text 
+%31{18:20:57}1 [main] INFO Google - col is 4
+%31{18:20:58}1 [main] INFO Google - HEader text Voucher Type
+%31{18:20:58}1 [main] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
+%31{18:20:58}1 [main] INFO Google - Keyword which is getting exeucted is MASTERSAVE whose Test Case ID is TC005
+%31{18:21:23}1 [main] INFO Google - Result which is getting printed for  Test Case ID TC005 is Fail
+%31{18:21:24}1 [main] INFO Google - Keyword which is getting exeucted is MASTERNEW whose Test Case ID is TC005
+%31{18:21:34}1 [main] INFO Google - Result which is getting printed for  Test Case ID TC005 is Pass
+%31{18:21:34}1 [main] INFO Google - Keyword which is getting exeucted is MASTERDATA whose Test Case ID is TC005

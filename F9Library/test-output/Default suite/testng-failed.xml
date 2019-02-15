@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="2" guice-stage="DEVELOPMENT" name="Failed suite [Default suite]" parallel="methods">
+  <test thread-count="2" name="Test1(failed)" parallel="methods">
+    <parameter name="parentxlfile" value="F:\\Focus9Automation\\Focus9Automation\\Resources\\src\\Keywords\\Master Names Sheet.xlsx"/>
+    <classes>
+      <class name="com.teyseer.com.teyseer.tests.Masters">
+        <methods>
+          <include name="LaunchApp"/>
+          <include name="masterSave"/>
+        </methods>
+      </class> <!-- com.teyseer.com.teyseer.tests.Masters -->
+      <class name="com.teyseer.com.teyseer.tests.Transactions">
+        <methods>
+          <include name="voucherSaveTest"/>
+          <include name="LaunchApp"/>
+        </methods>
+      </class> <!-- com.teyseer.com.teyseer.tests.Transactions -->
+    </classes>
+  </test> <!-- Test1(failed) -->
+  <test thread-count="2" name="Test2(failed)" parallel="methods">
+    <parameter name="parentxlfile" value="F:\\Focus9Automation\\Focus9Automation\\Resources\\src\\Keywords\\Master Others Sheet.xlsx"/>
+    <classes>
+      <class name="com.teyseer.com.teyseer.tests.Masters">
+        <methods>
+          <include name="LaunchApp"/>
+          <include name="masterSave"/>
+        </methods>
+      </class> <!-- com.teyseer.com.teyseer.tests.Masters -->
+    </classes>
+  </test> <!-- Test2(failed) -->
+  <test thread-count="2" name="Test3(failed)" parallel="methods">
+    <parameter name="parentxlfile" value="F:\\Focus9Automation\\Focus9Automation\\Resources\\src\\Keywords\\Price Book Names.xlsx"/>
+    <classes>
+      <class name="com.teyseer.com.teyseer.tests.PriceBook">
+        <methods>
+          <include name="priceBook"/>
+          <include name="LaunchApp"/>
+        </methods>
+      </class> <!-- com.teyseer.com.teyseer.tests.PriceBook -->
+    </classes>
+  </test> <!-- Test3(failed) -->
+  <test thread-count="2" name="Test4(failed)" parallel="methods">
+    <parameter name="parentxlfile" value="F:\\Focus9Automation\\Focus9Automation\\Resources\\src\\Keywords\\UnitConv Names Sheet.xlsx"/>
+    <classes>
+      <class name="com.teyseer.com.teyseer.tests.UnitConversion">
+        <methods>
+          <include name="unitConversion"/>
+          <include name="LaunchApp"/>
+        </methods>
+      </class> <!-- com.teyseer.com.teyseer.tests.UnitConversion -->
+    </classes>
+  </test> <!-- Test4(failed) -->
+  <test thread-count="2" name="Test5(failed)" parallel="methods">
+    <parameter name="parentxlfile" value="F:\\Focus9Automation\\Focus9Automation\\Resources\\src\\Keywords\\ExchRate Names Sheet.xlsx"/>
+    <classes>
+      <class name="com.teyseer.com.teyseer.tests.ExchangeRate">
+        <methods>
+          <include name="exchRate"/>
+          <include name="LaunchApp"/>
+        </methods>
+      </class> <!-- com.teyseer.com.teyseer.tests.ExchangeRate -->
+    </classes>
+  </test> <!-- Test5(failed) -->
+</suite> <!-- Failed suite [Default suite] -->
