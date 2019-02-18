@@ -43,20 +43,21 @@ public class TransactionSave extends LaunchApplication
 	List<WebElement> adjbillsbodyrows;
 	int docheader=0,adjamtheader=0, originalamtheader=0, balamtheader=0, natcurrheader=0, prevadjamtheader=0, currencyheader=0;
 	
+	/* METHOD TO GET EXCHANGE RATE */
 	public void getExchangeRate(String exhrt)
 	{
 		exrt=Double.parseDouble(exhrt);
 	}
 	public void getExchangeRate(Set exhrt, ArrayList basecurrcalvalues)
 	{
-		//logger.info("BAse curr cal values "+basecurrcalvalues+" exhrt "+exhrt);
 		basecurrcalattribs.clear();
 		calcbasecurrvalue.clear();
 		basecurrcalattribs.addAll(exhrt);
 		basecurrcalcvalues.clear();
 		basecurrcalcvalues.addAll(basecurrcalvalues);
 		basecurrcalcvalues.removeAll(Arrays.asList("", null));
-		/*To add Exchange Rate of Header beside each amount value & calculate*/
+		
+		/* TO ADD EXCHANGE RATE OF HEADER BESIDE EACH AMOUNT VALUE AND CALCULATE */
 		if(!(basecurrcalattribs.contains("ExchangeRate")))
 		{
 			int index = 0;
@@ -83,11 +84,8 @@ public class TransactionSave extends LaunchApplication
 		try
 		{
 			cal=Double.parseDouble(basecurrcalcvalues.get(0))*Double.parseDouble(basecurrcalcvalues.get(1));
-			//logger.info("cal "+cal);
-			//logger.info("size "+basecurrcalcvalues.size());
 			for(int i=0;i<basecurrcalcvalues.size();i+=2)
 			{
-				//logger.info("basecurrcalcvalues.get(i) "+basecurrcalcvalues.get(i));
 				roundcalcvalue=Math.round((Double.parseDouble(basecurrcalcvalues.get(i))*Double.parseDouble(basecurrcalcvalues.get(i+1)))*100.00)/100.00;
 				calcbasecurrvalue.add(String.valueOf(roundcalcvalue));
 				
@@ -104,9 +102,9 @@ public class TransactionSave extends LaunchApplication
 			else
 			{
 				logger.info("save is not getting  displayed ");
-			wait.until(ExpectedConditions.presenceOfElementLocated(By.id("txtblkAmounttobeadjust")));
-			String balamt=driver.findElement(By.id("txtblkAmounttobeadjust")).getText();
-			cal=Double.parseDouble(balamt)*exrt;
+				wait.until(ExpectedConditions.presenceOfElementLocated(By.id("txtblkAmounttobeadjust")));
+				String balamt=driver.findElement(By.id("txtblkAmounttobeadjust")).getText();
+				cal=Double.parseDouble(balamt)*exrt;
 			
 			}
 			calcbasecurrvalue.add(String.valueOf(cal));
@@ -114,34 +112,38 @@ public class TransactionSave extends LaunchApplication
 		}
 		
 	}
+	
+	/* METHOD TO CLICK ON SAVE */
 	public void transactionSave() throws InterruptedException
-  {
-	  wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/section/div[2]/div/section[1]/div[1]/div/div[1]/nav/div[2]/div/div[6]/div[1]/span")));
-	  transSavePage= driver.findElement(By.xpath("/html/body/section/div[2]/div/section[1]/div[1]/div/div[1]/nav/div[2]/div/div[6]/div[1]/span"));
-	  transSavePage.click();
-	 Thread.sleep(3000);
-	 try
-	 {
-	 		
-		 driver.switchTo().alert().accept();
-	 }
-	 catch(Exception e)
 	{
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/section/div[2]/div/section[1]/div[1]/div/div[1]/nav/div[2]/div/div[6]/div[1]/span")));
+		transSavePage= driver.findElement(By.xpath("/html/body/section/div[2]/div/section[1]/div[1]/div/div[1]/nav/div[2]/div/div[6]/div[1]/span"));
+		transSavePage.click();
+		Thread.sleep(3000);
+		try
+		{
+			driver.switchTo().alert().accept();
+		}
+		catch(Exception e)
+		{
 		 		
+		}
 	}
-  }
+	
+	/* METHOD TO GET BASE CURRENCY VALUE BY CALCULATION*/
 	public void basecurrencyCalculedValues() throws InterruptedException
-  {
-	  Thread.sleep(1000);
-	  wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("txtblkAmounttobeadjust")));
-	  String amt=driver.findElement(By.id("txtblkAmounttobeadjust")).getText();
-	  
-	 logger.info("Bal amt is "+amt+ "Exrt "+exrt);
-	  calcbasecurrency=exrt*Double.parseDouble(amt);
-	logger.info("calculated Base currency from base cur calc is "+calcbasecurrency);
-  }
+	  {
+		  Thread.sleep(1000);
+		  wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("txtblkAmounttobeadjust")));
+		  String amt=driver.findElement(By.id("txtblkAmounttobeadjust")).getText();
+		  logger.info("Bal amt is "+amt+ "Exrt "+exrt);
+		  calcbasecurrency=exrt*Double.parseDouble(amt);
+		  logger.info("calculated Base currency from base cur calc is "+calcbasecurrency);
+	  }
+	
+	/* METHOD TO GET ACTUAL BASE CURRENCY FROM APPLICAITON AND COMPARE IT WITH THE CALCULATED BASE CURRENCY */
  	public boolean basecurrency() throws InterruptedException
-  {
+ 	{
 	  actbasecurrvalue.clear();
 	  if(transSavePage.isDisplayed())
 	  {
@@ -158,6 +160,8 @@ public class TransactionSave extends LaunchApplication
 				{
 					WebElement billtable=driver.findElement(By.xpath("//div[@id='id_AdjustmentBills']/div[@id='id_AccountAmt']/table[@id='AccountAmount']"));
 					List<WebElement> billamtbodyrows=billtable.findElements(By.xpath("//tbody[@id='AccountAmount_body']/tr"));
+					
+					/* GET BASE CURRENCY VALUE FROM APPLICATION, COMPARE IT WITH CALCULATED VALUE AND RETURN TRUE IF MATCHES */
 					for(int i=1;i<=billamtbodyrows.size();i++)
 					{
 						billtable.findElement(By.xpath("//tbody[@id='AccountAmount_body']/tr["+i+"]")).click();
@@ -167,7 +171,6 @@ public class TransactionSave extends LaunchApplication
 						actbasecurrency=Double.parseDouble(ele);
 						if((calcbasecurrvalue.get(i-1).equals(String.valueOf(actbasecurrency))))
 				 		{
-				 			//logger.info("Calculated base currency "+calcbasecurrvalue.get(i-1)+" and captured Base curr amt "+actbasecurrency+" are  equal");	
 				 			totresults.add("true");
 				 			actbasecurrvalue.add(String.valueOf(actbasecurrency));
 				 				
@@ -214,7 +217,7 @@ public class TransactionSave extends LaunchApplication
 	 
 	  
   }
- 	/*BALANCE AMOUNT, NATIVE CURRENCY CALCULATIONS*/
+ 	/* BALANCE AMOUNT, NATIVE CURRENCY CALCULATIONS */
   	public boolean billNoCalculations(String expmsg) throws InterruptedException
 	  {
 		  	String actbalamtvalue,actcurrencyvalue, actoriginalamtvalue, actnatcurrvalue, actadjamtvalue, actprevadjamtvalue,actbasecurrvalue; 	
@@ -225,7 +228,6 @@ public class TransactionSave extends LaunchApplication
 		  	totresults.clear();
 		  	WebElement billtable=driver.findElement(By.xpath("//div[@id='id_AdjustmentBills']/div[@id='id_AccountAmt']/table[@id='AccountAmount']"));
 			List<WebElement> billamtbodyrows=billtable.findElements(By.xpath("//tbody[@id='AccountAmount_body']/tr"));
-			//logger.info("billamtbodyrows size "+billamtbodyrows.size());
 			for(int i=1;i<=billamtbodyrows.size();i++)
 			{
 				if(billamtbodyrows.size()>2)
@@ -247,6 +249,7 @@ public class TransactionSave extends LaunchApplication
 	 	 			String attr=adjbillsheader.getAttribute("data-sname");
 	 	 			String name=adjbillsheader.getText();
 	 	 			logger.info("Attr "+attr+" name "+name);
+	 	 			/* TO GET THE RESPECTIVE COLUMN NUMBERS  */
 	 	 		if(attr.equalsIgnoreCase("sReference"))
 		 	 			{
 		 	 				docheader=header;
@@ -295,6 +298,7 @@ public class TransactionSave extends LaunchApplication
 			 			actadjamtvalue=adjamt.getText();
 			 			if(Double.parseDouble(actadjamtvalue)>0)
 				 		{
+			 				/* BALANCE AMOUNT CALCULATION */
 			 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='id_Adjustment_Invoices']/div[@id='id_Adjustment_Invoices_Grid']/table[@id='id_Adjustment_Grid']/tbody[@id='id_Adjustment_Grid_body']/tr["+row+"]/td[not(contains(@style,'display: none'))]["+currencyheader+"]")));
 				 			WebElement currency=driver.findElement(By.xpath("//div[@id='id_Adjustment_Invoices']/div[@id='id_Adjustment_Invoices_Grid']/table[@id='id_Adjustment_Grid']/tbody[@id='id_Adjustment_Grid_body']/tr["+row+"]/td[not(contains(@style,'display: none'))]["+currencyheader+"]"));
 				 			currency.click();
@@ -321,6 +325,7 @@ public class TransactionSave extends LaunchApplication
 				 			WebElement basecurr=driver.findElement(By.id("id_BillWise_IP_BaseCurrencyValue"));
 				 			actbasecurrvalue=basecurr.getText();
 				 			calcbalamtvalue=Double.parseDouble(actoriginalamtvalue)-Double.parseDouble(actprevadjamtvalue);
+				 			/* NATIVE CURRENCY CALCULATION */
 				 			if(!(Double.parseDouble(transcurrvalue)==Double.parseDouble(basecurrvalue)))
 			 				{
 				 				if(!(actcurrencyvalue.equalsIgnoreCase(amtvalue)))
@@ -358,6 +363,8 @@ public class TransactionSave extends LaunchApplication
 				 			calcnatcurrvalue=Math.round (calcnatcurrvalue*100.0) / 100.0;
 				 			balamtvalues.add("For Reference "+i+" whose Bill Row No "+row+": Calculated Amount is "+calcbalamtvalue+" & Actual Amount "+actbalamtvalue+", ");
 				 			natcurrvalues.add("For Reference "+i+" whose Bill Row No "+row+": Calculated NativeCurrency is "+calcnatcurrvalue+" & Actual NativeCurrency "+actnatcurrvalue+", ");
+				 			
+				 			/* VERIFY AND RETURN TRUE IF CALCULATED VALUES ARE EQUAL TO ACTUAL VALUES */
 				 			if((calcbalamtvalue==Double.parseDouble(actbalamtvalue))&&(calcnatcurrvalue==Double.parseDouble(actnatcurrvalue)))
 			 				{
 			 					totresults.add("true");
@@ -381,6 +388,8 @@ public class TransactionSave extends LaunchApplication
 			return false;
 			
 	  }
+  	
+  	/* METHOD TO ADJUST BILLS AGAINST REFERENCES BY PASSING THE BILL  NOS AND ITS RESPECTIVE VALUES AS PARAMETERS */
 	public void adjustBillReferences(String billnos) throws InterruptedException
 	{
 		
@@ -466,15 +475,15 @@ public class TransactionSave extends LaunchApplication
 						 	 	 			adjbillbodyamtadj.click();
 						 	 	 			String value=adjbillvalue.get(amtadjust+r);
 						 	 	 			adjbillvalue.set(amtadjust+r, "");
-						 	 	 			//logger.info("avalie is "+value);
+						 	 	 			/* IF VALUE IS "0" FROM EXCEL THEN IT NEED TO CLICK ON THE RESPECTIVE BILL NO CHECKBOX */
 						 	 	 			if(value.equalsIgnoreCase("0"))
 						 	 	 			{
-						 	 	 				//logger.info("its zero "+adjustchckbox);
 						 	 	 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='id_Adjustment_Invoices']/div[@id='id_Adjustment_Invoices_Grid']/table[@id='id_Adjustment_Grid']/tbody[@id='id_Adjustment_Grid_body']/tr["+row+"]/td[not(contains(@style,'display: none'))]["+adjustchckbox+"]")));
 						 	 	 	 			WebElement adjbillbodychckbox=driver.findElement(By.xpath("//div[@id='id_Adjustment_Invoices']/div[@id='id_Adjustment_Invoices_Grid']/table[@id='id_Adjustment_Grid']/tbody[@id='id_Adjustment_Grid_body']/tr["+row+"]/td[not(contains(@style,'display: none'))]["+adjustchckbox+"]"));
 						 	 	 	 			adjbillbodychckbox.click();
-						 	 	 	 		adjbillbodychckbox.click();
+						 	 	 	 			adjbillbodychckbox.click();
 						 	 	 			}
+						 	 	 			/* ELSE IT NEED TO ENTER THE AMOUNT TO BE ADJUSTED RESPECTIVELY WHICH IS SENT FROM EXCEL */
 						 	 	 			else
 							 	 	 		{
 							 	 	 			Actions act=new Actions(driver);
@@ -513,6 +522,8 @@ public class TransactionSave extends LaunchApplication
 			
 			
 	}
+	
+	/* METHOD TO ADJUST BILLS AND AS WELL AS NEW REFERENCES BY PASSING THE BILL NOS WITH ITS VALUES AND NEW REFERENCE VALUES AS PARAMETERS */
 	public void newReferenceAdjustBills(String billnos, String newrefvalues) throws InterruptedException
 	{
 
@@ -735,33 +746,7 @@ public class TransactionSave extends LaunchApplication
 				     {
 				    	 
 				     }
-					/*
-					try
-			 		{
-						wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")));
-				 		actmsg=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")).getText();
-				 	}
-			 		catch(Exception ee2)
-			 		{
-			 			
-			 		}
-					try
-				    {
-						WebElement popups=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[*]"));
-				    	for(int i=3; i<=7; i++)
-				    	{
-				    		if(popups.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).isDisplayed())
-				    		{
-				    			driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).click();
-				    		}
-				    	 
-				    	}
-				    	  
-				     }
-				     catch(Exception e1)
-				     {
-				    	 
-				     }*/
+					
 			 		logger.info("Message for Save method is "+actmsg);
 			 		try
 			 		{
@@ -839,25 +824,7 @@ public class TransactionSave extends LaunchApplication
 				 		     {
 				 		    	 
 				 		     }
-				 			/* shortwait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")));
-						 	 actmsg=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")).getText();
-						 	try
-						    {
-						 		WebElement popups=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[*]"));
-						    	for(int i=3; i<=7; i++)
-						    	{
-						    		if(popups.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).isDisplayed())
-						    		{
-						    			driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).click();
-						    		}
-						    	 
-						    	}
-						    	  
-						     }
-						     catch(Exception e1)
-						     {
-						    	 
-						     }*/
+				 			
 						 	shortwait.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_transactionentry_new")));
 						 	driver.findElement(By.id("id_transactionentry_new")).click();
 						 	try
@@ -937,25 +904,7 @@ public class TransactionSave extends LaunchApplication
 				 		     {
 				 		    	 
 				 		     }
-				 			 /*shortwait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")));
-						 	 actmsg=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")).getText();
-						 	try
-						    {
-						 		WebElement popups=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[*]"));
-						    	for(int i=3; i<=7; i++)
-						    	{
-						    		if(popups.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).isDisplayed())
-						    		{
-						    			driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).click();
-						    		}
-						    	 
-						    	}
-						    	  
-						     }
-						     catch(Exception e1)
-						     {
-						    	 
-						     }*/
+				 			 
 						 	shortwait.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_transactionentry_new")));
 						 	driver.findElement(By.id("id_transactionentry_new")).click();
 						 	try
@@ -1034,26 +983,7 @@ public class TransactionSave extends LaunchApplication
 		 			     {
 		 			    	 
 		 			     }
-			 			 /*shortwait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")));
-					 	 actmsg=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")).getText();
-					 	try
-					    {
-					 		WebElement popups=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[*]"));
-					    	for(int i=3; i<=7; i++)
-					    	{
-					    		if(popups.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).isDisplayed())
-					    		{
-					    			driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).click();
-					    		}
-					    	 
-					    	}
-					    	  
-					     }
-					     catch(Exception e1)
-					     {
-					    	 
-					     }
-					     */
+			 			 
 					 	shortwait.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_transactionentry_new")));
 					 	driver.findElement(By.id("id_transactionentry_new")).click();
 					 	try
@@ -1132,20 +1062,15 @@ public class TransactionSave extends LaunchApplication
 				 	 		{
 				 	 			div=3;
 				 	 		}
-				 	 		//logger.info("div "+div+" & "+ adjbillvalue.size());
 				 	 		for(int k=0;k<adjbillvalue.size()/div;k++)
 					 	 	{
-				 	 			//logger.info("adjbillsbodyrows size "+adjbillsbodyrows.size());
 				 	 			for(int row=1;row<=adjbillsbodyrows.size();row++)
 					 	 		{
 					 	 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='id_Adjustment_Invoices']/div[@id='id_Adjustment_Invoices_Grid']/table[@id='id_Adjustment_Grid']/tbody[@id='id_Adjustment_Grid_body']/tr["+row+"]/td[not(contains(@style,'display: none'))]["+docheader+"]")));
 					 	 			WebElement adjbillbodydocno=driver.findElement(By.xpath("//div[@id='id_Adjustment_Invoices']/div[@id='id_Adjustment_Invoices_Grid']/table[@id='id_Adjustment_Grid']/tbody[@id='id_Adjustment_Grid_body']/tr["+row+"]/td[not(contains(@style,'display: none'))]["+docheader+"]"));
 					 	 			String docnum=adjbillbodydocno.getAttribute("textContent");
-					 	 			//logger.info("doc no "+docnum+ "adjbillvalue.get(docno) "+adjbillvalue.get(docno));
 					 	 			if(adjbillvalue.get(docno).equalsIgnoreCase(docnum))
 					 	 			{
-					 	 				//logger.info("Both are equal");
-					 	 				//logger.info("1 adjamtheader "+adjamtheader);
 					 	 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='id_Adjustment_Invoices']/div[@id='id_Adjustment_Invoices_Grid']/table[@id='id_Adjustment_Grid']/tbody[@id='id_Adjustment_Grid_body']/tr["+row+"]/td[not(contains(@style,'display: none'))]["+adjamtheader+"]")));
 					 	 	 			WebElement adjbillbodyamtadj=driver.findElement(By.xpath("//div[@id='id_Adjustment_Invoices']/div[@id='id_Adjustment_Invoices_Grid']/table[@id='id_Adjustment_Grid']/tbody[@id='id_Adjustment_Grid_body']/tr["+row+"]/td[not(contains(@style,'display: none'))]["+adjamtheader+"]"));
 					 	 	 			logger.info("2 adjamtheader "+adjamtheader);
@@ -1159,7 +1084,6 @@ public class TransactionSave extends LaunchApplication
 					 	 	 			}
 					 	 	 			else
 						 	 	 		{
-					 	 	 				//logger.info("chcbid "+adjustchckbox);
 					 	 	 				Actions act=new Actions(driver);
 						 	 	 			for(int i=0;i<value.length();i++)
 						 	 	 			{
@@ -1172,16 +1096,14 @@ public class TransactionSave extends LaunchApplication
 						 	 	 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='id_Adjustment_Invoices']/div[@id='id_Adjustment_Invoices_Grid']/table[@id='id_Adjustment_Grid']/tbody[@id='id_Adjustment_Grid_body']/tr["+row+"]/td[not(contains(@style,'display: none'))]["+balamtheader+"]")));
 						 	 	 			WebElement balamt=driver.findElement(By.xpath("//div[@id='id_Adjustment_Invoices']/div[@id='id_Adjustment_Invoices_Grid']/table[@id='id_Adjustment_Grid']/tbody[@id='id_Adjustment_Grid_body']/tr["+row+"]/td[not(contains(@style,'display: none'))]["+balamtheader+"]"));
 						 	 	 			String balamtvalue=balamt.getText();
-						 	 	 			//logger.info("After entering Balance amount of row  "+row+" is "+balamtvalue);
 						 	 	 		}
 					 	 	 			Thread.sleep(1000);
 					 	 	 			docno+=3;
 					 	 	 			amtadjust+=3;
-					 	 	 			//logger.info("docno "+docno+" amtadjust "+amtadjust);
 					 	 	 			break;
 					 	 			}
 					 	 		}
-					 	 			//k++;
+					 	 			
 					 	 	}
 				 	 	}
 			 	 		catch(Exception e)
@@ -1383,26 +1305,7 @@ public class TransactionSave extends LaunchApplication
 		 			     {
 		 			    	 
 		 			     }
-		 				 /*
-			 			 shortwait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")));
-					 	 actmsg=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")).getText();
-					 	try
-					    {
-					 		WebElement popups=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[*]"));
-					    	for(int i=3; i<=7; i++)
-					    	{
-					    		if(popups.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).isDisplayed())
-					    		{
-					    			driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).click();
-					    		}
-					    	 
-					    	}
-					    	  
-					     }
-					     catch(Exception e1)
-					     {
-					    	 
-					     }*/
+		 				 
 					 	shortwait.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_transactionentry_new")));
 					 	driver.findElement(By.id("id_transactionentry_new")).click();
 					 	try
@@ -1513,17 +1416,7 @@ public class TransactionSave extends LaunchApplication
 				     {
 				    	 
 				     }
-				 /*
-				 try
-				 {
-					 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")));
-				 	 actmsg=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")).getText();
-				 }
-				 catch(Exception ee2)
-				 {
-					 
-				 }
-				 */
+				 
 		 		logger.info("final catch actmsg "+actmsg);
 			 		
 			 }
@@ -1588,17 +1481,14 @@ public class TransactionSave extends LaunchApplication
 		    {
 			  /* TO VERIFY IF ANY GLOBAL ID IS DISPLAYING AND CLOSE THEM*/
 			  	List<WebElement> globalidlist=driver.findElements(By.cssSelector("div[id='idGlobalError'] div, div[id='idGlobalError']"));
-				//logger.info("globalidlist "+globalidlist.size());
-			  	if(globalidlist.size()>=1)
+				if(globalidlist.size()>=1)
 				  {
 					WebElement popups=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div"));
 			    	if(popups.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).isDisplayed())
 			    		{
-			    			//logger.info("Yes displayed with i value "+" txt "+popups.getAttribute("text content"));
 			    			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")));
 			    	 		actmsg=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).getText();
-			    	 		//logger.info("Actmsg "+actmsg);
-			    			driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[3]")).click();
+			    	 		driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[3]")).click();
 			    		}
 			    	 
 			    	
@@ -1608,28 +1498,7 @@ public class TransactionSave extends LaunchApplication
 		     {
 		    	 
 		     }
-		/*
-		 List<WebElement> li= driver.findElements(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td"));
-		 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")));
-		actmsg=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")).getText();
-		logger.info("Actmsg captured is "+actmsg);
-		 try
-		    {
-		 		WebElement popups=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[*]"));
-		    	for(int i=3; i<=7; i++)
-		    	{
-		    		if(popups.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).isDisplayed())
-		    		{
-		    			driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).click();
-		    		}
-		    	 
-		    	}
-		    	  
-		     }
-		     catch(Exception e1)
-		     {
-		    	 
-		     }*/
+		
 	 	/*CLICKING ON CLOSE BUTTON OF BILLWISE POPUP, IF IT DIDNT GET SAVED*/
 	 	if(!(transSavePage.isDisplayed()))
 			{
