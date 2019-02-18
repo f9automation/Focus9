@@ -45,7 +45,7 @@ public class LaunchApplication extends BasicExtentReport
 	 public  static void LaunchApp() throws MalformedURLException, InterruptedException
 	 {
 		//Getting log4j properties to log files 
-		 PropertyConfigurator.configure("D:\\Eclipse-Focus9\\Focus9\\F9Resource\\log\\log4j.properties");
+		 PropertyConfigurator.configure("\\DESKTOP-C918GTA\\Eclipse-Focus9\\F9Resource\\log\\log4j.properties");
 		 logger.info("Browser Opened");
 		 Set<String> allwindow=driver.getWindowHandles() ;
 		 int i=1;

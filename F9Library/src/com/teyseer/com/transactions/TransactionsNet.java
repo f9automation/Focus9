@@ -34,6 +34,8 @@ public class TransactionsNet<K, V> extends LaunchApplication
 	 public double actroundoffnet=0;
 	 String netvalue;
 	 public String netr;
+	 
+	 /* METHOD TO GET KEY VALUE FROM A MAP */
 	public static Object getKeyFromValue(Map hm, Object value) {
 	    for (Object o : hm.keySet()) {
 	      if (hm.get(o).equals(value)) {
@@ -43,30 +45,34 @@ public class TransactionsNet<K, V> extends LaunchApplication
 	    return null;
 	  }
   @Test
+  /* METHOD TO CALCUTE NET VALUES OF BODY & FOOTER FIELDS BY PASSING THE FORMULA W.R.T BODY, FOOTER AND THEN THE OPERATOR AS PARAMETERS */
   public boolean netCalculation(String bodyformulas, String footerformulas, String operator) throws InterruptedException, ScriptException 
   {
 	 
-	 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='id_transactionentry_footer_panel_summary_value_net_group']/label[@id='id_transactionentry_footer_panel_summary_value_net']")));
-	 WebElement  net=driver.findElement(By.xpath("//div[@id='id_transactionentry_footer_panel_summary_value_net_group']/label[@id='id_transactionentry_footer_panel_summary_value_net']"));
-	 netvalue=net.getText();
-	 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='id_transactionentry_body_section']/div[4]/div[1]/table[@id='id_transaction_entry_detail_table']")));
-	 WebElement table;
-	 table=driver.findElement(By.xpath("//div[@id='id_transactionentry_body_section']/div[4]/div[1]/table[@id='id_transaction_entry_detail_table']"));
-	 List<WebElement> tbodyheaderlist=table.findElements(By.xpath("//div[@id='id_transactionentry_body_section']/div[4]/div[1]/table[@id='id_transaction_entry_detail_table']/thead[@id='id_transaction_entry_detail_table_head']/tr[@id='id_transaction_entry_detail_table_row_heading']/th"));
-	 ArrayList<String> headernames=new ArrayList();
-	 headernames.clear();
-	 for(int header=0;header<tbodyheaderlist.size();header++)
-	 {
+	  /* TO CAPTURE NET VALUE FROM THE APPLICATION WHICH IS GETTING DISPALYED IN THE BOTTOM */
+	  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='id_transactionentry_footer_panel_summary_value_net_group']/label[@id='id_transactionentry_footer_panel_summary_value_net']")));
+	  WebElement  net=driver.findElement(By.xpath("//div[@id='id_transactionentry_footer_panel_summary_value_net_group']/label[@id='id_transactionentry_footer_panel_summary_value_net']"));
+	  netvalue=net.getText();
+	  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='id_transactionentry_body_section']/div[4]/div[1]/table[@id='id_transaction_entry_detail_table']")));
+	  WebElement table;
+	  table=driver.findElement(By.xpath("//div[@id='id_transactionentry_body_section']/div[4]/div[1]/table[@id='id_transaction_entry_detail_table']"));
+	  List<WebElement> tbodyheaderlist=table.findElements(By.xpath("//div[@id='id_transactionentry_body_section']/div[4]/div[1]/table[@id='id_transaction_entry_detail_table']/thead[@id='id_transaction_entry_detail_table_head']/tr[@id='id_transaction_entry_detail_table_row_heading']/th"));
+	  ArrayList<String> headernames=new ArrayList();
+	  headernames.clear();
+	  /* TO GET ALL THE HEADER NAMES */
+	  for(int header=0;header<tbodyheaderlist.size();header++)
+	  {
 		 String headername=	tbodyheaderlist.get(header).getAttribute("title");	 
 		 headernames.add(headername);
-	 }
-	 String bodyformula=bodyformulas;
-	 String footerformula=footerformulas;
-	 ArrayList<String> bodybreakup= new ArrayList(Arrays.asList(bodyformula.split("(?<=[\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]])|(?=[\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]])")));
-	 ArrayList<String> footerbreakup= new ArrayList(Arrays.asList(footerformula.split("(?<=[\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]])|(?=[\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]])")));
-	 ArrayList<String> body= new ArrayList(Arrays.asList(bodyformula.split("\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]")));
-	 ArrayList<String> footer= new ArrayList(Arrays.asList(footerformula.split("\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]")));
-	 body.removeAll(Arrays.asList("",null));
+	  }
+	  String bodyformula=bodyformulas;
+	  String footerformula=footerformulas;
+	  //REMOVE ALL THE CHARACTERS AND NULL VALUES FROM THE FORMULAS
+	  ArrayList<String> bodybreakup= new ArrayList(Arrays.asList(bodyformula.split("(?<=[\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]])|(?=[\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]])")));
+	  ArrayList<String> footerbreakup= new ArrayList(Arrays.asList(footerformula.split("(?<=[\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]])|(?=[\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]])")));
+	  ArrayList<String> body= new ArrayList(Arrays.asList(bodyformula.split("\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]")));
+	  ArrayList<String> footer= new ArrayList(Arrays.asList(footerformula.split("\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]")));
+	  body.removeAll(Arrays.asList("",null));
 	 ArrayList<String> befrembody= new ArrayList(Arrays.asList(bodyformula.split("\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]")));
 	 befrembody.removeAll(Arrays.asList("",null));
 	 footer.removeAll(Arrays.asList("",null));
@@ -77,8 +83,8 @@ public class TransactionsNet<K, V> extends LaunchApplication
 	 beforeremovefooter.addAll(footer);
 	 ArrayList<Integer> bodyintvalue=new ArrayList();
 	 double bodynet=0,footernet;
-		
 	 bodyintvalue.clear();
+	 /* GO TO EACH ELEMENT OF THE BODY FOMULA ELEMENTS */
 		for(String s: body)
 		{
 			try 
@@ -93,31 +99,27 @@ public class TransactionsNet<K, V> extends LaunchApplication
 				
 			}
 		}
-	
-	
-		
-		 String bodydoubstr;
-		
-	 Map<String, String> bodymap=new HashMap<String, String>();
-	 ArrayList<String> bodyrowvalues=new ArrayList();
-	List<WebElement> tbody;
-	tbody= table.findElements(By.cssSelector("div[id='id_transactionentry_body_section'] div:nth-of-type(4) div:nth-of-type(1) table[id='id_transaction_entry_detail_table'] tbody[id='id_transaction_entry_detail_table_body'] tr[class='fgridrow']"));
-	 String bodyformulaattr;
-	 double bodynetrow;
-	 int totrows=0; 
-	 for(int row=1;row<tbody.size();row++)
-	 		 {
-	 			 WebElement currow=table.findElement(By.cssSelector("div[id='id_transactionentry_body_section'] div:nth-of-type(4) div:nth-of-type(1) table[id='id_transaction_entry_detail_table'] tbody[id='id_transaction_entry_detail_table_body'] tr[class='fgridrow']:nth-of-type("+row+") td:nth-of-type("+2+")"));
-	 			// logger.info("row "+row+" txt "+currow.getAttribute("textContent")+ "a "+currow.getAttribute("data-value"));
-	 			 if(currow.getAttribute("data-value")==null)
-	 			 {
-	 				logger.info("Body size should be "+row);
-	 				totrows=row-1;
-	 			 }
-	 		 }
+		/* GO TO EACH ROW AND GET THE VALUES OF ALL THE COLUMNS AND SAVE THEM AS KEY VALUE PAIRS, WHERE KEY REFERS TO LABEL NAMES AND VALUE REFERS TO THE VALUES OF THE COLUMNS */
+		String bodydoubstr;
+		Map<String, String> bodymap=new HashMap<String, String>();
+		ArrayList<String> bodyrowvalues=new ArrayList();
+		List<WebElement> tbody;
+		tbody= table.findElements(By.cssSelector("div[id='id_transactionentry_body_section'] div:nth-of-type(4) div:nth-of-type(1) table[id='id_transaction_entry_detail_table'] tbody[id='id_transaction_entry_detail_table_body'] tr[class='fgridrow']"));
+		String bodyformulaattr;
+		double bodynetrow;
+		int totrows=0; 
+		for(int row=1;row<tbody.size();row++)
+	 	{
+			WebElement currow=table.findElement(By.cssSelector("div[id='id_transactionentry_body_section'] div:nth-of-type(4) div:nth-of-type(1) table[id='id_transaction_entry_detail_table'] tbody[id='id_transaction_entry_detail_table_body'] tr[class='fgridrow']:nth-of-type("+row+") td:nth-of-type("+2+")"));
+	 		if(currow.getAttribute("data-value")==null)
+	 		{
+	 			logger.info("Body size should be "+row);
+	 			totrows=row-1;
+	 		}
+	 	}
 	 		 logger.info("tot rows "+totrows);
-	 for(int k=1;k<totrows;k++)
-	 {
+	 		 for(int k=1;k<totrows;k++)
+	 		 {
 		 body.removeAll(bodyintvalue);
 		 if(bodyintvalue.size()>0)
 		 {
@@ -175,6 +177,7 @@ public class TransactionsNet<K, V> extends LaunchApplication
 		  	}
 		
 	   bodyrowvalues.clear();
+	   /*  */
 	     for(String bodyattr: body)
 	     {
 	     String key=(String) getKeyFromValue(bodysortedMap,bodysortedMap.get(bodyattr));

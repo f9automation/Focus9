@@ -113,7 +113,7 @@ public class TransactionSave extends LaunchApplication
 		
 	}
 	
-	/* METHOD TO CLICK ON SAVE */
+	/* METHOD TO SAVE TRANSACTIONS IF THERE ARE IS NO BILLWISE */
 	public void transactionSave() throws InterruptedException
 	{
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/section/div[2]/div/section[1]/div[1]/div/div[1]/nav/div[2]/div/div[6]/div[1]/span")));
@@ -523,7 +523,7 @@ public class TransactionSave extends LaunchApplication
 			
 	}
 	
-	/* METHOD TO ADJUST BILLS AND AS WELL AS NEW REFERENCES BY PASSING THE BILL NOS WITH ITS VALUES AND NEW REFERENCE VALUES AS PARAMETERS */
+	/* METHOD TO ADJUST BILLS AND AS WELL AS PARTIAL NEW REFERENCES BY PASSING THE BILL NOS WITH ITS VALUES AND NEW REFERENCE VALUES AS PARAMETERS */
 	public void newReferenceAdjustBills(String billnos, String newrefvalues) throws InterruptedException
 	{
 
@@ -538,6 +538,7 @@ public class TransactionSave extends LaunchApplication
 		for(int i=1;i<=billamtbodyrows.size();i++)
 		{
 			rowno=i;
+			/* IF THERE ARE MULTIPLE BILL ROWS AVAILABEL THEN CLICK ON EACH ROW  AND THEN ADJUST RESPECTIVE BILLS */
 			billtable.findElement(By.xpath("//tbody[@id='AccountAmount_body']/tr["+i+"]")).click();
 			Actions action=new Actions(driver);
 			String newrefamt = "";
@@ -551,24 +552,24 @@ public class TransactionSave extends LaunchApplication
 	 					break;
 	 					
 	 				}
-	 				else
-	 				{
-	 					
 	 				
-	 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("txtNewReference")));
-	 				WebElement newReference=driver.findElement(By.id("txtNewReference"));
-	 				action.moveToElement(newReference).build().perform();
-	 				Thread.sleep(1000);
-	 				action.sendKeys(Keys.CLEAR).build().perform();
-	 				Thread.sleep(1000);
-	 				for(int k = 0; k<newrefamt.length();k++)
-					 {
-	 					char ch=newrefamt.charAt(k);
-	 					action.sendKeys(String.valueOf(ch));
-					}
-	 				action.sendKeys(Keys.TAB).build().perform();
-	 				Thread.sleep(1000);
-	 				}
+	 				/* IF NEW REFERENCE PROVIDED WITH ITS RESPECTIVE VALUE, THEN ENTER THE RESPECTIVE VALUES */
+	 				else
+		 			{
+		 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("txtNewReference")));
+		 				WebElement newReference=driver.findElement(By.id("txtNewReference"));
+		 				action.moveToElement(newReference).build().perform();
+		 				Thread.sleep(1000);
+		 				action.sendKeys(Keys.CLEAR).build().perform();
+		 				Thread.sleep(1000);
+		 				for(int k = 0; k<newrefamt.length();k++)
+						 {
+		 					char ch=newrefamt.charAt(k);
+		 					action.sendKeys(String.valueOf(ch));
+						}
+		 				action.sendKeys(Keys.TAB).build().perform();
+		 				Thread.sleep(1000);
+		 			}
 	 			}
 	 		}
 	 		
@@ -576,7 +577,7 @@ public class TransactionSave extends LaunchApplication
 			Thread.sleep(1000);
 			shortwait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[id='id_Adjustment_BillReference']")));
 			List<WebElement> adjbillref=driver.findElements(By.xpath("//div[@id='id_Adjustment_BillReference']/div"));
-			
+			/* ADJUST TO RESPECTIVE BILLS WITH ITS VALUES PROVIDED  */
  	 		for(int r=0;r<adjbillvalue.size();r+=3)
  	 		{
  	 			int docno=1,amtadjust=2, adjustchckbox=2;
@@ -682,6 +683,8 @@ public class TransactionSave extends LaunchApplication
  	 				}
  	 		}
  	 	}
+ 	 		
+ 	 		/* IF THERE IS ONLY SINGLE BILL WHICH NEED TO BE ADJUSTED */
  	 		if(newrefamt.equalsIgnoreCase(""))
  	 		{
  	 			break;
@@ -712,12 +715,13 @@ public class TransactionSave extends LaunchApplication
 
 	}
 	@Test
+	
+	/* METHOD TO SAVE THE TRASACTIONS BY PROVIDING THE MEHOD, BILL NOS, EXPECTED MESSAGE AND KEYWORDS AS PARAMETERS */
 	public boolean transactionSave(String method,String billnos, String expmsg, ArrayList keywords) throws InterruptedException  
 	  {
-			//logger.info("xl keywords are "+keywords);
 			try
 			{
-				/*SAVE METHOD*/
+				/*IF IT IS SAVE METHOD*/
 				if(method.equalsIgnoreCase("save"))
 				{
 					Thread.sleep(3000);
@@ -726,8 +730,7 @@ public class TransactionSave extends LaunchApplication
 				    {
 					  /* TO VERIFY IF ANY GLOBAL ID IS DISPLAYING AND CLOSE THEM*/
 					  	List<WebElement> globalidlist=driver.findElements(By.cssSelector("div[id='idGlobalError'] div, div[id='idGlobalError']"));
-						logger.info("globalidlist "+globalidlist.size());
-					  	if(globalidlist.size()>=1)
+						if(globalidlist.size()>=1)
 						  {
 							WebElement popups=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div"));
 					    	if(popups.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).isDisplayed())
@@ -748,6 +751,7 @@ public class TransactionSave extends LaunchApplication
 				     }
 					
 			 		logger.info("Message for Save method is "+actmsg);
+			 		/* TO CLICK ON NEW BUTTON AFTER CLICKING ON SAVE */
 			 		try
 			 		{
 			 		wait.until(ExpectedConditions.elementToBeClickable(By.id("id_transactionentry_new")));
@@ -792,10 +796,11 @@ public class TransactionSave extends LaunchApplication
 		 			
 				}
 			
-				/*PICK METHOD*/
+				/*IF IT PICK METHOD*/
 				if(method.equalsIgnoreCase("Pick"))
 				{
 			 		logger.info("PICK method is getting executed");
+			 		/* IF SAVE IS STILL DISPLAYING THEN CLICK ON IT */
 			 		if(transSavePage.isDisplayed())
 				 	{
 				 		 try
@@ -846,6 +851,7 @@ public class TransactionSave extends LaunchApplication
 			 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='id_AdjustmentBills']/div")));
 				 		WebElement adjbills=driver.findElement(By.xpath("//div[@id='id_AdjustmentBills']/div"));
 				 		List<WebElement> adjbillscount=driver.findElements(By.xpath("//div[@id='id_AdjustmentBills']/div[not(contains(@style, 'display: none'))]"));
+				 		/* IF THERE ARE MULTIPLE PENDING REFERENCES AVAIALBEL GO TO EACH REFERENCE AND CLICK ON PICK BUTTON FOR EACH ONE */
 				 		if(adjbillscount.size()>2)
 					 	{
 				 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='id_AdjustmentBills']/div[@id='id_AccountAmt']/table[@id='AccountAmount']")));
@@ -871,10 +877,11 @@ public class TransactionSave extends LaunchApplication
 			}
 		}
 				
-			/*ADJUST ON FIFO METHOD*/
+			/*IF IT IS ADJUST ON FIFO METHOD*/
 				if(method.equalsIgnoreCase("Adjust on FIFO"))
 			 	{
 			 		logger.info("Adjust on FIFO method is getting executed");
+			 		/* IF SAVE IS STILL DISPLAYED CLIC ON SAVE BUTTON */
 			 		if(transSavePage.isDisplayed())
 			 		{
 	
@@ -926,13 +933,12 @@ public class TransactionSave extends LaunchApplication
 			 			shortwait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='id_AdjustmentBills']/div")));
 				 		WebElement adjbills=driver.findElement(By.xpath("//div[@id='id_AdjustmentBills']/div"));
 				 		List<WebElement> adjbillscount=driver.findElements(By.xpath("//div[@id='id_AdjustmentBills']/div[not(contains(@style, 'display: none'))]"));
-				 		//logger.info("ADjbill count "+adjbillscount.size());
+				 		/* IF THERE ARE MULTIPLE REFERENCES AVAILABLE GO TO EACH REFERENCE AND ADJUST ON FIFO FOR EACH */
 				 		if(adjbillscount.size()>2)
 					 	{
 				 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='id_AdjustmentBills']/div[@id='id_AccountAmt']/table[@id='AccountAmount']")));
 				 			WebElement billtable=driver.findElement(By.xpath("//div[@id='id_AdjustmentBills']/div[@id='id_AccountAmt']/table[@id='AccountAmount']"));
 				 			List<WebElement> billamtbodyrows=billtable.findElements(By.xpath("//tbody[@id='AccountAmount_body']/tr"));
-				 			//logger.info("billamtbodyrows size "+billamtbodyrows.size());
 				 			for(int i=1;i<=billamtbodyrows.size();i++)
 					 		{
 					 			wait.until(ExpectedConditions.visibilityOf(billtable.findElement(By.xpath("//tbody[@id='AccountAmount_body']/tr["+i+"]"))));
@@ -952,7 +958,7 @@ public class TransactionSave extends LaunchApplication
 				 	}
 			 	}
 				
-			/*ADJUST BILLS AGAINST REFERENCES METHOD*/
+			/* IF IT IS ADJUST BILLS AGAINST REFERENCES METHOD */
 		 	if(method.equalsIgnoreCase("Adjust Bills"))
 		 	{
 		 		if(transSavePage.isDisplayed())
@@ -1002,7 +1008,7 @@ public class TransactionSave extends LaunchApplication
 			 	
 		 			
 		 		}
-		 		/*MULTI CURRENCY */
+		 		/* MULTI CURRENCY, ADJUST BILLS WITH THE RESPECTIVE VALUES */
 		 		else
 		 		{
 		 			shortwait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='id_AdjustmentBills']/div")));
@@ -1028,7 +1034,6 @@ public class TransactionSave extends LaunchApplication
 				 	 			WebElement adjbillsheader= adjbillshead.findElement(By.xpath("//div[@id='id_Adjustment_Invoices']/div[@id='id_Adjustment_Invoices_Grid']/table[@id='id_Adjustment_Grid']/thead[@id='id_Adjustment_Grid_head']/tr[@id='id_Adjustment_Grid_row_heading']/th[not(contains(@style,'display: none'))]["+header+"]"));
 				 	 			String attr=adjbillsheader.getAttribute("data-sname");
 				 	 			String name=adjbillsheader.getAttribute("textContent");
-				 	 			//logger.info("attr "+attr+" name "+name+" txt "+adjbillsheader.getText());
 				 	 			if(attr.equalsIgnoreCase("sReference"))
 				 	 			{
 				 	 				docheader=header;
@@ -1036,7 +1041,7 @@ public class TransactionSave extends LaunchApplication
 				 	 			if(name.equalsIgnoreCase("Adjustment Amount"))
 				 	 			{
 				 	 				adjamtheader=header;
-				 	 				//logger.info("adjamtheader "+adjamtheader);
+				 	 				
 				 	 			}
 				 	 			if(name.equalsIgnoreCase("OriginalAmountTC"))
 				 	 			{
@@ -1116,11 +1121,11 @@ public class TransactionSave extends LaunchApplication
 				
 			 }
 		 	
-		 	/*NEW REFERENCE & ADJUST AGAINST REFERENCES METHOD*/
+		 	/* IF IT IS NEW REFERENCE & ADJUST AGAINST REFERENCES METHOD */
 			if(method.equals("New Reference,Adjust Bills"))
 			{
 				logger.info("New Reference,Adjust Bills method is getting executed");
-				//billnos="1-New Reference,20,1-IBF:75,10";
+				//SYNTAX FOR BILL NOS: "1-New Reference,20,1-IBF:75,10";
 				/*MULTIPLE SPLIT CRITERIA*/
 				ArrayList<String> splitbills=new ArrayList(Arrays.asList(billnos.split("\\,|-|/")));
 				ArrayList<Integer> refnosIndices=new ArrayList();
@@ -1140,8 +1145,6 @@ public class TransactionSave extends LaunchApplication
 				{
 					refnos.add(splitbills.get(refnosIndices.get(i)));
 				}
-				logger.info("total refnos "+refnos);
-				
 				for(int i=0;i<refnosIndices.size();i++)
 				{
 					splitbills.set(refnosIndices.get(i), null);
@@ -1273,7 +1276,7 @@ public class TransactionSave extends LaunchApplication
 			}
 		 
 		 
-		 	/*New Reference Method*/
+		 	/* IF IT IS NEW REFERENCE METHOD */
 		 	 if(method.equalsIgnoreCase("New Reference"))
 		 	 {
 		 		 logger.info("New Reference method is getting executed");
@@ -1324,8 +1327,8 @@ public class TransactionSave extends LaunchApplication
 			 	 
 		 		 }
 		 		 else
-			 	{
-		 			 String balanceamt = null;
+		 		 {
+		 			String balanceamt = null;
 		 			shortwait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='id_AdjustmentBills']/div")));
 			 		WebElement adjbills=driver.findElement(By.xpath("//div[@id='id_AdjustmentBills']/div"));
 			 		List<WebElement> adjbillscount=driver.findElements(By.xpath("//div[@id='id_AdjustmentBills']/div[not(contains(@style, 'display: none'))]"));
@@ -1450,21 +1453,21 @@ public class TransactionSave extends LaunchApplication
 			 	
 		 }
 	 	
-		/*Closing Transaction Page*/
+		/* CLOSING TRASACTION PAGE */
 			
 		finally 
 	 	{
 			boolean result;
 			if(keywords.contains("BILLCALCULATIONS"))
 			{
-				
+				//DO NOTHING IF KEYWORDS CONTAINS BILLCALCULATIONS
 			}
 			else
 			{
 				if(!(method.equalsIgnoreCase("save")))
 				{
-				result = finalOkClick(expmsg);
-				return result;
+					result = finalOkClick(expmsg);
+					return result;
 				}
 			}
 	 	}
@@ -1472,7 +1475,7 @@ public class TransactionSave extends LaunchApplication
 		
 	  }
 	public boolean finalOkClick(String expmsg)  throws InterruptedException
-  {
+	{
 	 if(!(transSavePage.isDisplayed()))
 		{
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("btnOk")));
@@ -1551,17 +1554,17 @@ public class TransactionSave extends LaunchApplication
 		 return false;
 		
   }
+	/* METHOD TO CLOSE TRANSACTIONS */
   	public boolean transactionClose()
-  {
-  		
-	  wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_transactionentry_close")));
-	  driver.findElement(By.id("id_transactionentry_close")).click();
-	 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='dvHomeTransClose']")));
-	 driver.findElement(By.xpath("//*[@id='dvHomeTransClose']")).click();
-	 if(driver.findElement(By.xpath("//*[@id='dashName']")).isDisplayed())
-	  {
-		  return true;
-	  } 
+  	{
+  		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_transactionentry_close")));
+  		driver.findElement(By.id("id_transactionentry_close")).click();
+  		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='dvHomeTransClose']")));
+  		driver.findElement(By.xpath("//*[@id='dvHomeTransClose']")).click();
+  		if(driver.findElement(By.xpath("//*[@id='dashName']")).isDisplayed())
+  		{
+  			return true;
+  		} 
   		
 	  return false;
   }
