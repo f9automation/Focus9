@@ -35,17 +35,13 @@ public class LaunchApplication extends BasicExtentReport
    	public static String url = "http://localhost/focus9";
 	public static  WebDriverWait wait = new WebDriverWait(driver, 20);
 	public static WebDriverWait shortwait=new WebDriverWait(driver,5);
-   
 	
-	
-	
-	/* STATIC METHOD TO LAUNCH CHROME BROWSER AND NAVIGATE TO THE FOCUS9 APPLICATION */
-	
+   /* STATIC METHOD TO LAUNCH CHROME BROWSER AND NAVIGATE TO THE FOCUS9 APPLICATION */
 	 @BeforeSuite
 	 public  static void LaunchApp() throws MalformedURLException, InterruptedException
 	 {
-		//Getting log4j properties to log files 
-		 PropertyConfigurator.configure("\\DESKTOP-C918GTA\\Eclipse-Focus9\\F9Resource\\log\\log4j.properties");
+		//GETTING LOG4J PROPERTIES TO LOG FILES
+		 PropertyConfigurator.configure("\\\\DESKTOP-C918GTA\\Eclipse-Focus9\\F9Resource\\log\\log4j.properties");
 		 logger.info("Browser Opened");
 		 Set<String> allwindow=driver.getWindowHandles() ;
 		 int i=1;
@@ -59,10 +55,7 @@ public class LaunchApplication extends BasicExtentReport
 		 i++;
 
 		 }
-		 logger.info(i);
-		 	
 		 driver.switchTo().window(lastwindow);
-		
 		 driver.navigate().to(url);
 		 logger.info("Application launched");
 		 driver.manage().window().maximize();
@@ -76,13 +69,13 @@ public class LaunchApplication extends BasicExtentReport
 	
 	 public  static void takeSnapShot(WebDriver webdriver,String fileWithPath) throws Exception
 	 {
-		 //Convert web driver object to TakeScreenshot
+		 //CONVERT WEB DRIVER OBJECT TO TAKE SCREENSHOT
 		 TakesScreenshot scrShot =((TakesScreenshot)webdriver);
-		 //Call getScreenshotAs method to create image file
+		 //CALL GETSCREENSHOT AS METHOD TO CREATE IMAGE FILE
 		 File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
-		 //Move image file to new destination
+		 //MOVE IMAGE FILE TO NEW DESTINATION
 		 File DestFile=new File(fileWithPath);
-		 //Copy file at destination
+		 //COPY FILE AT DESTINATION
 		 Files.copy(SrcFile, DestFile);
 	              
 	 }

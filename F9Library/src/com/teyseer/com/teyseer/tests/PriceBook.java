@@ -75,7 +75,7 @@ public class PriceBook extends LaunchApplication
 					 for(int sh=1; sh<shcount; sh++)
 					 {
 						 casessheet=wb.getSheetName(sh);
-						 logger.info("Executing Workbook sheet "+casessheet+" of Workbook "+xlfile);
+						 logger.info("Checking In Workbook sheet "+casessheet+" of Workbook "+xlfile);
 						 tccount=xl.getRowCount(xlfile, senariossheet);
 						 tscount=xl.getRowCount(xlfile, casessheet);
 						for (int i = 1; i <=tccount; i++) 
@@ -275,9 +275,6 @@ public class PriceBook extends LaunchApplication
 													pb.priceBookHeaderData(xlpricebooknames, xlpricebookvalues);
 													pb.filterAndLoad();
 													res=pb.clearPriceBook();
-													logger.info("REsul tis "+res);
-													
-												
 												break;
 											}
 											case("AUTHORIZEWINDOWDISPLAY"):
@@ -586,7 +583,7 @@ public class PriceBook extends LaunchApplication
 														selectcustomizelems.add(value);
 													}
 													//logger.info("selectcustmize elems are "+selectcustomizelems);
-													pb.priceBookCustomization(selectcustomizelems, true);
+													pb.priceBookCustomization(selectcustomizelems, false);
 													String expmsg;
 													while((xl.getCellData(xlfile, casessheet, j+1, startingcolno)+"").length()==0)
 													{
@@ -650,6 +647,7 @@ public class PriceBook extends LaunchApplication
 												xlpricebookvalues.clear();
 													for(int l=startingcolno;l<colcount;l++)
 													{
+														logger.info("colcount "+colcount+" & col no is "+l);
 														while((xl.getCellData(xlfile, casessheet, j+1, l)+"").length()==0)
 														{
 															break;

@@ -73,17 +73,17 @@ public class TransactionsNet<K, V> extends LaunchApplication
 	  ArrayList<String> body= new ArrayList(Arrays.asList(bodyformula.split("\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]")));
 	  ArrayList<String> footer= new ArrayList(Arrays.asList(footerformula.split("\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]")));
 	  body.removeAll(Arrays.asList("",null));
-	 ArrayList<String> befrembody= new ArrayList(Arrays.asList(bodyformula.split("\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]")));
-	 befrembody.removeAll(Arrays.asList("",null));
-	 footer.removeAll(Arrays.asList("",null));
-	 ArrayList<String> befremfooter= new ArrayList(Arrays.asList(footerformula.split("\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]")));
-	 befremfooter.removeAll(Arrays.asList("",null));
-	 ArrayList<String> beforeremovefooter=new ArrayList();
-	 beforeremovefooter.clear();
-	 beforeremovefooter.addAll(footer);
-	 ArrayList<Integer> bodyintvalue=new ArrayList();
-	 double bodynet=0,footernet;
-	 bodyintvalue.clear();
+	  ArrayList<String> befrembody= new ArrayList(Arrays.asList(bodyformula.split("\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]")));
+	  befrembody.removeAll(Arrays.asList("",null));
+	  footer.removeAll(Arrays.asList("",null));
+	  ArrayList<String> befremfooter= new ArrayList(Arrays.asList(footerformula.split("\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]")));
+	  befremfooter.removeAll(Arrays.asList("",null));
+	  ArrayList<String> beforeremovefooter=new ArrayList();
+	  beforeremovefooter.clear();
+	  beforeremovefooter.addAll(footer);
+	  ArrayList<Integer> bodyintvalue=new ArrayList();
+	  double bodynet=0,footernet;
+	  bodyintvalue.clear();
 	 /* GO TO EACH ELEMENT OF THE BODY FOMULA ELEMENTS */
 		for(String s: body)
 		{
@@ -462,6 +462,8 @@ public class TransactionsNet<K, V> extends LaunchApplication
 	
 	
   }
+  
+  /* METHOD TO CALCULATE NET IF THERE IS NO FOOTER FOMULA INVOLVED BY PASSING BODY FORMULA FROM EXCEL AND ACTUAL NET FROM APPLICATION AS PARAMETERS */
   public boolean netCalculation(String bodyformulas, String actualnet) throws ScriptException
   {
 
@@ -519,15 +521,12 @@ public class TransactionsNet<K, V> extends LaunchApplication
 		 for(int row=1;row<tbody.size();row++)
 		 		 {
 		 			 WebElement currow=table.findElement(By.cssSelector("div[id='id_transactionentry_body_section'] div:nth-of-type(4) div:nth-of-type(1) table[id='id_transaction_entry_detail_table'] tbody[id='id_transaction_entry_detail_table_body'] tr[class='fgridrow']:nth-of-type("+row+") td:nth-of-type("+2+")"));
-		 			// logger.info("row "+row+" txt "+currow.getAttribute("textContent")+ "a "+currow.getAttribute("data-value"));
-		 			 if(currow.getAttribute("data-value")==null)
+		 			if(currow.getAttribute("data-value")==null)
 		 			 {
-		 				//logger.info("Body size should be "+row);
 		 				totrows=row-1;
 		 				break;
 		 			 }
 		 		 }
-		 		 //logger.info("tot rows "+totrows);
 		 for(int k=1;k<=totrows;k++)
 		 {
 			 body.removeAll(bodyintvalue);

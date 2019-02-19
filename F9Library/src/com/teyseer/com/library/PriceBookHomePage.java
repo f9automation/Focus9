@@ -130,6 +130,7 @@ public class PriceBookHomePage extends LaunchApplication
 	/* BODY DATA DETAILS */
   public void priceBookBodyData(ArrayList<String> pricebooknames, ArrayList<String> pricebookvalues, int bodyrow) throws InterruptedException 
   {
+	  Thread.sleep(3000);
 	  boolean excelrowno=true;
 	  String rowno=pricebookvalues.get(2);
 	 /* GETTING ROWNO FROM EXCEL AND IF NOT PROVIDED THEN ENTER DATA TO THE ROW WHICH IS EMPTY */ 
@@ -327,17 +328,14 @@ public class PriceBookHomePage extends LaunchApplication
 		    {
 			  /* TO VERIFY IF ANY GLOBAL ID IS DISPLAYING AND CLOSE THEM*/
 			  	List<WebElement> globalidlist=driver.findElements(By.cssSelector("div[id='idGlobalError'] div, div[id='idGlobalError']"));
-				logger.info("globalidlist "+globalidlist.size());
-			  	if(globalidlist.size()>=1)
+				if(globalidlist.size()>=1)
 				  {
 					WebElement popups=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div"));
 			    	if(popups.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).isDisplayed())
 			    		{
-			    			//logger.info("Yes displayed with i value "+" txt "+popups.getAttribute("text content"));
 			    			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")));
 			    	 		actmsg=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).getText();
-			    	 		//logger.info("Actmsg "+actmsg);
-			    			driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[3]")).click();
+			    	 		driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[3]")).click();
 			    		}
 			    	 
 			    	
@@ -495,27 +493,34 @@ public class PriceBookHomePage extends LaunchApplication
   /* PRICEBOOK CUSTOMIZATION */
   public boolean priceBookCustomization(ArrayList<String> toselectelems, boolean tobedisplayed) throws InterruptedException
   {
+	  logger.info("to seelect elems are "+toselectelems+ "& to be selcted "+tobedisplayed);
 	  boolean result = false;
 	  wait.until(ExpectedConditions.attributeToBe(driver.findElement(By.cssSelector("section[id='mainDiv']")), "style", "pointer-events: auto;"));
 	  wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/section/div[2]/div/section[1]/div/div[4]/div[2]/span/i")));
 	  driver.findElement(By.xpath("/html/body/section/div[2]/div/section[1]/div/div[4]/div[2]/span/i")).click();
 	  wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ul[id='ddlMenu'] li")));
 	  List<WebElement> totcustomizelist=driver.findElements(By.cssSelector("ul[id='ddlMenu'] li"));
-	for(int i=1;i<totcustomizelist.size();i++)
+	for(int i=1;i<=totcustomizelist.size();i++)
 	  {
 		  WebElement customizelist=driver.findElement(By.cssSelector("ul[id='ddlMenu'] li:nth-of-type("+i+") label input"));
 		  String customizelistelem=customizelist.getAttribute("name");
 		  WebElement customizelist1=driver.findElement(By.cssSelector("ul[id='ddlMenu'] li:nth-of-type("+i+") label"));
 		  String customizelistelem1=customizelist1.getText();
+		  //logger.info("customizelistelem1 "+customizelistelem1+" & "+customizelistelem);
 		 Thread.sleep(1000);
 		 for(String toselectelem:toselectelems)
 		 {
 		if(customizelistelem1.trim().equalsIgnoreCase(toselectelem)||customizelistelem.equalsIgnoreCase(toselectelem))
 		  {
+			logger.info("toselect elem "+toselectelem);
 			 if(tobedisplayed==true) 
 			 {
+				logger.info("true");
 				 if(!customizelist.isSelected())
+				 {
+					 logger.info("to click");
 				 customizelist.click();
+				 }
 			 }
 			 if(tobedisplayed==false)
 			 {
@@ -557,6 +562,8 @@ public class PriceBookHomePage extends LaunchApplication
   /* VERIFY IF THE CUSTOMIZED VALUES ARE DISPLAYING/NOT DISPLAYING IN THE GRID */
   public boolean customizeVerification(String toselectelem, boolean tobedisplayed)
   {
+	  
+	 // logger.info("elem to be seelcted "+toselectelem);
 	  customizecolresults.clear();
 	  List<WebElement> pricebooktableheaders=driver.findElements(By.xpath("//table[@id='PriceBookWebGrid']/thead[@id='PriceBookWebGrid_head']/tr[@id='PriceBookWebGrid_row_heading']/th[not(contains(@style,'display: none;'))]/div[1]"));
 	  ArrayList<String> bodyelemslist=new ArrayList();
@@ -567,6 +574,7 @@ public class PriceBookHomePage extends LaunchApplication
 		  for(int i=0;i<pricebooktableheaders.size();i++)
 		  {
 			 bodylabel=pricebooktableheaders.get(i).getAttribute("textContent");
+			 logger.info("body labe "+bodylabel);
 			 if(toselectelem.equalsIgnoreCase("Date Range")||toselectelem.equalsIgnoreCase("DateRange"))
 				  {
 					  if(bodylabel.equalsIgnoreCase("Starting date"))

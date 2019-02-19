@@ -40,7 +40,6 @@
 	<classpathentry kind="lib" path="//DESKTOP-C918GTA/Focus9Automation/extentreports-java-2.41.2/extentreports-java-2.41.2/lib/mongodb-driver-core-3.0.4.jar"/>
 	<classpathentry kind="lib" path="//DESKTOP-C918GTA/Focus9Automation/extentreports-java-2.41.2/extentreports-java-2.41.2/lib/snakeyaml-1.15.jar"/>
 	<classpathentry kind="lib" path="//DESKTOP-C918GTA/Focus9Automation/extentreports-java-2.41.2/extentreports-java-2.41.2/lib/sqlite-jdbc-3.8.11.1.jar"/>
-	<classpathentry kind="lib" path="//DESKTOP-C918GTA/Focus9Automation/extentreports-java-2.41.2/extentreports-java-2.41.2/lib/testng-6.9.9.jar"/>
 	<classpathentry kind="lib" path="//DESKTOP-C918GTA/Focus9Automation/Junit jars/hamcrest-core-1.3.rc2-sources.jar"/>
 	<classpathentry kind="lib" path="//DESKTOP-C918GTA/Focus9Automation/Junit jars/junit-4.10.jar"/>
 	<classpathentry kind="lib" path="//DESKTOP-C918GTA/Focus9Automation/libs/byte-buddy-1.8.15.jar"/>

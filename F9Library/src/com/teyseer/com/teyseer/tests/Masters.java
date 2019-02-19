@@ -54,26 +54,15 @@ public class Masters extends LaunchApplication
 	@Test (priority=1)
 	public void Masters(String parentxlfile) throws IOException 
   {
-		logger.info("1in");
 		FileInputStream fi = new FileInputStream(parentxlfile);
-		logger.info(parentxlfile);
-		logger.info("2in");
 		XSSFWorkbook wb = new XSSFWorkbook(fi);
-		logger.info(fi);
-		logger.info("3in");
 		int rowcount=xl.getRowCount(parentxlfile, sheet);
-		logger.info("3Out");
-		logger.info("4in");
 		String names;
-		logger.info("4Out");
-		
 		for(int rowno=1; rowno<=rowcount;rowno++)
 		{
 			names=xl.getCellData(parentxlfile, sheet, rowno, 0);
 			xlnames.add(names);
-			
-			logger.info(xlnames);
-		}
+			}
 		
   }
  @Test (priority=2)

@@ -61,22 +61,24 @@ public class UnitConversionHomePage extends LaunchApplication
 	  ArrayList<String> xlvalues=new ArrayList();
 	  xlvalues.addAll(labelvalues);
 	  wait.until(ExpectedConditions.attributeToBe(driver.findElement(By.cssSelector("section[id='mainDiv']")), "style", "pointer-events: auto;"));
-	  List<WebElement> headers=driver.findElements(By.xpath("//div[@class='col-lg-12 col-md-12 col-sm-12 col-xs-12']/div[@class='form-group']/div"));
+	  List<WebElement> headers=driver.findElements(By.xpath("//*[@id='page_Content']/div[2]/div[1]/div"));
+	  logger.info("Headers "+headers.size());
 	  int elemid;
 	  for(String xlname: xlnames)
 		  Labelloop:
 	  for(int i=1;i<=headers.size();i+=2)
 	  {
-		  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='col-lg-12 col-md-12 col-sm-12 col-xs-12']/div[@class='form-group']/div["+i+"]/label")));
-		  WebElement headerelem=driver.findElement(By.xpath("//div[@class='col-lg-12 col-md-12 col-sm-12 col-xs-12']/div[@class='form-group']/div["+i+"]/label"));
+		  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='page_Content']/div[2]/div[1]/div["+i+"]/label")));
+		  WebElement headerelem=driver.findElement(By.xpath("//*[@id='page_Content']/div[2]/div[1]/div["+i+"]/label"));
 		  String headerelement=headerelem.getText();
+		  //logger.info("Head "+headerelement);
 		  headernames.add(headerelement);
 		  elemid=i+1;
-		  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='col-lg-12 col-md-12 col-sm-12 col-xs-12']/div[@class='form-group']/div["+elemid+"]")));
+		  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='page_Content']/div[2]/div[1]/div["+elemid+"]")));
 		  if(xlname.equalsIgnoreCase(headerelement))
 			{
 			  String value=xlvalues.get(xlnames.indexOf(xlname));
-			  WebElement headelem= driver.findElement(By.xpath("//div[@class='col-lg-12 col-md-12 col-sm-12 col-xs-12']/div[@class='form-group']/div["+elemid+"]"));
+			  WebElement headelem= driver.findElement(By.xpath("//*[@id='page_Content']/div[2]/div[1]/div["+elemid+"]"));
 			  Thread.sleep(1000);
 			  Actions act=new Actions(driver);
 			  Action actionslist=act.
