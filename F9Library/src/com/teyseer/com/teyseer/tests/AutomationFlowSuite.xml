@@ -4,7 +4,7 @@
      <test verbose="2" name="Test1">
   <parameter name="parentxlfile" value="\\DESKTOP-C918GTA\\Keywords\\Master Names Sheet.xlsx"/>
     <classes>
-     <!-- <class name="com.teyseer.com.teyseer.tests.Masters"/>   --> 
+     <class name="com.teyseer.com.teyseer.tests.Masters"/>  
    <class name="com.teyseer.com.teyseer.tests.Transactions"/> 
    </classes>
     </test> 
