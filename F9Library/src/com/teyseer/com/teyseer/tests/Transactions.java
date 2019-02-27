@@ -58,6 +58,7 @@ public class Transactions extends LaunchApplication
 	TransactionWorkflow trw=new TransactionWorkflow();
 	TransactionsNet trn=new TransactionsNet();
 	TransactionIcons tri=new TransactionIcons();
+	/* METHOD TO GET ALL THE EXCEL FILE NAMES WHICH NEED TO BE EXECUTED BY PASSING THE FILE NAME AS PARENTXLFILE PARAMETER */
   Transactions() throws IOException 
   
   {
@@ -65,7 +66,7 @@ public class Transactions extends LaunchApplication
 		XSSFWorkbook wb = new XSSFWorkbook(fi);
 		int rowcount=xl.getRowCount(parentxlfile, sheet);
 		String names;
-		
+		/* GET LIST OF EXCEL FILE NAMES WHICH NEED TO BE EXECUTED */
 		for(int rowno=1; rowno<=rowcount;rowno++)
 		{
 			names=xl.getCellData(parentxlfile, sheet, rowno, 0);
@@ -82,6 +83,7 @@ public class Transactions extends LaunchApplication
 	 logger.info("Excel sheets to be executed are: "+xlnames);
 	 for(String xlname: xlnames)
 	 {
+		 //ORDER OF THE KEYWORDS WHICH NEED TO BE EXEUCTED W.R.T TRANSACTIONS
 		 ArrayList<String> keywordorder=new ArrayList<String>(Arrays.asList("VOUCHERWORKFLOW","VOUCHERHEADERDATA", "VOUCHERBODYDATA", "VOUCHERFOOTERDATA", "VOUCHERNET", "BASECURRENCY","VOUCHERSAVE", "NEWREFERENCE SAVE"));
 		 ArrayList<String> actkeywords=new ArrayList<String>();
 		 String xlfile="\\\\DESKTOP-C918GTA\\Keywords\\Automation Test Cases\\"+xlname;
@@ -97,30 +99,35 @@ public class Transactions extends LaunchApplication
 		 int rowcount;
 		 String tcexeflg,tcid,tstcid,keyword;
 		 boolean res=false;
+		//LOOP TO GO TO EACH SHEET OF THE EXCEL WORKBOOK
 		for(int sh=1; sh<shcount; sh++)
 		 {
 			 casessheet=wb.getSheetName(sh);
-			// logger.info("sheet no is "+sh);
 			 logger.info("Worksheet "+casessheet+" is getting executed of Workbook"+xlfile);
 			 tccount=xl.getRowCount(xlfile, senariosheet);
 			 tscount=xl.getRowCount(xlfile, casessheet);
+			 // FOR THE FIRST SCENARIOS SHEET GO TO THE "EXECUTE" COLUMN ONLY TILL 7 ROWS AND GET THE INFORMATION
 			 for (int i = 1; i <=7; i++) 
 			 {	
 				tcexeflg=xl.getCellData(xlfile, senariosheet, i, 2);
+				// IF TO BE EXECUTED IS "Y" THEN EXECUTE THE RESPECTIVE TESTCASES
 				if (tcexeflg.equalsIgnoreCase("Y")) 
 				{
 					String tcres="";
 					tcid=xl.getCellData(xlfile, senariosheet, i, 0);
+					/* LOOP TO GO TO EACH AND EVERY ROW OF ALL THE TEST CASES SHEETS */
 					for (int j = 1; j <=tscount ; j++) 
 					{
 						colcount=xl.getCellCount(xlfile, casessheet, j);
 						rowcount=xl.getRowCount(xlfile, casessheet);
 						tstcid=xl.getCellData(xlfile, casessheet, j, 0);
+						/* IF THE ID WHICH IS CAPTURED IN TEST SCENARIO IS EQUAL TO THAT OF THE TEST CASES ID THEN GET THE KEYWORD FOR THE RESPECTIVE TEST CASE ROW */
 						if (tcid.equalsIgnoreCase(tstcid)) 
 						{
 							keyword=xl.getCellData(xlfile, casessheet, j, 4);
 							switch (keyword.toUpperCase()) 
 							{
+							//COMPANY CREATION
 							case("COMPANYCREATION"):
 							{
 								hp.compname=xl.getCellData(xlfile, casessheet, j, 5);
@@ -128,6 +135,7 @@ public class Transactions extends LaunchApplication
 								res=hp.companyCreation(hp.compname, hp.password);
 								break;
 							}
+							//LOGIN TO THE APPLICATION
 							case("LOGIN"):
 							{
 								hp.username=xl.getCellData(xlfile, casessheet, j, 5);
@@ -139,11 +147,13 @@ public class Transactions extends LaunchApplication
 								res=hp.LoginApp(hp.username, hp.password, hp.compname);
 								break;
 							}
+							//LOGOUT FREOM THE APPLICATION
 							case("LOGOUT"):
 							{
 								res=hp.Logout();
 								break;
 							}
+							//TO NAVIGATE TO THE MENU WHICH HAS TWO TREE STRUCTURE 
 							case("TWOTREE"):
 							{
 								menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -152,6 +162,7 @@ public class Transactions extends LaunchApplication
 								res=menu.menuSelection(menu.menu1, menu.menu2, menu.expname);
 								break;
 							}
+							//TO NAVIGATE TO THE MENU WHICH HAS THREE TREE STRUCTURE 
 							case("THREETREE"):
 							{
 								menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -161,7 +172,7 @@ public class Transactions extends LaunchApplication
 								res=menu.menuSelection(menu.menu1, menu.menu2, menu.menu3, menu.expname);
 								break;
 							}
-								
+							//TO NAVIGATE TO THE MENU WHICH HAS FOUR TREE STRUCTURE 	
 							case("FOURTREE"):
 							{
 								menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -174,11 +185,13 @@ public class Transactions extends LaunchApplication
 								
 								
 							}
+							//TO CLICK ON NEW VOUCHER
 							case("VOUCHERNEW"):
 							{
 								res=trh.newClick();
 								break;
 							}
+							//TO GET ALL THE LABEL NAMES OF THE HEADER
 							case("VOUCHERHEADERLABELS"):
 							{
 								ArrayList<String> hlabels=new ArrayList<String>();
@@ -194,6 +207,7 @@ public class Transactions extends LaunchApplication
 								break;
 															
 							}
+							//TO GET ALL THE LABEL NAMES OF THE BODY 
 							case("VOUCHERBODYLABELS"):
 							{
 								ArrayList<String> blabels=new ArrayList<String>();
@@ -209,6 +223,7 @@ public class Transactions extends LaunchApplication
 								break;
 													
 							}
+							//TO GET ALL THE LABEL NAMES OF THE FOOTER
 							case("VOUCHERFOOTERLABELS"):
 							{
 								ArrayList<String> flabels=new ArrayList<String>();
@@ -223,6 +238,7 @@ public class Transactions extends LaunchApplication
 								break;
 															
 							}
+							//TO GET ALL THE HOME PAGE ICONS
 							case("HOMEPAGEICONS"):
 							{
 								while(((xl.getCellData(xlfile, casessheet, j, startingcolno)).toString()).length()==0)
@@ -233,6 +249,7 @@ public class Transactions extends LaunchApplication
 								res=tri.transactionHomeIcons(homepagenames);
 								break;
 							}
+							//TO GET NEW DASHBOARD ICONS
 							case("NEWDASHBOARDICONS"):
 							{
 
@@ -246,6 +263,7 @@ public class Transactions extends LaunchApplication
 								break;
 							
 							}
+							//TO VERIFY THE MENUS LIST ONCE LOGIN TO THE APPLICATION
 							case("MENULIST"):
 							{
 								while(((xl.getCellData(xlfile, casessheet, j, 5)).toString().length())==0)
@@ -265,7 +283,7 @@ public class Transactions extends LaunchApplication
 							}
 							}
 							
-							
+							/* PRINT EACH TEST CASE RESULT AND ITS RESPECTIVE COLORS */
 							String tsres=null;
 							
 							if (res==true) 
@@ -300,6 +318,7 @@ public class Transactions extends LaunchApplication
 							
 						}
 					}
+					/* IF ANY OF THE TEST CASE WHICH IS LINKED WITH TEST SCENARIO ID IS A FAIL, THEN FAIL THAT RESPECTIVE TEST SCENARIO  AND FILL THE RESPECTIVE COLORS */
 					if(tcres.equalsIgnoreCase("Pass"))
 					{
 						xl.setCellData(xlfile, senariosheet, i, 3, tcres);
@@ -317,9 +336,12 @@ public class Transactions extends LaunchApplication
 				}
 		
 			}
+			 
+			 /* GO TO EACH ROW OF THE TEST SCENARIOS SHEET FROM 8TH ONWARDS */
 		for (int i = 8; i <tccount; i++) 
 		{
 			tcexeflg=xl.getCellData(xlfile, senariosheet, i, 2);
+			// IF TO BE EXECUTED IS "Y" THEN EXECUTE THE RESPECTIVE TESTCASES
 			if (tcexeflg.equalsIgnoreCase("Y")) 
 			{
 				tcid=xl.getCellData(xlfile, senariosheet, i, 0);
@@ -332,8 +354,10 @@ public class Transactions extends LaunchApplication
 						break;
 					}
 					tstcid=xl.getCellData(xlfile, casessheet, j, 0)+"";
+					/* IF THE ID WHICH IS CAPTURED IN TEST SCENARIO IS EQUAL TO THAT OF THE TEST CASES ID THEN GET THE KEYWORD FOR THE RESPECTIVE TEST CASE ROW */
 					if (tcid.equalsIgnoreCase(tstcid)) 
 					{
+						/* GET ALL THE KEYWORDS OF EACH SHEET WHICH MATCHES WITH THE TESTCASE ID AND STORE THEM INTO AN ARRAYLIST WHICH REFERES TO OUT KEYWORD */
 						try
 						{
 						while((xl.getCellData(xlfile, casessheet, j, 4)+"").toString().length()==0)
@@ -349,7 +373,6 @@ public class Transactions extends LaunchApplication
 						actkeywords.clear();
 						int cols;
 						int a=xlbodylabelnames+1;
-						//logger.info("rowcount "+rowcount+" xlbodylabelnames+1 "+a);
 						if(rowcount<xlbodylabelnames+1)
 						{
 							cols=rowcount;
@@ -358,13 +381,11 @@ public class Transactions extends LaunchApplication
 						{
 							cols=xlbodylabelnames+1;
 						}
-						//logger.info("cols is "+cols);
 						for(int keywordrow=1; keywordrow<=cols; keywordrow++)
 						{
 							String keyworddata = "";
 						try
 						{
-							//logger.info("keyword row "+keywordrow);
 							while((xl.getCellData(xlfile, casessheet, keywordrow, 4)+"").toString().length()==0)
 							{
 								break;
@@ -381,10 +402,11 @@ public class Transactions extends LaunchApplication
 						String actkeyword=actkeywords.toString();
 					logger.info("Keywords order from Excel is "+actkeyword);
 						ArrayList<String>  unmodifiedkeywordorder= new ArrayList<String>();
+						//GO TO THE RESPECTIVE KEYWORD ORDER WHICH MATCHES WITH THE ONCE WHICH IS SENT FROM EXCEL 
 						switch(actkeyword)
 						{
 						
-						case("[VOUCHERSAVE, , , , VOUCHERHEADERDATA, , VOUCHERWORKFLOW, ]"):
+							case("[VOUCHERSAVE, , , , VOUCHERHEADERDATA, , VOUCHERWORKFLOW, ]"):
 							{
 								keywordorder.remove("VOUCHERFOOTERDATA");
 								keywordorder.remove("VOUCHERNET");
@@ -637,6 +659,7 @@ public class Transactions extends LaunchApplication
 						}
 						String tsres=null;
 						logger.info("Order of the keywords which need to be executed for the voucher is "+unmodifiedkeywordorder);
+						/* GO TO EACH OF THE KEYWORD WHICH IS CAPTURED IN KEYWORD ORDER ARRAYLIST */
 						keywordorder.addAll(actkeywords);
 						Collections.reverse(keywordorder);
 						keywordorder.remove(keywordorder.size()-1);
@@ -652,6 +675,8 @@ public class Transactions extends LaunchApplication
 											keyword=excelkeyword;
 											switch (keyword.toUpperCase()) 
 											{
+											
+											//ENTER HEADER DATA
 											case("VOUCHERHEADERDATA"):
 											{
 												
@@ -661,7 +686,6 @@ public class Transactions extends LaunchApplication
 												for(int k=5; k<colcount; k++)
 												{
 													String attrid=xl.getCellData(xlfile, casessheet, xlheaderlabelnames, k);
-													//logger.info("attr id "+attrid);
 													trh.excelattridlist.add(attrid);
 												}
 												prevfile=currentfile;
@@ -674,7 +698,7 @@ public class Transactions extends LaunchApplication
 												{
 												trh.getLabelNames();
 												}
-												//Logic to compare each excel attribute with voucher attribute
+												//LOGIC TO COMPARE EACH EXCEL ATTRIBUTE WITH VOUCHER ATTRIBUTE
 												trh.totallabels.addAll(trh.excelattridlist);
 												Collections.reverse(trh.totallabels);
 												for (String excelattribute : trh.excelattridlist) 
@@ -702,7 +726,7 @@ public class Transactions extends LaunchApplication
 												trh.TransactionHeader(mylist);
 												break;
 											}
-		
+											//ENTER VOUCHER'S BODY DATA
 											case("VOUCHERBODYDATA"):
 											{
 												
@@ -775,6 +799,7 @@ public class Transactions extends LaunchApplication
 												break;	
 	
 											}
+											//VOUCHER'S FOOTER DATA
 											case("VOUCHERFOOTERDATA"):
 											{
 												ArrayList<String> excelattributes=new ArrayList<String>();
@@ -821,7 +846,6 @@ public class Transactions extends LaunchApplication
 																}
 															}
 													}
-												//excelvalues.removeAll(Arrays.asList(null,""));
 												trf.transactionFooter(unmodifiedexcelattributes, unmodifiedexcelattributes, excelvalues);
 												}
 												catch(Exception e)
@@ -830,7 +854,7 @@ public class Transactions extends LaunchApplication
 												}
 												break;
 											}
-	
+											//SAVE VOUCHER DATA
 											case("VOUCHERSAVE"):
 											{
 												 
@@ -874,6 +898,7 @@ public class Transactions extends LaunchApplication
 												}
 												break;
 											}
+											//BILL CALCULATIONS
 											case("BILLCALCULATIONS"):
 											{
 												while((xl.getCellData(xlfile, casessheet, xlvouchersavemsg, 7)+"").toString().length()==0)
@@ -887,22 +912,17 @@ public class Transactions extends LaunchApplication
 												String expmsg=trs.actmsg;
 												xl.setCellData(xlfile, casessheet, xlvouchersavemsg, 8,expmsg );
 												String xlbalamtvalues = "";
-												//logger.info("trs.balamtvalues "+trs.balamtvalues);
 												for(String s:trs.balamtvalues)
 												{
 													xlbalamtvalues+=s;
 												}
 												xl.setCellData(xlfile, casessheet, xlbillcalcs, xlrescolno+2, xlbalamtvalues);
-												//logger.info("xlbalamtvalues "+xlbalamtvalues);
 												String xlnatcurrvalue = "";
 												for(String s:trs.natcurrvalues)
 												{
 													xlnatcurrvalue+=s;
 												}
 												xl.setCellData(xlfile, casessheet, xlbillcalcs, xlrescolno+3, xlnatcurrvalue);
-												String xlactnatcurrtvalue = "";
-												
-												//logger.info("results res2 "+res2+" res "+res);
 												if(res==true)	
 												{
 													tsres="Pass";
@@ -930,6 +950,7 @@ public class Transactions extends LaunchApplication
 												break;
 												
 											}
+											//NET CALCULATIONS
 											case("VOUCHERNET"):
 											{
 												while((xl.getCellData(xlfile, casessheet, xlnetformulas, 5)+"").toString().length()==0)
@@ -952,7 +973,6 @@ public class Transactions extends LaunchApplication
 												
 												if(xlfooterformula.length()==0)
 												{
-													//logger.info("Calling net calc ");
 													res=trn.netCalculation(xlbodyformula,xloperator);
 												}
 												
@@ -960,12 +980,9 @@ public class Transactions extends LaunchApplication
 												{
 												res=trn.netCalculation(xlbodyformula,xlfooterformula,xloperator);
 												}
-												//res=trn.transactionSave(xlmethod,billno,xlmsg);
 												String actnet=String.valueOf(trn.actroundoffnet);
-												//logger.info("Actnet "+actnet);
 												xl.setCellData(xlfile, casessheet, xlnetformulas, 8,actnet);
 												String expnet=trn.netr;
-												//logger.info("expnet "+expnet);
 												xl.setCellData(xlfile, casessheet, xlnetformulas, 9,expnet);
 												if(res==true)	
 												{
@@ -982,14 +999,13 @@ public class Transactions extends LaunchApplication
 												
 												break;
 											}
+											//BASE CURRENCY CALCULATION
 											case("BASECURRENCY"):
 											{
 												try
 												{
 													trs.getExchangeRate(trh.exchrt);
 													logger.info("exchange rate calculated is "+trh.exchrt);
-													//console.snapshot([label]);
-													
 												}
 												catch(NullPointerException ex)
 												{
@@ -1032,6 +1048,7 @@ public class Transactions extends LaunchApplication
 												
 												break;
 											}
+											//WORKFLOW SELECTION
 											case("VOUCHERWORKFLOW"):
 											{
 												while((xl.getCellData(xlfile, casessheet, xlwrkflow, 5)+"").toString().length()==0)
@@ -1123,11 +1140,13 @@ public class Transactions extends LaunchApplication
 						keyword=xl.getCellData(xlfile, casessheet, j, 4);
 						switch (keyword.toUpperCase()) 
 						{
+						//VOUCHER CLOSE
 						case("VOUCHERCLOSE"):
 						{
 							res=trs.transactionClose();
 							break;
 						}
+						//LOGOUT FROM THE APPLICATION
 						case("LOGOUT"):
 						{
 							res=hp.Logout();

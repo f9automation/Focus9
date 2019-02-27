@@ -29,12 +29,14 @@ public class UnitConversion  extends LaunchApplication
 	UnitConversionHomePage uhp=new UnitConversionHomePage();
 	@Parameters({ "parentxlfile" })
 	@Test (priority=1)
+	/* METHOD TO GET ALL THE EXCEL FILE NAMES WHICH NEED TO BE EXECUTED BY PASSING THE FILE NAME AS PARENTXLFILE PARAMETER */
 	public void UnitConversionNames(String parentxlfile) throws IOException
 	{
 		FileInputStream fi = new FileInputStream(parentxlfile);
 		XSSFWorkbook wb = new XSSFWorkbook(fi);
 		int rowcount=xl.getRowCount(parentxlfile, sheet);
 		String name;
+		/* GET LIST OF EXCEL FILE NAMES WHICH NEED TO BE EXECUTED */
 		for(int rowno=1; rowno<=rowcount;rowno++)
 		{
 			name=xl.getCellData(parentxlfile, sheet, rowno, 0);
@@ -49,9 +51,10 @@ public class UnitConversion  extends LaunchApplication
   public void unitConversion() throws IOException, InterruptedException 
   {
 
-		logger.info("Workbook's of Masters which need to be executed are "+xlnames);
+	logger.info("Workbook's of Masters which need to be executed are "+xlnames);
 	 for(String xlname: xlnames)
 	 {
+		//ORDER OF THE KEYWORDS WHICH NEED TO BE EXEUCTED W.R.T TRANSACTIONS
 		 ArrayList<String> keywordorder=new ArrayList<String>(Arrays.asList("VOUCHERWORKFLOW","VOUCHERHEADERDATA", "VOUCHERBODYDATA", "VOUCHERFOOTERDATA", "VOUCHERSAVE", "NEWREFERENCE SAVE"));
 		 ArrayList<String> actkeywords=new ArrayList<String>();
 		 String xlfile="\\\\DESKTOP-C918GTA\\Keywords\\Automation Test Cases\\"+xlname;
@@ -67,31 +70,38 @@ public class UnitConversion  extends LaunchApplication
 		 int rowcount;
 		 String tcexeflg,tcid,tstcid,keyword;
 		 boolean res=false;
+		//LOOP TO GO TO EACH SHEET OF THE EXCEL WORKBOOK
 		 for(int sh=1; sh<shcount; sh++)
 		 {
 			 casessheet=wb.getSheetName(sh);
 			 logger.info("Executing Workbook sheet "+casessheet+" of Workbook "+xlfile);
 			 tccount=xl.getRowCount(xlfile, senariossheet);
 			 tscount=xl.getRowCount(xlfile, casessheet);
+			 // FOR THE FIRST SCENARIOS SHEET GO TO THE "EXECUTE" COLUMN AND GET THE INFORMATION
 			for (int i = 1; i <=tccount; i++) 
 			{
 				tcexeflg=xl.getCellData(xlfile, senariossheet, i, 2);
+				// IF TO BE EXECUTED IS "Y" THEN EXECUTE THE RESPECTIVE TESTCASES
 				if (tcexeflg.equalsIgnoreCase("Y")) 
 				{
 					String tcres="";
 					tcid=xl.getCellData(xlfile, senariossheet, i, 0);
+					/* LOOP TO GO TO EACH AND EVERY ROW OF ALL THE TEST CASES SHEETS */
 					for (int j = 1; j <=tscount ; j++) 
 					{
 						colcount=xl.getCellCount(xlfile, casessheet, j);
 						rowcount=xl.getRowCount(xlfile, casessheet);
 						tstcid=xl.getCellData(xlfile, casessheet, j, 0);
+						/* IF THE ID WHICH IS CAPTURED IN TEST SCENARIO IS EQUAL TO THAT OF THE TEST CASES ID THEN GET THE KEYWORD FOR THE RESPECTIVE TEST CASE ROW */
 						if (tcid.equalsIgnoreCase(tstcid)) 
 						{
 							keyword=xl.getCellData(xlfile, casessheet, j, 4);
 							logger.info("Keyword which is getting exeucted is "+keyword+" whose Test Case ID is "+tcid);
+							/* GO TO RESPECTIVE SWITCH CASE WHICH MATCHES WITH THE KEYWORD WHICH IS SENT FROM EXCEL */
 							switch (keyword.toUpperCase()) 
 							{
-								case("LOGIN"):
+							//LOGIN TO THE APPLICATION	
+							case("LOGIN"):
 								{
 									hp.username=xl.getCellData(xlfile, casessheet, j, 5);
 									hp.password=xl.getCellData(xlfile, casessheet, j, 6);
@@ -103,7 +113,7 @@ public class UnitConversion  extends LaunchApplication
 									
 									break;
 								}
-								
+								//TO NAVIGATE TO THE MENU WHICH HAS TWO TREE STRUCTURE
 								case("TWOTREE"):
 								{
 									menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -112,6 +122,7 @@ public class UnitConversion  extends LaunchApplication
 									res=menu.menuSelection(menu.menu1, menu.menu2, menu.expname);
 									break;
 								}
+								//TO NAVIGATE TO THE MENU WHICH HAS THREE TREE STRUCTURE
 								case("THREETREE"):
 								{
 									menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -121,7 +132,7 @@ public class UnitConversion  extends LaunchApplication
 									res=menu.menuSelection(menu.menu1, menu.menu2, menu.menu3, menu.expname);
 									break;
 								}
-									
+								//TO NAVIGATE TO THE MENU WHICH HAS FOUR TREE STRUCTURE	
 								case("FOURTREE"):
 								{
 									menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -134,6 +145,7 @@ public class UnitConversion  extends LaunchApplication
 									
 									
 								}
+								//COMPANY CREATION
 								case("COMPANYCREATION"):
 								{
 									hp.compname=xl.getCellData(xlfile, casessheet, j, 5);
@@ -143,12 +155,13 @@ public class UnitConversion  extends LaunchApplication
 									
 									break;
 								}
-								
+								//LOGOUT FROM THE APPLICATION
 								case("LOGOUT"):
 								{
 									res=hp.Logout();
 									break;
 								}
+								//SAVE UNIT CONVESION
 								case("UNITCONVSAVE"):
 								{
 									uhp.unitConvClear();
@@ -178,8 +191,6 @@ public class UnitConversion  extends LaunchApplication
 										
 									}
 									uhp.unitConvHeaderDetails(xlunitconvnames, xlunitconvvalues);
-									//logger.info("rowcount "+rowcount+" j value "+j);
-									//if(rowcount==j+1)
 									xlunitconvvalues.clear();
 									for(int xlrowno=j+1; xlrowno<=rowcount;xlrowno++)
 									{
@@ -218,6 +229,7 @@ public class UnitConversion  extends LaunchApplication
 									xl.setCellData(xlfile, casessheet, j+1, startingcolno+1, uhp.actmsg);
 									break;
 								}
+								//DELETE UNIT CONVERSION
 								case("UNITCONVDELETE"):
 								{
 									uhp.unitConvClear();
@@ -258,12 +270,14 @@ public class UnitConversion  extends LaunchApplication
 									xl.setCellData(xlfile, casessheet, j+1, startingcolno+1, uhp.actmsg);
 									break;
 								}
+								//CLOSE UNIT CONVERSION
 								case("UNITCONVCLOSE"):
 								{
-									uhp.unitConvClose();
+									res=uhp.unitConvClose();
 									//driver.quit();
 									break;
 								}
+								//TO LOAD FROM AND VERIFY
 								case("LOADFROMVERIFY"):
 								{
 									uhp.unitConvClear();
@@ -296,6 +310,7 @@ public class UnitConversion  extends LaunchApplication
 									
 									break;
 								}
+								//TO LOAD FROM AND SAVE
 								case("LOADFROMSAVE"):
 								{
 
@@ -328,39 +343,7 @@ public class UnitConversion  extends LaunchApplication
 									res=uhp.checkUnitConvLoadFrom(xlunitconvheadernames, xlunitconvheadervalues);
 									if(res==true)
 									{
-										/*
-										uhp.unitConvClear();
-										xlunitconvheadernames.clear();
-										xlunitconvheadervalues.clear();
-										for(int k=startingcolno+3;k<colcount;k++)
-										{
-											while((xl.getCellData(xlfile, casessheet, j, k)+"").length()==0)
-											{
-												break;
-											}
-											value = xl.getCellData(xlfile, casessheet, j, k)+"";
-											xlunitconvheadernames.add(value);
-										}
 										
-										for(int k=startingcolno+3;k<colcount;k++)
-										{
-											while((xl.getCellData(xlfile, casessheet, j+1, k)+"").length()==0)
-											{
-												break;
-											}
-											value=xl.getCellData(xlfile, casessheet, j+1, k);
-											xlunitconvheadervalues.add(value);
-											
-										}
-										uhp.unitConvHeaderDetails(xlunitconvheadernames, xlunitconvheadervalues);
-										logger.info("Xl headername s"+xlunitconvheadernames+" xl values "+xlunitconvheadervalues);
-										//String value;
-										//ArrayList<String> xlunitconvheadernames= new ArrayList();
-										//ArrayList<String> xlunitconvheadervalues=new ArrayList();
-										uhp.unitConvHeaderDetails(xlunitconvheadernames, xlunitconvheadervalues);
-										//logger.info("rowcount "+rowcount+" j value "+j);
-										//if(rowcount==j+1)
-										 * */
 										 
 										xlunitconvheadervalues.clear();
 										for(int xlrowno=j+1; xlrowno<=rowcount;xlrowno++)
@@ -409,13 +392,13 @@ public class UnitConversion  extends LaunchApplication
 								
 								}
 							}
+							/* PRINT EACH TEST CASE RESULT AND ITS RESPECTIVE COLORS */
 							String tsres=null;
 							if (res==true) 
 							{
 								tsres="Pass";
 								xl.setCellData(xlfile, casessheet, j, 3, tsres);
 								xl.fillGreenColor(xlfile, casessheet, j, 3);
-								//logger.info("Result which is getting printed for  Test Case ID "+tcid+" is "+tsres);
 							} 
 							else 
 							{
@@ -442,6 +425,7 @@ public class UnitConversion  extends LaunchApplication
 							
 						}
 					}
+					/* IF ANY OF THE TEST CASE WHICH IS LINKED WITH TEST SCENARIO ID IS A FAIL, THEN FAIL THAT RESPECTIVE TEST SCENARIO  AND FILL THE RESPECTIVE COLORS */
 					if(tcres.equalsIgnoreCase("Pass"))
 					{
 						xl.setCellData(xlfile, senariossheet, i, 3, tcres);

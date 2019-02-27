@@ -18,10 +18,10 @@ public class TestResults extends LaunchApplication
 	
 	
   @Test(priority=3)
+  /* METHOD TO UPDATE TEST RESULTS SHEET BY GATHERING THE RESULTS FROM THE RESPECTIVE EXCELS */
   public void testResults() throws IOException
   {
-	  //	driver.quit();
-    	String resultsfile="\\\\DESKTOP-C918GTA\\Keywords\\Automation Test Cases\\Test Results.xlsx";
+	  String resultsfile="\\\\DESKTOP-C918GTA\\Keywords\\Automation Test Cases\\Test Results.xlsx";
     	String Vouchersheet="Vouchers";
     	ArrayList<String> vouchernames=new ArrayList<String>();
     	ArrayList<String> ressheetnames=new ArrayList<String>();
@@ -33,11 +33,11 @@ public class TestResults extends LaunchApplication
     	XSSFWorkbook wb = new XSSFWorkbook(fi);
     	int resrowcount=xl.getRowCount(resultsfile, Vouchersheet);
     	int shcount =wb.getNumberOfSheets();
-    	//System.out.println("No of sheets "+shcount);
+    	logger.info("No of sheets "+shcount);
     	for(int sh=1;sh<shcount;sh++)
     	{
     		String shname=wb.getSheetName(sh);
-    		//System.out.println("sheet names are "+shname);
+    		//logger.info("sheet names are "+shname);
     		ressheetnames.add(shname);
     	}
     	for(int vouchersrow=1;vouchersrow<=resrowcount;vouchersrow++)
@@ -51,8 +51,9 @@ public class TestResults extends LaunchApplication
     	{
     		try
     		{
+    		//GET ALL THE SHEET NAMES WHICH ARE MENTIONED IN THE 1ST SHEET OF THE RESULTS SHEET
     		String voucherwb=voucher+".xlsx";
-    		String voucherfile="E:\\Eclipse Workspace\\TestProject170118\\src\\Keywords\\Automation Test Cases\\"+voucherwb;
+    		String voucherfile="\\DESKTOP-C918GTA\\Keywords\\Automation Test Cases\\"+voucherwb;
     		String testscenariossheet="TestScenarios";
     		FileInputStream vfi = new FileInputStream(voucherfile);
     		XSSFWorkbook vwb = new XSSFWorkbook(vfi);
@@ -61,23 +62,23 @@ public class TestResults extends LaunchApplication
     		for(int vsh=0;vsh<vshcount;vsh++)
     		{
     			String vshname=vwb.getSheetName(vsh);
-    			//System.out.println("sheet names are "+vshname);
+    			logger.info("sheet names are "+vshname);
     			vsheetnames.add(vshname);
     		}
-    		//System.out.println("Sheet names of file "+voucherfile+" are "+vsheetnames);
+    		logger.info("Sheet names of file "+voucherfile+" are "+vsheetnames);
     		int rowcount=xl.getRowCount(voucherfile, testscenariossheet);
-    		//System.out.println("Row count of vouches is "+rowcount);
+    		logger.info("Row count of vouches is "+rowcount);
     		for(int vouchersrow=1;vouchersrow<=rowcount;vouchersrow++)
     		{
     			String tsids=xl.getCellData(voucherfile, testscenariossheet, vouchersrow, 0);
     			vshtsids.add(tsids);
     		}
-    		//System.out.println("test scenario id's of "+voucherwb+" are "+vshtsids);
+    		logger.info("test scenario id's of "+voucherwb+" are "+vshtsids);
     		for(String resshsheet: ressheetnames)
     				{
+    					/* IF THE SHEET IS AVAILABEL GO TO THAT PARTICUAL EXCEL AND GET THE RESULTS OF EACH TEST CASE & TEST SCENARIO AND PRINT THE SAME TO THE RESPECTIVE RESULTS SHEET */
     					if(resshsheet.toUpperCase().contains(voucher.toUpperCase()))
     					{
-    						//System.out.println("shname is "+shsheet +" vname is "+vname);
     						try
     						{
     							int shrowcount=xl.getRowCount(resultsfile, resshsheet);
@@ -87,20 +88,20 @@ public class TestResults extends LaunchApplication
     								String restsid=xl.getCellData(resultsfile, resshsheet, resshrow, 0);
     								reststcids.add(restsid);
     							}
-    							//System.out.println("Test scenario/Test case ids's of sheet "+resshsheet+" are "+reststcids);
+    							//logger.info("Test scenario/Test case ids's of sheet "+resshsheet+" are "+reststcids);
     							int rescount=0;
     							for(String vsheetname: vsheetnames)
     							{
-    								//System.out.println("vsheet is "+vsheetname);
+    								//logger.info("vsheet is "+vsheetname);
     								int endindex=vsheetname.indexOf(" ");
     								if(endindex>0)
     								{
     								vsheetname.substring(0, endindex);
-    								//System.out.println("end index "+endindex+" latest is "+vsheetname.substring(0, endindex)+"Vsheet names "+vsheetnames+" vsheet name "+vsheetname.toUpperCase().substring(0,endindex)+" sh sheet "+shsheet);
+    								//logger.info("end index "+endindex+" latest is "+vsheetname.substring(0, endindex)+"Vsheet names "+vsheetnames+" vsheet name "+vsheetname.toUpperCase().substring(0,endindex)+" sh sheet ");
     								if(resshsheet.toUpperCase().contains(vsheetname.toUpperCase().substring(0,endindex)))
     								{
     									
-    									//System.out.println("sh sheet is "+resshsheet +" vssheet is "+vsheetname);
+    									//logger.info("sh sheet is "+resshsheet +" vssheet is "+vsheetname);
     									int vrowcount=xl.getRowCount(voucherfile, vsheetname);
     									vshtstcids.clear();
     									for(int vrow=1;vrow<=vrowcount;vrow++)
@@ -110,7 +111,7 @@ public class TestResults extends LaunchApplication
     									}
     									reststcids.removeAll(Arrays.asList("TestCase Id"));
     									vshtstcids.removeAll(Arrays.asList("TestCase Id"));
-    									//System.out.println(" reststcids "+reststcids+" vshtstscids "+vshtstcids);
+    									//logger.info(" reststcids "+reststcids+" vshtstscids "+vshtstcids);
     									reststcids.addAll(vshtstcids);
     									Collections.reverse(reststcids);
     									
@@ -124,21 +125,21 @@ public class TestResults extends LaunchApplication
     											reslist:
     											for(String reststcid: reststcids)
     											{
-    												//System.out.println("row loop is "+vrow);
+    												//logger.info("row loop is "+vrow);
     												if(vshtstcid.length()>0)
     												{
     												if(reststcid.equalsIgnoreCase(vshtstcid))
     												{
     													String vshres;
     													rescount++;
-    													//System.out.println("vrow "+vrow+" Sheet "+vsheetname+" reststcid "+reststcid);
+    													//logger.info("vrow "+vrow+" Sheet "+vsheetname+" reststcid "+reststcid);
     													 vshres=xl.getCellData(voucherfile, vsheetname, vrow, 3);
     													if(vshres.toUpperCase().startsWith("TEST CASE RESULTS"))
     													{
     														vrow++;
     														vshres=xl.getCellData(voucherfile, vsheetname, vrow, 3);
     													}
-    													//System.out.println("row count for cases is "+rescount+" result is "+vshres);
+    													//logger.info("row count for cases is "+rescount+" result is "+vshres);
     													if(vshres.equalsIgnoreCase("pass"))
     													{
     														xl.setCellData(resultsfile, resshsheet, rescount, 3, vshres);
@@ -151,10 +152,10 @@ public class TestResults extends LaunchApplication
     													}
     													else
     													{
-    														//System.out.println(" res count "+rescount);
+    														logger.info(" res count "+rescount);
     														xl.setCellData(resultsfile, resshsheet, rescount, 3, "Blocked");
     													}
-    													//System.out.println("Result is "+vshres);
+    													//logger.info("Result is "+vshres);
     													vrow++;
     													break reslist;
     												}
@@ -174,8 +175,8 @@ public class TestResults extends LaunchApplication
     								if(resshsheet.toUpperCase().contains(vsheetname.toUpperCase()))
     								{
     									
-    									//System.out.println("end index "+endindex+" latest is "+vsheetname.substring(0, endindex)+"Vsheet names "+vsheetnames+" vsheet name "+vsheetname.toUpperCase().substring(0,endindex)+" sh sheet "+shsheet);
-    									//System.out.println("sh sheet is "+resshsheet +" vssheet is "+vsheetname);
+    									//logger.info("end index "+endindex+" latest is "+vsheetname.substring(0, endindex)+"Vsheet names "+vsheetnames+" vsheet name "+vsheetname.toUpperCase().substring(0,endindex)+" sh sheet ");
+    									//logger.info("sh sheet is "+resshsheet +" vssheet is "+vsheetname);
     										int vrowcount=xl.getRowCount(voucherfile, vsheetname);
     										vshtstcids.clear();
     										for(int vrow=1;vrow<=vrowcount;vrow++)
@@ -197,15 +198,15 @@ public class TestResults extends LaunchApplication
     												for(String reststcid: reststcids)
     												{
     													
-    													//System.out.println("row loop is "+vrow);
+    													//logger.info("row loop is "+vrow);
     													if(vshtstcid.length()>0)
     													{
     														if(reststcid.equalsIgnoreCase(vshtstcid))
     														{
     															rescount++;
-    															//System.out.println("vrow "+vrow+" Sheet "+vsheetname+" reststcid "+reststcid);
+    															//logger.info("vrow "+vrow+" Sheet "+vsheetname+" reststcid "+reststcid);
     															String vshres=xl.getCellData(voucherfile, vsheetname, vrow, 3);
-    															//System.out.println("Count is "+rescount);
+    															//logger.info("Count is "+rescount);
     															if(vshres.equalsIgnoreCase("pass"))
     																{
     																	xl.setCellData(resultsfile, resshsheet, rescount, 3, vshres);
@@ -220,7 +221,7 @@ public class TestResults extends LaunchApplication
     																{
     																	xl.setCellData(resultsfile, resshsheet, rescount, 3, "Blocked");
     																}
-    																//System.out.println("Result is "+vshres);
+    																//logger.info("Result is "+vshres);
     																vrow++;
     																break reslist;
     															}
@@ -245,7 +246,7 @@ public class TestResults extends LaunchApplication
     					}
     						catch(Exception e)
     						{
-    							//System.out.println("Sheet with name "+shsheet+" is not available");
+    							logger.info("Sheet with name "+testscenariossheet+" is not available for "+voucherfile);
     						}
     						
     					}
@@ -254,9 +255,9 @@ public class TestResults extends LaunchApplication
     		
     		catch(Exception e)
     		{
-    			//System.out.println("No voucher sheet");
+    			logger.info("No sheet avaialble");
     		}
     		}
-    	//System.out.println("All voucher names are "+vouchernames);
+    	//logger.info("All voucher names are "+vouchernames);
     }
 }

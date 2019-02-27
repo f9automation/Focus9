@@ -36,6 +36,7 @@ public class PriceBook extends LaunchApplication
 	PriceBookHomePage pb=new PriceBookHomePage();
 	@Parameters({ "parentxlfile" })
 	@Test (priority=1)
+	/* METHOD TO GET ALL THE EXCEL FILE NAMES WHICH NEED TO BE EXECUTED BY PASSING THE FILE NAME AS PARENTXLFILE PARAMETER */
 	public void priceBookNames(String parentxlfile) throws IOException 
   {
 		FileInputStream fi = new FileInputStream(parentxlfile);
@@ -54,9 +55,10 @@ public class PriceBook extends LaunchApplication
 	  @Test (priority=2)
 	  public void priceBook() throws IOException, InterruptedException 
 	  {
-		   		logger.info("Workbook's of Masters which need to be executed are "+xlnames+" "+Thread.currentThread().getId());
+		   		logger.info("Workbook's of Masters which need to be executed are "+xlnames);
 				 for(String xlname: xlnames)
 				 {
+					//ORDER OF THE KEYWORDS WHICH NEED TO BE EXEUCTED W.R.T TRANSACTIONS
 					 ArrayList<String> keywordorder=new ArrayList<String>(Arrays.asList("VOUCHERWORKFLOW","VOUCHERHEADERDATA", "VOUCHERBODYDATA", "VOUCHERFOOTERDATA", "VOUCHERSAVE", "NEWREFERENCE SAVE"));
 					 ArrayList<String> actkeywords=new ArrayList<String>();
 					 String xlfile="\\\\DESKTOP-C918GTA\\Keywords\\Automation Test Cases\\"+xlname;
@@ -72,15 +74,18 @@ public class PriceBook extends LaunchApplication
 					 int rowcount;
 					 String tcexeflg,tcid,tstcid,keyword;
 					 boolean res=false;
+					 //LOOP TO GO TO EACH SHEET OF THE EXCEL WORKBOOK
 					 for(int sh=1; sh<shcount; sh++)
 					 {
 						 casessheet=wb.getSheetName(sh);
 						 logger.info("Checking In Workbook sheet "+casessheet+" of Workbook "+xlfile);
 						 tccount=xl.getRowCount(xlfile, senariossheet);
 						 tscount=xl.getRowCount(xlfile, casessheet);
-						for (int i = 1; i <=tccount; i++) 
-						{
+						 // FOR THE FIRST SCENARIOS SHEET GO TO THE "EXECUTE" COLUMN AND GET THE INFORMATION
+						 for (int i = 1; i <=tccount; i++) 
+						 {
 							tcexeflg=xl.getCellData(xlfile, senariossheet, i, 2);
+							/* IF THE ID WHICH IS CAPTURED IN TEST SCENARIO IS EQUAL TO THAT OF THE TEST CASES ID THEN GET THE KEYWORD FOR THE RESPECTIVE TEST CASE ROW */
 							if (tcexeflg.equalsIgnoreCase("Y")) 
 							{
 								String tcres="";
@@ -94,9 +99,11 @@ public class PriceBook extends LaunchApplication
 									{
 										keyword=xl.getCellData(xlfile, casessheet, j, 4);
 										logger.info("Keyword which is getting exeucted is "+keyword+" whose Test Case ID is "+tcid);
+										/* GO TO RESPECTIVE SWITCH CASE WHICH MATCHES WITH THE KEYWORD WHICH IS SENT FROM EXCEL */
 										switch (keyword.toUpperCase()) 
 										{
-											case("LOGIN"):
+										//LOGIN TO THE APPLICATION	
+										case("LOGIN"):
 											{
 												hp.username=xl.getCellData(xlfile, casessheet, j, 5);
 												hp.password=xl.getCellData(xlfile, casessheet, j, 6);
@@ -108,7 +115,7 @@ public class PriceBook extends LaunchApplication
 												
 												break;
 											}
-											
+										//TO NAVIGATE TO THE MENU WHICH HAS TWO TREE STRUCTURE
 											case("TWOTREE"):
 											{
 												menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -117,6 +124,7 @@ public class PriceBook extends LaunchApplication
 												res=menu.menuSelection(menu.menu1, menu.menu2, menu.expname);
 												break;
 											}
+											//TO NAVIGATE TO THE MENU WHICH HAS THREE TREE STRUCTURE
 											case("THREETREE"):
 											{
 												menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -126,7 +134,7 @@ public class PriceBook extends LaunchApplication
 												res=menu.menuSelection(menu.menu1, menu.menu2, menu.menu3, menu.expname);
 												break;
 											}
-												
+											//TO NAVIGATE TO THE MENU WHICH HAS FOUR TREE STRUCTURE
 											case("FOURTREE"):
 											{
 												menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -139,6 +147,7 @@ public class PriceBook extends LaunchApplication
 												
 												
 											}
+											//COMPANY CREATION
 											case("COMPANYCREATION"):
 											{
 												hp.compname=xl.getCellData(xlfile, casessheet, j, 5);
@@ -148,6 +157,7 @@ public class PriceBook extends LaunchApplication
 												
 												break;
 											}
+											//CREATE NEW PRICE BOOK
 											case("NEWPRICEBOOK"):
 											{
 												pb.clearPriceBook();
@@ -193,6 +203,7 @@ public class PriceBook extends LaunchApplication
 												
 												break;
 											}
+											//UPDATE PRICE BOOK
 											case("UPDATEPRICEBOOK"):
 											{
 												pb.clearPriceBook();
@@ -243,6 +254,7 @@ public class PriceBook extends LaunchApplication
 												break;
 												
 											}
+											//CLEAR PRICE BOOK
 											case("PRICEBOOKCLEAR"):
 											{
 												pb.clearPriceBook();
@@ -277,6 +289,7 @@ public class PriceBook extends LaunchApplication
 													res=pb.clearPriceBook();
 												break;
 											}
+											//VERIFY AUTHORIZE WINDOW DISPLAY
 											case("AUTHORIZEWINDOWDISPLAY"):
 											{
 												pb.clearPriceBook();
@@ -315,6 +328,7 @@ public class PriceBook extends LaunchApplication
 												break;
 											
 											}
+											//COPY A PRICE BOOK VALUES AND PASTE IT TO OTHERS AND SAVE IT
 											case("COPYPASTEPRICEBOOKSAVE"):
 											{
 
@@ -389,6 +403,8 @@ public class PriceBook extends LaunchApplication
 												xl.setCellData(xlfile, casessheet, j+1, startingcolno+1, pb.actmsg);
 												break;
 											}
+											
+											//COPY A PRICE BOOK VALUES AND PASTE IT TO OTHERS AND VERIFY THE VALUES
 											case("COPYPASTEPRICEBOOK"):
 											{
 												pb.clearPriceBook();
@@ -444,6 +460,7 @@ public class PriceBook extends LaunchApplication
 														res=pb.pasteData(xlpricebooknames, xlpricebookvalues);
 														break;
 											}
+											//DELETE THE PRICE BOOK
 											case("PRICEBOOKDELETE"):
 											{
 												pb.clearPriceBook();
@@ -482,11 +499,11 @@ public class PriceBook extends LaunchApplication
 												}
 												expmsg=xl.getCellData(xlfile, casessheet, j+1, startingcolno)+"";
 												res=pb.deletePriceBook(expmsg);
-												//logger.info("res of delete is "+res);
 												xl.setCellData(xlfile, casessheet, j+1, startingcolno+1, pb.actmsg);
 												
 												break;
 											}
+											//REMOVE CUSTOMIZATION AND VERIFY THE COLUMNS
 											case("REMOVEPRICEBOOKCUSTOMIZEVIEW"):
 											{
 
@@ -538,6 +555,7 @@ public class PriceBook extends LaunchApplication
 											
 											
 											}
+											//REMOVE THE PRICE BOOK CUSTOMIZATION AND SAVE
 											case("REMOVEPRICEBOOKCUSTOMIZESAVE"):
 											{
 
@@ -568,7 +586,6 @@ public class PriceBook extends LaunchApplication
 														value=xl.getCellData(xlfile, casessheet, j+1, l)+"";
 														xlpricebookvalues.add(value);
 													}
-													//logger.info("xlbooknames "+xlpricebooknames+" xl values "+xlpricebookvalues);
 													pb.priceBookHeaderData(xlpricebooknames, xlpricebookvalues);
 													pb.filterAndLoad();
 													ArrayList<String> selectcustomizelems=new ArrayList();
@@ -582,7 +599,6 @@ public class PriceBook extends LaunchApplication
 														value=xl.getCellData(xlfile, casessheet, j+1, l)+"";
 														selectcustomizelems.add(value);
 													}
-													//logger.info("selectcustmize elems are "+selectcustomizelems);
 													pb.priceBookCustomization(selectcustomizelems, false);
 													String expmsg;
 													while((xl.getCellData(xlfile, casessheet, j+1, startingcolno)+"").length()==0)
@@ -599,7 +615,6 @@ public class PriceBook extends LaunchApplication
 													totresults.clear();
 													int rescol=10;
 													int resind=0;
-													//logger.info("tot results "+pb.customizecolresults);
 													for(String selectcustomize: selectcustomizelems)
 													{
 														res=pb.customizeVerification(selectcustomize, false);
@@ -617,13 +632,12 @@ public class PriceBook extends LaunchApplication
 													{
 														res=true;
 													}
-													//logger.info("REsul tis "+res);
-													
-													//Thread.sleep(5000);
-												break;
+													break;
 											
 											
 											}
+											
+											//ADD CUSTOMIZATION AND VERIFY THE COLUMNS 
 											case("ADDPRICEBOOKCUSTOMIZEVIEW"):
 											{
 
@@ -670,12 +684,11 @@ public class PriceBook extends LaunchApplication
 														selectcustomize.add(value);
 													}
 													res=pb.priceBookCustomization(selectcustomize, true);
-													//logger.info("REsul tis "+res);
-													
-												break;
+													break;
 											
 											
 											}
+											//ADD CUSTOMIZATION AND SAVE 
 											case("ADDPRICEBOOKCUSTOMIZESAVE"):
 											{
 
@@ -706,7 +719,6 @@ public class PriceBook extends LaunchApplication
 														value=xl.getCellData(xlfile, casessheet, j+1, l)+"";
 														xlpricebookvalues.add(value);
 													}
-													//logger.info("xlbooknames "+xlpricebooknames+" xl values "+xlpricebookvalues);
 													pb.priceBookHeaderData(xlpricebooknames, xlpricebookvalues);
 													pb.filterAndLoad();
 													ArrayList<String> selectcustomizelems=new ArrayList();
@@ -737,16 +749,13 @@ public class PriceBook extends LaunchApplication
 													totresults.clear();
 													int rescol=10;
 													int resind=0;
-													//logger.info("tot results "+pb.customizecolresults);
 													for(String selectcustomize: selectcustomizelems)
 													{
 														res=pb.customizeVerification(selectcustomize, true);
 														totresults.add(String.valueOf(res));
 														xl.setCellData(xlfile, casessheet, j+1, rescol, pb.customizecolres);
 														rescol+=2;
-														//resind+=1;
-														
-													}
+														}
 													if(totresults.contains("false"))
 													{
 														res=false;
@@ -757,17 +766,19 @@ public class PriceBook extends LaunchApplication
 													}
 													logger.info("REsul tis "+res);
 													
-													//Thread.sleep(5000);
-												break;
+													break;
 											
 											
 											}
+											
+											//CLOSE THE PRICE BOOK 
 											case("PRICEBOOKCLOSE"):
 											{
 												pb.clearPriceBook();
 												res=pb.closePriceBook();
 												break;
 											}
+											//LOGOUT FROM THE APPLICATION
 											case("LOGOUT"):
 											{
 												res=hp.Logout();
@@ -777,13 +788,12 @@ public class PriceBook extends LaunchApplication
 										}
 										String tsres=null;
 										
-										
+										/* PRINT EACH TEST CASE RESULT AND ITS RESPECTIVE COLORS */
 										if (res==true) 
 										{
 											tsres="Pass";
 											xl.setCellData(xlfile, casessheet, j, 3, tsres);
 											xl.fillGreenColor(xlfile, casessheet, j, 3);
-											//logger.info("Result which is getting printed for  Test Case ID "+tcid+" is "+tsres);
 										} 
 										else 
 										{
@@ -810,6 +820,7 @@ public class PriceBook extends LaunchApplication
 										
 									}
 								}
+								/* IF ANY OF THE TEST CASE WHICH IS LINKED WITH TEST SCENARIO ID IS A FAIL, THEN FAIL THAT RESPECTIVE TEST SCENARIO  AND FILL THE RESPECTIVE COLORS */
 								if(tcres.equalsIgnoreCase("Pass"))
 								{
 									xl.setCellData(xlfile, senariossheet, i, 3, tcres);

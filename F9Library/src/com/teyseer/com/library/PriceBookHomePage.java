@@ -34,7 +34,7 @@ public class PriceBookHomePage extends LaunchApplication
 	public ArrayList<String> customizecolresults=new ArrayList();
 	
  
-	/* TO GET  SYSTEM USAGE */
+	/* TO GET  SYSTEM USAGE (TRIAL) */
   private static void getSystemUsage() 
   {
 	  OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
@@ -345,35 +345,7 @@ public class PriceBookHomePage extends LaunchApplication
 		     {
 		    	 
 		     }
-	  	/*
-	  	try
-		{
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")));
-	 		actmsg=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")).getText();
-	 	}
-		catch(Exception ee2)
-		{
-			
-		}
-	  	 TO VERIFY AND RETURN TRUE IF THE MESSAGE WHICH IS SENT FROM EXCEL IS SAME AS THAT OF THE ONE WHICH IS DISPLAYING IN APPLICATION 
-		try
-	    {
-			WebElement popups=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[*]"));
-	    	for(int i=3; i<=7; i++)
-	    	{
-	    		if(popups.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).isDisplayed())
-	    		{
-	    			driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).click();
-	    		}
-	    	 
-	    	}
-	    	  
-	     }
-	     catch(Exception e1)
-	     {
-	    	 
-	     }
-		*/
+	  	
 		if(actmsg.toUpperCase().contains(expmsg.toUpperCase()))
 	 		{
 	 			return true;
@@ -440,11 +412,9 @@ public class PriceBookHomePage extends LaunchApplication
 				WebElement popups=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div"));
 		    	if(popups.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).isDisplayed())
 		    		{
-		    			//logger.info("Yes displayed with i value "+" txt "+popups.getAttribute("text content"));
 		    			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")));
 		    	 		actmsg=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).getText();
-		    	 		//logger.info("Actmsg "+actmsg);
-		    			driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[3]")).click();
+		    	 		driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[3]")).click();
 		    		}
 		    	 
 		    	
@@ -454,33 +424,7 @@ public class PriceBookHomePage extends LaunchApplication
 	     {
 	    	 
 	     }
-	  /*
-	  try
-	  {
-		  	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")));
-			actmsg=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")).getText();
-	  }
-		catch(Exception ee2)
-		{
-			
-		}
-		try
-	    {
-			WebElement popups=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[*]"));
-	    	for(int i=3; i<=7; i++)
-	    	{
-	    		if(popups.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).isDisplayed())
-	    		{
-	    			driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).click();
-	    		}
-	    	 
-	    	}
-	    	  
-	     }
-	     catch(Exception e1)
-	     {
-	    	 
-	     }*/
+	  
 		wait.until(ExpectedConditions.attributeToBe(driver.findElement(By.cssSelector("section[id='mainDiv']")), "style", "pointer-events: auto;"));
 		logger.info("after capturing actmsg "+actmsg);
 		 if(actmsg.toUpperCase().contains(expmsg.toUpperCase()))
@@ -506,7 +450,6 @@ public class PriceBookHomePage extends LaunchApplication
 		  String customizelistelem=customizelist.getAttribute("name");
 		  WebElement customizelist1=driver.findElement(By.cssSelector("ul[id='ddlMenu'] li:nth-of-type("+i+") label"));
 		  String customizelistelem1=customizelist1.getText();
-		  //logger.info("customizelistelem1 "+customizelistelem1+" & "+customizelistelem);
 		 Thread.sleep(1000);
 		 for(String toselectelem:toselectelems)
 		 {
@@ -533,9 +476,7 @@ public class PriceBookHomePage extends LaunchApplication
 			 }
 		 }
 	  }
-	/*
-	  wait.until(ExpectedConditions.elementToBeClickable(By.id("iconOk")));
-	  driver.findElement(By.id("iconOk")).click();*/
+	
 	 wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/section/div[2]/div/section[1]/div/div[4]/div[2]/span/i")));
 	  driver.findElement(By.xpath("/html/body/section/div[2]/div/section[1]/div/div[4]/div[2]/span/i")).click();
 	  wait.until(ExpectedConditions.attributeToBe(driver.findElement(By.cssSelector("section[id='mainDiv']")), "style", "pointer-events: auto;"));
@@ -574,7 +515,7 @@ public class PriceBookHomePage extends LaunchApplication
 		  for(int i=0;i<pricebooktableheaders.size();i++)
 		  {
 			 bodylabel=pricebooktableheaders.get(i).getAttribute("textContent");
-			 logger.info("body labe "+bodylabel);
+			 //logger.info("body labe "+bodylabel);
 			 if(toselectelem.equalsIgnoreCase("Date Range")||toselectelem.equalsIgnoreCase("DateRange"))
 				  {
 					  if(bodylabel.equalsIgnoreCase("Starting date"))

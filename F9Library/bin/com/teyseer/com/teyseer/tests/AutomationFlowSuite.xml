@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite parallel="methods"  thread-count="2" guice-stage="DEVELOPMENT" name="Default suite">
-   <test verbose="2" name="Test1">
+     <test verbose="2" name="Test1">
   <parameter name="parentxlfile" value="\\DESKTOP-C918GTA\\Keywords\\Master Names Sheet.xlsx"/>
     <classes>
-     <class name="com.teyseer.com.teyseer.tests.Masters"/>   
+     <!-- <class name="com.teyseer.com.teyseer.tests.Masters"/>   --> 
    <class name="com.teyseer.com.teyseer.tests.Transactions"/> 
    </classes>
     </test> 
@@ -13,7 +13,7 @@
      <classes>
        <class name="com.teyseer.com.teyseer.tests.Masters"/> 
     </classes>
-  </test>
+  </test> 
   <test verbose="2" name="Test3">
   <parameter name="parentxlfile" value="\\DESKTOP-C918GTA\\Keywords\\Price Book Names.xlsx"/>
     <classes>
@@ -25,11 +25,11 @@
     <classes>
     	 <class name="com.teyseer.com.teyseer.tests.UnitConversion"/>
    </classes>
-  </test>
+  </test> 
    <test verbose="2" name="Test5">
   <parameter name="parentxlfile" value="\\DESKTOP-C918GTA\\Keywords\\ExchRate Names Sheet.xlsx"/>
     <classes>
-    	 <class name="com.teyseer.com.teyseer.tests.ExchangeRate"/>
+    	  <class name="com.teyseer.com.teyseer.tests.ExchangeRate"/> 
     	<class name="com.teyseer.com.teyseer.tests.TestResults"/>
     </classes>
   </test>

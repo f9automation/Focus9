@@ -105,15 +105,19 @@ public class Menus extends LaunchApplication
 	  	try
 	  	{
 	  		actname=driver.findElement(By.xpath("//div[@class='navText']/span[2]")).getText();
+	  		logger.info(actname+" act ");
 	  	}
 		catch(Exception e)
 	  	{
 			actname=driver.findElement(By.xpath("/html/body/section/div[2]/div/section[1]/div/div[1]/nav/div[1]/a/span/span[2]")).getText();
+			logger.info(actname+" catch act ");
 		}
 	  	/* VERIFY AND RETURN TRUE IF THE NAME WHICH IS SENT FROM EXCEL CONTAINS THE NAME WHICH IS CAPTURED FROM APPLICATION */
 	  	try
 	  	{
-	  		if(expname.toLowerCase().contains(actname.toLowerCase()))
+	  		logger.info("exp msg "+expname+" actmsg "+actname);
+	  		
+	  		if(expname.toLowerCase().equals(actname.toLowerCase()))
 	  		{
 			  return true;
 	  		}

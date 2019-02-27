@@ -10,12 +10,6 @@
           <include name="LaunchApp"/>
         </methods>
       </class> <!-- com.teyseer.com.teyseer.tests.Transactions -->
-      <class name="com.teyseer.com.teyseer.tests.Masters">
-        <methods>
-          <include name="LaunchApp"/>
-          <include name="masterSave"/>
-        </methods>
-      </class> <!-- com.teyseer.com.teyseer.tests.Masters -->
     </classes>
   </test> <!-- Test1(failed) -->
   <test thread-count="2" name="Test2(failed)" parallel="methods">
@@ -23,8 +17,8 @@
     <classes>
       <class name="com.teyseer.com.teyseer.tests.Masters">
         <methods>
-          <include name="Masters" invocation-numbers="0"/>
           <include name="LaunchApp"/>
+          <include name="masterSave"/>
         </methods>
       </class> <!-- com.teyseer.com.teyseer.tests.Masters -->
     </classes>
@@ -34,7 +28,7 @@
     <classes>
       <class name="com.teyseer.com.teyseer.tests.PriceBook">
         <methods>
-          <include name="priceBookNames" invocation-numbers="0"/>
+          <include name="priceBook"/>
           <include name="LaunchApp"/>
         </methods>
       </class> <!-- com.teyseer.com.teyseer.tests.PriceBook -->
@@ -45,7 +39,7 @@
     <classes>
       <class name="com.teyseer.com.teyseer.tests.UnitConversion">
         <methods>
-          <include name="UnitConversionNames" invocation-numbers="0"/>
+          <include name="unitConversion"/>
           <include name="LaunchApp"/>
         </methods>
       </class> <!-- com.teyseer.com.teyseer.tests.UnitConversion -->
@@ -54,15 +48,9 @@
   <test thread-count="2" name="Test5(failed)" parallel="methods">
     <parameter name="parentxlfile" value="\\DESKTOP-C918GTA\\Keywords\\ExchRate Names Sheet.xlsx"/>
     <classes>
-      <class name="com.teyseer.com.teyseer.tests.TestResults">
-        <methods>
-          <include name="testResults"/>
-          <include name="LaunchApp"/>
-        </methods>
-      </class> <!-- com.teyseer.com.teyseer.tests.TestResults -->
       <class name="com.teyseer.com.teyseer.tests.ExchangeRate">
         <methods>
-          <include name="exchRateNames" invocation-numbers="0"/>
+          <include name="exchRate"/>
           <include name="LaunchApp"/>
         </methods>
       </class> <!-- com.teyseer.com.teyseer.tests.ExchangeRate -->

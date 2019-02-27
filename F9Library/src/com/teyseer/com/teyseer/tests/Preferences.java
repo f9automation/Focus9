@@ -34,14 +34,14 @@ public class Preferences extends LaunchApplication
 	SoftAssert softAssertion= new SoftAssert();
 	@Parameters({ "parentxlfile" })
 	@Test (priority=1)
-	
+	/* METHOD TO GET ALL THE EXCEL FILE NAMES WHICH NEED TO BE EXECUTED BY PASSING THE FILE NAME AS PARENTXLFILE PARAMETER */
 	public void priceBookNames(String parentxlfile) throws IOException 
-  {
+	{
 		FileInputStream fi = new FileInputStream(parentxlfile);
 		XSSFWorkbook wb = new XSSFWorkbook(fi);
 		int rowcount=xl.getRowCount(parentxlfile, sheet);
 		String name;
-		
+		/* GET LIST OF EXCEL FILE NAMES WHICH NEED TO BE EXECUTED */
 		for(int rowno=1; rowno<=rowcount;rowno++)
 		{
 			name=xl.getCellData(parentxlfile, sheet, rowno, 0);
@@ -56,6 +56,7 @@ public class Preferences extends LaunchApplication
 		   		logger.info("Workbook's of Masters which need to be executed are "+xlnames+" "+Thread.currentThread().getId());
 				 for(String xlname: xlnames)
 				 {
+					//ORDER OF THE KEYWORDS WHICH NEED TO BE EXEUCTED W.R.T TRANSACTIONS
 					 ArrayList<String> keywordorder=new ArrayList<String>(Arrays.asList("VOUCHERWORKFLOW","VOUCHERHEADERDATA", "VOUCHERBODYDATA", "VOUCHERFOOTERDATA", "VOUCHERSAVE", "NEWREFERENCE SAVE"));
 					 ArrayList<String> actkeywords=new ArrayList<String>();
 					 String xlfile="\\\\DESKTOP-C918GTA\\Keywords\\Automation Test Cases\\"+xlname;
@@ -71,6 +72,7 @@ public class Preferences extends LaunchApplication
 					 int rowcount;
 					 String tcexeflg,tcid,tstcid,keyword;
 					 boolean res=false;
+					// FOR THE FIRST SCENARIOS SHEET GO TO THE "EXECUTE" COLUMN AND GET THE INFORMATION
 					 for(int sh=1; sh<shcount; sh++)
 					 {
 						 casessheet=wb.getSheetName(sh);
@@ -80,22 +82,26 @@ public class Preferences extends LaunchApplication
 						for (int i = 1; i <=tccount; i++) 
 						{
 							tcexeflg=xl.getCellData(xlfile, senariossheet, i, 2);
+							// IF TO BE EXECUTED IS "Y" THEN EXECUTE THE RESPECTIVE TESTCASES
 							if (tcexeflg.equalsIgnoreCase("Y")) 
 							{
 								String tcres="";
 								tcid=xl.getCellData(xlfile, senariossheet, i, 0);
+								/* LOOP TO GO TO EACH AND EVERY ROW OF ALL THE TEST CASES SHEETS */
 								for (int j = 1; j <=tscount ; j++) 
 								{
 									colcount=xl.getCellCount(xlfile, casessheet, j);
 									rowcount=xl.getRowCount(xlfile, casessheet);
 									tstcid=xl.getCellData(xlfile, casessheet, j, 0);
+									/* IF THE ID WHICH IS CAPTURED IN TEST SCENARIO IS EQUAL TO THAT OF THE TEST CASES ID THEN GET THE KEYWORD FOR THE RESPECTIVE TEST CASE ROW */
 									if (tcid.equalsIgnoreCase(tstcid)) 
 									{
 										keyword=xl.getCellData(xlfile, casessheet, j, 4);
 										logger.info("Keyword which is getting exeucted is "+keyword+" whose Test Case ID is "+tcid);
 										switch (keyword.toUpperCase()) 
 										{
-											case("LOGIN"):
+										//LOGIN TO THE APPLICATION	
+										case("LOGIN"):
 											{
 												hp.username=xl.getCellData(xlfile, casessheet, j, 5);
 												hp.password=xl.getCellData(xlfile, casessheet, j, 6);
@@ -107,7 +113,7 @@ public class Preferences extends LaunchApplication
 												
 												break;
 											}
-											
+											//TO NAVIGATE TO THE MENU WHICH HAS TWO TREE STRUCTURE
 											case("TWOTREE"):
 											{
 												menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -116,6 +122,7 @@ public class Preferences extends LaunchApplication
 												res=menu.menuSelection(menu.menu1, menu.menu2, menu.expname);
 												break;
 											}
+											//TO NAVIGATE TO THE MENU WHICH HAS THREE TREE STRUCTURE
 											case("THREETREE"):
 											{
 												menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -125,7 +132,7 @@ public class Preferences extends LaunchApplication
 												res=menu.menuSelection(menu.menu1, menu.menu2, menu.menu3, menu.expname);
 												break;
 											}
-												
+											//TO NAVIGATE TO THE MENU WHICH HAS FOUR TREE STRUCTURE	
 											case("FOURTREE"):
 											{
 												menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -138,6 +145,7 @@ public class Preferences extends LaunchApplication
 												
 												
 											}
+											//COMPANY CREATION
 											case("COMPANYCREATION"):
 											{
 												hp.compname=xl.getCellData(xlfile, casessheet, j, 5);
@@ -147,6 +155,7 @@ public class Preferences extends LaunchApplication
 												
 												break;
 											}
+											//TO VERIFY LIST OF PREFERENCES 
 											case("VERIFYPREFERENCESLIST"):
 											{
 												String xlprefslist=xl.getCellData(xlfile, casessheet, j, 5);
@@ -154,6 +163,7 @@ public class Preferences extends LaunchApplication
 												xl.setCellData(xlfile, casessheet, j, 6, "Preferences list from application are "+ph.preflist);
 												break;
 											}
+											//TO VERIFY PREFERENCE SCREEN
 											case("VERIFYPREFERENCESCREEN"):
 											{
 												String xlprefscreen=xl.getCellData(xlfile, casessheet, j, 5);
@@ -161,6 +171,7 @@ public class Preferences extends LaunchApplication
 												xl.setCellData(xlfile, casessheet, j, 6, "Screen name which is captured from application is "+ph.screentitle);
 												break;
 											}
+											//TO UPDATE PREFERENCE TAGS
 											case("UPDATETAGS"):
 											{
 												String xlvalue="";
@@ -189,6 +200,7 @@ public class Preferences extends LaunchApplication
 												xl.setCellData(xlfile, casessheet, j+1, startingcolno+1, ph.actmsg);
 												break;
 											}
+											//TO UPDATE ACCOUNTS
 											case("UPDATEACCOUNTS"):
 											{
 
@@ -219,6 +231,7 @@ public class Preferences extends LaunchApplication
 												
 												break;
 											}
+											//TO UPDATE BUDGETS
 											case("UPDATEBUDGETS"):
 											{
 
@@ -253,6 +266,7 @@ public class Preferences extends LaunchApplication
 												xl.setCellData(xlfile, casessheet, j+1, startingcolno+1, ph.actmsg);
 												break;
 											}
+											//TO UDATE AR/AP
 											case("UPDATEARAP"):
 											{
 												String xlvalue="";
@@ -284,6 +298,7 @@ public class Preferences extends LaunchApplication
 												xl.setCellData(xlfile, casessheet, j+1, startingcolno+1, ph.actmsg);
 												break;
 											}
+											//TO UPDATE MISCELLANEOUS
 											case("UPDATEMISCELLANEOUS"):
 											{
 												String xlvalue="";
@@ -292,7 +307,6 @@ public class Preferences extends LaunchApplication
 												int abc=xl.getCellCount(xlfile, casessheet, j);
 												xllabels.clear();
 												xlvalues.clear();
-												//logger.info("col ocunt "+colcount+" row is "+j);
 												for(int c=startingcolno+2;c<colcount;c++)
 												{
 													
@@ -316,6 +330,7 @@ public class Preferences extends LaunchApplication
 												break;
 												
 											}
+											//TO UPDATE PDC
 											case("UPDATEPDC"):
 											{
 												String xlvalue="";
@@ -324,7 +339,6 @@ public class Preferences extends LaunchApplication
 												int abc=xl.getCellCount(xlfile, casessheet, j);
 												xllabels.clear();
 												xlvalues.clear();
-												//logger.info("col ocunt "+colcount+" row is "+j);
 												logger.info("UPDATE PDC EXECUTING "+j);
 												for(int c=startingcolno+2;c<colcount;c++)
 												{
@@ -349,12 +363,13 @@ public class Preferences extends LaunchApplication
 												xl.setCellData(xlfile, casessheet, j+1, startingcolno+1, ph.actmsg);
 												break;
 											}
-											
+											//TO CLOSE CONFIGURE TRANSACTIONS SCREEN
 											case("CLOSECONFIGTRANS"):
 											{
 												res=ph.closeScreen();
 												break;
 											}
+											//LOGOUT FROM APPLICATION
 											case("LOGOUT"):
 											{
 												res=hp.Logout();
@@ -365,14 +380,13 @@ public class Preferences extends LaunchApplication
 										String tsres=null;
 										
 										 Assert.assertEquals(res, true);
+										 /* PRINT EACH TEST CASE RESULT AND ITS RESPECTIVE COLORS */
 										if (res==true) 
 										{
 											tsres="Pass";
 											xl.setCellData(xlfile, casessheet, j, 3, tsres);
 											xl.fillGreenColor(xlfile, casessheet, j, 3);
 											this.takeSnapShot(driver, "E://test.png") ; 
-											
-											//logger.info("Result which is getting printed for  Test Case ID "+tcid+" is "+tsres);
 										} 
 										else 
 										{
@@ -400,6 +414,7 @@ public class Preferences extends LaunchApplication
 										
 									}
 								}
+								/* IF ANY OF THE TEST CASE WHICH IS LINKED WITH TEST SCENARIO ID IS A FAIL, THEN FAIL THAT RESPECTIVE TEST SCENARIO  AND FILL THE RESPECTIVE COLORS */
 								if(tcres.equalsIgnoreCase("Pass"))
 								{
 									xl.setCellData(xlfile, senariossheet, i, 3, tcres);

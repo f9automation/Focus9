@@ -25,6 +25,8 @@ public class ExchangeRate extends LaunchApplication
 	HomePage hp = new HomePage();
 	Menus menu=new Menus();
 	ExchangeRateDefinition erd=new ExchangeRateDefinition();
+	
+	/* METHOD TO GET ALL THE EXCEL FILE NAMES WHICH NEED TO BE EXECUTED BY PASSING THE FILE NAME AS PARENTXLFILE PARAMETER */
 	@Parameters({ "parentxlfile" })
 	@Test (priority=1)
 	public void exchRateNames(String parentxlfile) throws IOException
@@ -33,6 +35,7 @@ public class ExchangeRate extends LaunchApplication
 		XSSFWorkbook wb = new XSSFWorkbook(fi);
 		int rowcount=xl.getRowCount(parentxlfile, sheet);
 		String name;
+		/* GET LIST OF EXCEL FILE NAMES WHICH NEED TO BE EXECUTED */
 		for(int rowno=1; rowno<=rowcount;rowno++)
 		{
 			name=xl.getCellData(parentxlfile, sheet, rowno, 0);
@@ -47,9 +50,10 @@ public class ExchangeRate extends LaunchApplication
   public void exchRate() throws IOException, InterruptedException 
   {
 
-		logger.info("Workbook's of Masters which need to be executed are "+xlnames);
+	logger.info("Workbook's of Masters which need to be executed are "+xlnames);
 	 for(String xlname: xlnames)
 	 {
+		 //ORDER OF THE KEYWORDS WHICH NEED TO BE EXEUCTED W.R.T TRANSACTIONS
 		 ArrayList<String> keywordorder=new ArrayList<String>(Arrays.asList("VOUCHERWORKFLOW","VOUCHERHEADERDATA", "VOUCHERBODYDATA", "VOUCHERFOOTERDATA", "VOUCHERSAVE", "NEWREFERENCE SAVE"));
 		 ArrayList<String> actkeywords=new ArrayList<String>();
 		 String xlfile="\\\\DESKTOP-C918GTA\\Keywords\\Automation Test Cases\\"+xlname;
@@ -65,30 +69,37 @@ public class ExchangeRate extends LaunchApplication
 		 int rowcount;
 		 String tcexeflg,tcid,tstcid,keyword;
 		 boolean res=false;
+		 //LOOP TO GO TO EACH SHEET OF THE EXCEL WORKBOOK
 		 for(int sh=1; sh<shcount; sh++)
 		 {
 			 casessheet=wb.getSheetName(sh);
 			 logger.info("Executing Workbook sheet "+casessheet+" of Workbook "+xlfile);
 			 tccount=xl.getRowCount(xlfile, senariossheet);
 			 tscount=xl.getRowCount(xlfile, casessheet);
+			 // FOR THE FIRST SCENARIOS SHEET GO TO THE "EXECUTE" COLUMN AND GET THE INFORMATION
 			for (int i = 1; i <=tccount; i++) 
 			{
 				tcexeflg=xl.getCellData(xlfile, senariossheet, i, 2);
+				// IF TO BE EXECUTED IS "Y" THEN EXECUTE THE RESPECTIVE TESTCASES
 				if (tcexeflg.equalsIgnoreCase("Y")) 
 				{
 					String tcres="";
 					tcid=xl.getCellData(xlfile, senariossheet, i, 0);
+					/* LOOP TO GO TO EACH AND EVERY ROW OF ALL THE TEST CASES SHEETS */
 					for (int j = 1; j <=tscount ; j++) 
 					{
 						colcount=xl.getCellCount(xlfile, casessheet, j);
 						rowcount=xl.getRowCount(xlfile, casessheet);
 						tstcid=xl.getCellData(xlfile, casessheet, j, 0);
+						/* IF THE ID WHICH IS CAPTURED IN TEST SCENARIO IS EQUAL TO THAT OF THE TEST CASES ID THEN GET THE KEYWORD FOR THE RESPECTIVE TEST CASE ROW */
 						if (tcid.equalsIgnoreCase(tstcid)) 
 						{
 							keyword=xl.getCellData(xlfile, casessheet, j, 4);
 							logger.info("Keyword which is getting exeucted is "+keyword+" whose Test Case ID is "+tcid);
+							/* GO TO RESPECTIVE SWITCH CASE WHICH MATCHES WITH THE KEYWORD WHICH IS SENT FROM EXCEL */
 							switch (keyword.toUpperCase()) 
 							{
+								//LOGIN TO THE APPLICATION
 								case("LOGIN"):
 								{
 									hp.username=xl.getCellData(xlfile, casessheet, j, 5);
@@ -102,6 +113,7 @@ public class ExchangeRate extends LaunchApplication
 									break;
 								}
 								
+								//TO NAVIGATE TO THE MENU WHICH HAS TWO TREE STRUCTURE
 								case("TWOTREE"):
 								{
 									menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -110,6 +122,7 @@ public class ExchangeRate extends LaunchApplication
 									res=menu.menuSelection(menu.menu1, menu.menu2, menu.expname);
 									break;
 								}
+								//TO NAVIGATE TO THE MENU WHICH HAS THREE TREE STRUCTURE 
 								case("THREETREE"):
 								{
 									menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -119,7 +132,7 @@ public class ExchangeRate extends LaunchApplication
 									res=menu.menuSelection(menu.menu1, menu.menu2, menu.menu3, menu.expname);
 									break;
 								}
-									
+								//TO NAVIGATE TO THE MENU WHICH HAS FOUR TREE STRUCTURE	
 								case("FOURTREE"):
 								{
 									menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -132,6 +145,7 @@ public class ExchangeRate extends LaunchApplication
 									
 									
 								}
+								//COMPANY CREATION
 								case("COMPANYCREATION"):
 								{
 									hp.compname=xl.getCellData(xlfile, casessheet, j, 5);
@@ -141,12 +155,13 @@ public class ExchangeRate extends LaunchApplication
 									
 									break;
 								}
-								
+								//LOGOUT FROM APPLICATION
 								case("LOGOUT"):
 								{
 									res=hp.Logout();
 									break;
 								}
+								//TO DELETE THE EXCHANGE RATE DEFINITION
 								case("EXCHRTDELETE"):
 								{
 									erd.exchrateClear();
@@ -155,6 +170,7 @@ public class ExchangeRate extends LaunchApplication
 									xlexrtnames.clear();
 									xlexrtvalues.clear();
 									String value;
+									/* GET ALL THE NAMES AND THE RESPECTIVE VALUES FROM EXCEL AND PERFORM RESPECTIVE ACTIONS */
 									for(int k=startingcolno+3;k<colcount;k++)
 									{
 										while((xl.getCellData(xlfile, casessheet, j, k)+"").length()==0)
@@ -186,6 +202,8 @@ public class ExchangeRate extends LaunchApplication
 									res= erd.exchrateDelete(expmsg);
 									break;
 								}
+								
+								//TO SAVE THE EXCHANGE RATE DEFINITION
 								case("EXCHRTSAVE"):
 								{
 									erd.exchrateClear();
@@ -194,6 +212,7 @@ public class ExchangeRate extends LaunchApplication
 									xlexrtnames.clear();
 									xlexrtvalues.clear();
 									String value;
+									/* GET ALL THE NAMES AND THE RESPECTIVE VALUES FROM EXCEL AND PERFORM RESPECTIVE ACTIONS */
 									for(int k=startingcolno+3;k<colcount;k++)
 									{
 										while((xl.getCellData(xlfile, casessheet, j, k)+"").length()==0)
@@ -239,11 +258,9 @@ public class ExchangeRate extends LaunchApplication
 											xlexrtvalues.add(value);
 											
 										}
-										//logger.info("xlexrtnames.size()-1 "+xlexrtnames.size()+" startingcolno+xlexrtnames.size()-1)) "+startingcolno+ " xlexrtnames "+xlexrtnames);
 										ArrayList<String> xlexrtbodynames=new ArrayList(xlexrtnames.subList(2, xlexrtnames.size()));
 										ArrayList<String> xlexrtbodyvalues=new ArrayList(xlexrtvalues.subList(2, xlexrtvalues.size()));
 										erd.exchRateBody(rowno, xlexrtbodynames, xlexrtbodyvalues);
-										//logger.info("Body details "+xlunitconvheadernames+" "+xlunitconvheadervalues+" xlrow "+xlrowno);
 										xlexrtvalues.clear();
 									}
 									String expmsg;
@@ -260,12 +277,12 @@ public class ExchangeRate extends LaunchApplication
 								}
 							}
 							String tsres=null;
+							/* PRINT EACH TEST CASE RESULT AND ITS RESPECTIVE COLORS */
 							if (res==true) 
 							{
 								tsres="Pass";
 								xl.setCellData(xlfile, casessheet, j, 3, tsres);
 								xl.fillGreenColor(xlfile, casessheet, j, 3);
-								//logger.info("Result which is getting printed for  Test Case ID "+tcid+" is "+tsres);
 							} 
 							else 
 							{
@@ -292,6 +309,7 @@ public class ExchangeRate extends LaunchApplication
 							
 						}
 					}
+					/* IF ANY OF THE TEST CASE WHICH IS LINKED WITH TEST SCENARIO ID IS A FAIL, THEN FAIL THAT RESPECTIVE TEST SCENARIO  AND FILL THE RESPECTIVE COLORS */
 					if(tcres.equalsIgnoreCase("Pass"))
 					{
 						xl.setCellData(xlfile, senariossheet, i, 3, tcres);

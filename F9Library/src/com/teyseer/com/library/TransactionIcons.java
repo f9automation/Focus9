@@ -19,6 +19,7 @@ public class TransactionIcons extends LaunchApplication
 	Menus menu= new Menus();
 
 TransactionHeader th= new TransactionHeader();
+/*
 @Test
 
 	public void newClick() throws InterruptedException 
@@ -39,8 +40,9 @@ TransactionHeader th= new TransactionHeader();
 		driver.quit();
 			
 	  }
-	
+	*/
 
+/* METHOD TO GET ALL THE ICONS AFTER CLICKING ON NEW ICON FROM TRANSACTION AND COMPARING IT WITH THE ONES WHICH ARE SETN AS PARAMETERS FROM EXCEL */
   public boolean newDashboardIcons(String excelname) throws InterruptedException 
   {
 	  Thread.sleep(1000);
@@ -66,6 +68,8 @@ TransactionHeader th= new TransactionHeader();
 	return false;
 	
   }
+  
+  /* METHOD TO GET ALL THE ICON NAMES OF THE TRANSACTION HOME PAGE AND COMPARE IT WITH THE ONES WHICH ARE SENT FROM EXCEL AS PARAMETERS */
   public boolean transactionHomeIcons(String excelname) throws InterruptedException
   {
 

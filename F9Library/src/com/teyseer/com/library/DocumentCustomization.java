@@ -24,6 +24,7 @@ public class DocumentCustomization extends LaunchApplication
 	long slowkeys=250;
 	Menus mp=new Menus();
 	ArrayList<String> bodyfieldnames= new ArrayList();
+	/*
 	@Test
 public void	DocumentCustomization() throws InterruptedException
 	{
@@ -42,6 +43,9 @@ public void	DocumentCustomization() throws InterruptedException
 		//driver.quit();
 	
 	}
+	*/
+	
+/* METHOD TO CLICK ON THE DOCUMENT CUSTOMIZATION OF THE RESPECTIVE VOUCHER WHICH IS SENT FROM EXCEL */	
 public void voucherDocCustomization(String vouchername) throws InterruptedException 
   {
 	wait.until(ExpectedConditions.elementToBeClickable(By.id("ToggleDocCustomIcon")));
@@ -58,7 +62,6 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 	
 	List<WebElement> searchelems=driver.findElements(By.xpath("//div[@id='docCustomizationUL']/div/li"));
 	int listno=0;
-	//logger.info("sie of serach elemes "+searchelems.size());
 	for(int i=0;i<searchelems.size();i++)
 	{
 		if(vouchername.equalsIgnoreCase(searchelems.get(i).getText()))
@@ -74,6 +77,8 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 	wait.until(ExpectedConditions.attributeToBe(driver.findElement(By.cssSelector("section[id='mainDiv']")), "style", "pointer-events: auto;"));
 	
   }
+
+/* METHOD TO CLICK ON THAT PARTICULAR TAB WHICH IS SENT FROM EXCEL AS A PARAMETER */
   public void voucherTabs(String tabname) throws InterruptedException
   {
 	 List<WebElement> tabs=driver.findElements(By.cssSelector("ul[id='navigationTabs'] li"));
@@ -117,6 +122,8 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 	  }
 	  
   }
+  
+  /* METHOD TO GET ALL THE LABEL NAMES OF THE EDIT SCREEN BODY FIELDS  */
   public void getEditScreenBodyFieldnames() throws InterruptedException
   {
 	  wait.until(ExpectedConditions.attributeToBe(driver.findElement(By.cssSelector("section[id='mainDiv']")), "style", "pointer-events: auto;"));
@@ -125,7 +132,7 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 	  driver.findElement(By.cssSelector("#editScreen_tabContent > div:nth-child(2) > span:nth-child(1)")).click();
 	  wait.until(ExpectedConditions.attributeToBe(driver.findElement(By.cssSelector("section[id='mainDiv']")), "style", "pointer-events: auto;"));
 	  List<WebElement> rows=driver.findElements(By.xpath("//div[@id='editScreen_FieldsCustomization_FieldDetails']/div"));
-	 // logger.info("No of rows "+rows.size());
+	  //GO TO EACH ROW AND GET ALL THE LABEL NAMES AND STORE IT INTO AN ARRAYLIST
 	  for(int row=1;row<rows.size();row++)
 	  {
 
@@ -140,6 +147,7 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 	  }
 	  logger.info("Body field names"+bodyfieldnames);
   }
+  /* METHOD TO GET THE TAB NAMES OF THE EDIT SCREEN TAB AND CLICK ON THE RESPECTIVE HEADER/BODY TAB WHICH IS SENT FROM EXCEL */
   public void editScreenTabs(String tabname)
   {
 	 if(tabname.equalsIgnoreCase("Body"))
@@ -156,6 +164,7 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 		 wait.until(ExpectedConditions.attributeToBe(driver.findElement(By.cssSelector("section[id='mainDiv']")), "style", "pointer-events: auto;"));
 	 }
   }
+  /* METHOD TO ENTER DATA TO EDIT SCREEN BODY FIELD BY SENDING LABEL NAMES AND ITS RESPECTIVE VALUES AS PARAMETERS */
   public void  addEditScreenBodyField(ArrayList excelfieldnames, ArrayList excelfieldvalues) throws InterruptedException
   {
 	  List<WebElement> rows=driver.findElements(By.xpath("//div[@id='editScreen_FieldsCustomization_FieldDetails']/div"));
@@ -170,6 +179,7 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 	  excelvalues.addAll(excelfieldvalues);
 	  WebElement label;
 	  int chckbboxrow=1;
+	  /* GO TO EACH ROW AND GET THE LABEL NAMES AND COMPARE IT WITH THE EXCEL LABEL NAMES */
 	  rowloop:
 		  for(int row=1;row<rows.size();row++)
 		  {
@@ -193,6 +203,8 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 					  excellist: 
 						  for(String excelattribute : excelattribs) 
 					       {
+							  /* IF THE LABEL NAME WHICH IS SENT FROM EXCEL EQUALS TO THE ONE WHICH IS FROM THE APPLICATION */
+							  
 								if(labelname.equalsIgnoreCase(excelattribute))
 								{
 									if(unmodifiedexcelattribs.indexOf(labelname)>=0)
@@ -207,7 +219,7 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 										bodyelem.click();
 										Thread.sleep(1000);
 										Actions act=new Actions(driver);
-										/* code if there are  multi checkboxes in arow*/
+										/* CODE IF THERE ARE MULTIPLE CHECK BOXES IN A ROW */
 										if((li1.get(0).getAttribute("class").startsWith("Fcheckbox"))&&(li1.get(0).getAttribute("class").startsWith("Fcheckbox")))
 										{
 											chckbboxrow++;
@@ -229,6 +241,7 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 										logger.info("Field name "+labelname+" , type "+labeltype+" , class "+labelclass+" , placeholder "+labelplaceholder);
 										try
 										{
+											//IF IT IS A FORMULA CONTROL
 											if(labelplaceholder.equalsIgnoreCase("Formulacontrol"))
 											{
 												List<WebElement> formuladialoglist= driver.findElements(By.cssSelector("div[class='pull-right'] button"));
@@ -257,8 +270,7 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 											
 											else
 											{
-												//logger.info("else loop");
-												
+												//IF IT IS A POST TO ACCOUNT FIELD
 												if(labelname.equalsIgnoreCase("Post to Account"))
 												{
 													WebElement ele=driver.findElement(By.id("editScreen_FieldsCustomization_chkPostToAcc"));
@@ -270,6 +282,7 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 														}
 													}
 												}
+												//IF IT IS A TEXT FIELD
 												if(((labeltype.equalsIgnoreCase("text"))&&((labelclass.equalsIgnoreCase("Ftxtbox-M"))||(labelclass.equalsIgnoreCase("Ftxtbox"))||(labelclass.equalsIgnoreCase("Ftxtbox text-right")))))
 												{
 													
@@ -279,6 +292,7 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 													act.build().perform();
 													
 												}
+												// IF IT IS A NUMBER FIELD
 												if(labeltype.equalsIgnoreCase("number"))
 												{
 													act.moveToElement(bodyelem).perform();
@@ -286,6 +300,7 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 													act.sendKeys(value);
 													act.build().perform();
 												}
+												//IF IT IS A SELECT FIELD 
 												if(labeltype.equalsIgnoreCase("select-one"))
 												{
 													logger.info("inside select method of else loopp");
@@ -302,6 +317,7 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 									        				}
 													}
 												}
+												//IF IT IS A CHECKBOX FIELD
 												if(labeltype.equalsIgnoreCase("checkbox"))
 												{
 													WebElement selectelement=driver.findElement(By.cssSelector("div[id='editScreen_FieldsCustomization_FieldDetails'] div:nth-of-type("+row+") input"));
@@ -325,16 +341,13 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 											  logger.info("Pointing null ");
 											  if(labeltype.equalsIgnoreCase("select-one"))
 												{
-													//logger.info("inside select method");
 													WebElement selectelement=driver.findElement(By.cssSelector("div[id='editScreen_FieldsCustomization_FieldDetails'] div:nth-of-type("+row+") select"));
 													Select dropdown= new Select(selectelement);
 													List<WebElement> list = dropdown.getOptions();
-													//logger.info("list elems size "+list.size());
 													for(int selectelem=0; selectelem<list.size();selectelem++)
 													{
 														String listelements = list.get(selectelem).getText();
-														//logger.info("list elemes "+listelements);
-									        			if(listelements.contains(value))
+														if(listelements.contains(value))
 									        				{
 									        					list.get(selectelem).click();
 									        				}
@@ -352,6 +365,7 @@ public void voucherDocCustomization(String vouchername) throws InterruptedExcept
 			  
 		  		}
   	}
+  /* METHOD TO SAVE BODY FIELD DATA  */
   public void saveBodyField()
   {
 	 wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#editScreen_FieldsCustomization_btns > span:nth-child(1)"))); 

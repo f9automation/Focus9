@@ -32,7 +32,7 @@ public class PreferencesHomePage extends LaunchApplication
 	public String preflist = "" ;
 	public String screentitle="";
 	public String actmsg;  
-	
+	/*
 	@Test
 	public void login() throws InterruptedException 
 	{ 
@@ -41,7 +41,7 @@ public class PreferencesHomePage extends LaunchApplication
 		  res=menu.menuSelection("Settings", "Configure Transactions", "fgsdfg");
 		  String prefitems="Tags ,Accounts  ,Budgets  ,AR/AP  ,Miscellaneous  ,PDC ,Inventory  ,Batch  ,RMA  ,Bins  ,Hire Purchase  ,Quotation Analysis  ,RFID  ,Auto Indent  ,ABC Analysis ,Print ,Internet  ,Mail Settings ,Masters ,External Modules ,Info ,Production ,Fixed Assets ,VAT ,POS ,Warehouse Management ,Letter of Credit";
 		  res=comparePreferenceItems(prefitems);
-		  /*
+		  
 		  res=clickPreference("Tags");
 		  ArrayList<String> labels=new ArrayList(Arrays.asList("Accounting", "Payroll site", "Payroll cost center", "Inventory"));
 		  ArrayList<String> values=new ArrayList(Arrays.asList("Department", "", "Tax Code", "Capacity"));
@@ -71,15 +71,16 @@ public class PreferencesHomePage extends LaunchApplication
 		 ArrayList<String> labels=new ArrayList(Arrays.asList("Post Dated Cheques", "Display in ledgers and trial balance", "PDC Discounted Account"));
 		 ArrayList<String> values=new ArrayList(Arrays.asList("true", "Display in ledgers and trial balance", "Loan from associate company"));
 		  pdcData(labels, values);
-		  Thread.sleep(3000);*/
+		  Thread.sleep(3000);
 		  res=clickPreference("Inventory");
 		  Thread.sleep(3000);
 		  inventoryData();
 		  driver.quit();
 		 
 	
-	}
-
+	}*/
+	
+	/* METHOD TO GET ALL THE PREFERENCES LIST */
 	public void prefernceItemsList()
 	{
 		ArrayList<String> preflistelems=new ArrayList();
@@ -105,6 +106,8 @@ public class PreferencesHomePage extends LaunchApplication
 		}
 		preflist=preflist.substring(0, preflist.length()-2);
 	}
+	
+	/* METHOD TO COMPARE PREFERENCE ITEMS LIIST BY PASSING THE PREFERNCES LIST FROM EXCEL AS PARAMETERS */
 	public boolean comparePreferenceItems(String xlpreflist)
 	{
 		prefernceItemsList();
@@ -117,6 +120,7 @@ public class PreferencesHomePage extends LaunchApplication
 		
 	}
 	
+	/* METHOD TO CLICK PREFERENCE ITEM BY PASSING THE ITEM TO BE CLICKED AS A PARAMETER FROM EXCEL */
 	public boolean clickPreference(String xlprefitem) 
 	{
 		prefernceItemsList();
@@ -146,7 +150,7 @@ public class PreferencesHomePage extends LaunchApplication
 		return false;
 		
 	}
-	
+	/* METHOD TO CLOSE PREFERENCE SCREEN */
 	public boolean closeScreen() throws InterruptedException
 	{
 		wait.until(ExpectedConditions.attributeToBe(driver.findElement(By.cssSelector("section[id='mainDiv']")), "style", "pointer-events: auto;"));
@@ -167,6 +171,8 @@ public class PreferencesHomePage extends LaunchApplication
 		  }
 		return false;
 	}
+	
+	/* METHOD TO ENTER DATA BY PASSING THE LABEL NAMES AND THE RESPECTIVE VALUES AS PARAMETERS FROM EXCEL */
 	public void tagsDataEntry(ArrayList<String> xllabels, ArrayList<String> xlvalues) throws Exception
 	{
 		
@@ -206,6 +212,7 @@ public class PreferencesHomePage extends LaunchApplication
 		}
 	}
 	
+	/* METHOD TO UPDATE PREFERENCES BY PASSING THE EXPECTED MESSAGE AS PARAMETER FROM EXCEL */
 	public boolean updatePreferences(String expmsg) throws InterruptedException
 	{
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("updateButton")));
@@ -260,8 +267,26 @@ public class PreferencesHomePage extends LaunchApplication
 		return false;
 		
 	}
-	
-	public void checkboxSelection(WebElement radioelem, String xlvalue) throws InterruptedException
+	/* METHOD TO SELECT ELEMENT WHICH IS A CHECKBOX ELEMENT BY PASSING THE LABEL NAME AND ITS VALUE AS PARAMETERS */
+	public void checkboxSelection(WebElement checkboxelem, String xlvalue) throws InterruptedException
+	{
+		if(xlvalue.equalsIgnoreCase("true"))
+		{
+			if(!(checkboxelem.isSelected()))
+			{
+				Thread.sleep(1000);
+				Actions action=new Actions(driver);
+				Action actionslist=action.
+				moveToElement(checkboxelem).click()
+				.build();
+				actionslist.perform();
+				Thread.sleep(3000);
+				
+			}
+		}
+	}
+	/* METHOD TO SELECT ELEMENT WHICH IS A RADIO ELEMENT BY PASSING THE LABEL NAME AND ITS VALUE AS PARAMETERS */
+	public void radioSelection(WebElement radioelem, String xlvalue) throws InterruptedException
 	{
 		if(xlvalue.equalsIgnoreCase("true"))
 		{
@@ -270,30 +295,15 @@ public class PreferencesHomePage extends LaunchApplication
 				Thread.sleep(1000);
 				Actions action=new Actions(driver);
 				Action actionslist=action.
-				moveToElement(radioelem).click()
-				.build();
-				actionslist.perform();
-				Thread.sleep(3000);
-				
-			}
-		}
-	}
-	public void radioSelection(WebElement chckboxelem, String xlvalue) throws InterruptedException
-	{
-		if(xlvalue.equalsIgnoreCase("true"))
-		{
-			if(!(chckboxelem.isSelected()))
-			{
-				Thread.sleep(1000);
-				Actions action=new Actions(driver);
-				Action actionslist=action.
-				moveToElement(chckboxelem).doubleClick()
+				moveToElement(radioelem).doubleClick()
 				.build();
 				actionslist.perform();
 				Thread.sleep(3000);
 			}
 		}
 	}
+	
+	/* METHOD TO ENTER DATA TO ACCOUNTS TAG BY PASSING LABEL NAMES AND ITS VALUES AS PARAMETES FROM EXCEL */
 	public void accountsData(ArrayList<String> xllabels, ArrayList<String> xlvalues) throws InterruptedException
 	{
 		List<WebElement> groups=driver.findElements(By.xpath("//div[@id='dvAccount']/div"));
@@ -308,7 +318,6 @@ public class PreferencesHomePage extends LaunchApplication
 				WebElement label=driver.findElement(By.xpath("//div[@id='dvAccount']/div["+grp+"]/div["+row+"]"));
 				WebElement child = label;
 				String style=child.getAttribute("textContent").trim();
-				//logger.info("sty "+style);
 				if(style.equalsIgnoreCase("General Info"))
 				{
 					//logger.info("this is style loop");
@@ -446,6 +455,7 @@ public class PreferencesHomePage extends LaunchApplication
 		}
 		
 	}
+	/* METHOD TO ENTER DATA TO BUDGET TAG BY PASSING LABEL NAMES AND ITS VALUES AS PARAMETES FROM EXCEL */
 	public void budgetData(ArrayList<String> xllabels, ArrayList<String> xlvalues) throws InterruptedException
 	{
 		logger.info("xl labels are "+xllabels +" & values are "+xlvalues);
@@ -553,6 +563,7 @@ public class PreferencesHomePage extends LaunchApplication
 		}
 	}
 
+	/* METHOD TO ENTER DATA TO AR/AP TAG BY PASSING LABEL NAMES AND ITS VALUES AS PARAMETES FROM EXCEL */
 	public void aRAPData(ArrayList<String> xllabels, ArrayList<String> xlvalues) throws InterruptedException
 	{
 		List<WebElement> grps=driver.findElements(By.xpath("//div[@id='dvARAP']/div"));
@@ -702,7 +713,7 @@ public class PreferencesHomePage extends LaunchApplication
 				}
 			}
 		}
-	
+	/* METHOD TO ENTER DATA TO MISCELLANEOUS TAG BY PASSING LABEL NAMES AND ITS VALUES AS PARAMETES FROM EXCEL */
 	public void miscellaneousData(ArrayList<String> xllabels, ArrayList<String> xlvalues) throws InterruptedException
 	{
 		List<WebElement> grps=driver.findElements(By.xpath("//div[@id='dvMisc']/div"));
@@ -799,6 +810,7 @@ public class PreferencesHomePage extends LaunchApplication
 			}
 		}
 	}
+	/* METHOD TO ENTER DATA TO PDC TAG BY PASSING LABEL NAMES AND ITS VALUES AS PARAMETES FROM EXCEL */
 	public void pdcData(ArrayList<String> xllabels, ArrayList<String> xlvalues) throws InterruptedException
 	{
 		WebElement mainele=driver.findElement(By.xpath("//div[@id='dvPDC']/div"));
@@ -872,6 +884,7 @@ public class PreferencesHomePage extends LaunchApplication
 		
 	}
 	
+	/* METHOD TO ENTER DATA TO INVENTORY TAG BY PASSING LABEL NAMES AND ITS VALUES AS PARAMETES FROM EXCEL */
 	public void inventoryData() throws InterruptedException
 	{
 		List<WebElement> totgrps=driver.findElements(By.xpath("//div[@id='dvInventory']/div"));

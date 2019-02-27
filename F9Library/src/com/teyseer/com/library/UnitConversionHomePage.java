@@ -51,10 +51,11 @@ public class UnitConversionHomePage extends LaunchApplication
 			
 	  }
  */
+	 
+	 /* METHOD TO ENTER DATA TO UNIT CONVERSION HEADER TAB BY PASSING LABEL NAMES AND ITS VALUES AS PARAMETERS FROM EXCEL */
   public void unitConvHeaderDetails(ArrayList labelnames, ArrayList labelvalues) throws InterruptedException 
   {
-	  //logger.info("Label names "+labelnames +" label values "+labelvalues);
-	  headernames.clear(); 
+	 headernames.clear(); 
 	  ArrayList<String> headerlabelnames=new ArrayList();
 	  ArrayList<String> xlnames=new ArrayList();
 	  xlnames.addAll(labelnames);
@@ -62,8 +63,7 @@ public class UnitConversionHomePage extends LaunchApplication
 	  xlvalues.addAll(labelvalues);
 	  wait.until(ExpectedConditions.attributeToBe(driver.findElement(By.cssSelector("section[id='mainDiv']")), "style", "pointer-events: auto;"));
 	  List<WebElement> headers=driver.findElements(By.xpath("//*[@id='page_Content']/div[2]/div[1]/div"));
-	  logger.info("Headers "+headers.size());
-	  int elemid;
+	 int elemid;
 	  for(String xlname: xlnames)
 		  Labelloop:
 	  for(int i=1;i<=headers.size();i+=2)
@@ -71,8 +71,7 @@ public class UnitConversionHomePage extends LaunchApplication
 		  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='page_Content']/div[2]/div[1]/div["+i+"]/label")));
 		  WebElement headerelem=driver.findElement(By.xpath("//*[@id='page_Content']/div[2]/div[1]/div["+i+"]/label"));
 		  String headerelement=headerelem.getText();
-		  //logger.info("Head "+headerelement);
-		  headernames.add(headerelement);
+		 headernames.add(headerelement);
 		  elemid=i+1;
 		  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='page_Content']/div[2]/div[1]/div["+elemid+"]")));
 		  if(xlname.equalsIgnoreCase(headerelement))
@@ -104,11 +103,12 @@ public class UnitConversionHomePage extends LaunchApplication
 			}
 		  
 	  }
-	  //logger.info("total header elems "+headernames);
 	  Thread.sleep(1000);
 	  
 	  
   }
+  
+  /* METHOD TO ENTER DATA TO UNIT CONVERSION BODY TAB BY PASSING LABEL NAMES AND ITS VALUES, ROW NO AS PARAMETERS FROM EXCEL */
  public void unitConvBodyDetails(ArrayList<String> xlnames, ArrayList<String> xlvalues, String xlrowno, boolean togetxlrow ) throws InterruptedException
  {
 	
@@ -207,6 +207,8 @@ public class UnitConversionHomePage extends LaunchApplication
 		}
 	}
  }
+ 
+ /* METHOD TO SAVE UNIT CONVERSION BY PASSING THE EXPECTED MESSAGE AS PARAMETER FROM EXCEL */
  public boolean unitConvSave(String expmsg)
  {
 	 try
@@ -221,7 +223,7 @@ public class UnitConversionHomePage extends LaunchApplication
 		    		{
 		    			//logger.info("Yes displayed with i value "+" txt "+popups.getAttribute("text content"));
 		    			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")));
-		    	 		String actmsg2=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).getText();
+		    	 		actmsg=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).getText();
 		    	 		//logger.info("Actmsg "+actmsg);
 		    			driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[3]")).click();
 		    		}
@@ -250,7 +252,7 @@ public class UnitConversionHomePage extends LaunchApplication
 		    			//logger.info("Yes displayed with i value "+" txt "+popups.getAttribute("text content"));
 		    			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")));
 		    	 		actmsg=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).getText();
-		    	 		//logger.info("Actmsg "+actmsg);
+		    	 		logger.info("Actmsg "+actmsg);
 		    			driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[3]")).click();
 		    		}
 		    	 
@@ -269,6 +271,7 @@ public class UnitConversionHomePage extends LaunchApplication
 	return false;
 	 
  }
+ /* METHOD TO CLEARE UNIT CONVERSION DATA */
  public void unitConvClear() throws InterruptedException
  {
 	 wait.until(ExpectedConditions.attributeToBe(driver.findElement(By.cssSelector("section[id='mainDiv']")), "style", "pointer-events: auto;"));
@@ -278,6 +281,8 @@ public class UnitConversionHomePage extends LaunchApplication
 	 //wait.until(ExpectedConditions.textToBePresentInElementValue(driver.findElement(By.id("optionBaseUnit")).getAttribute("data-focustext"), ""));
 	 Thread.sleep(1000);
  }
+ 
+ /* METHOD TO DELETE UNIT CONVERSION */
  public boolean unitConvDelete(String expmsg)
  {
 	 
@@ -286,6 +291,7 @@ public class UnitConversionHomePage extends LaunchApplication
 	    {
 		  /* TO VERIFY IF ANY GLOBAL ID IS DISPLAYING AND CLOSE THEM*/
 		  	List<WebElement> globalidlist=driver.findElements(By.cssSelector("div[id='idGlobalError'] div, div[id='idGlobalError']"));
+		  	logger.info("globalist "+globalidlist.size());
 			if(globalidlist.size()>1)
 			  {
 				WebElement popups=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[*]"));
@@ -293,9 +299,6 @@ public class UnitConversionHomePage extends LaunchApplication
 		    	{
 		    		if(popups.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).isDisplayed())
 		    		{
-		    			//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")));
-		    	 		//String actmsg2=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")).getText();
-		    	 		//logger.info("Actmsg2 "+actmsg2);
 		    			driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).click();
 		    		}
 		    	 
@@ -327,20 +330,21 @@ public class UnitConversionHomePage extends LaunchApplication
 	    {
 		  /* TO VERIFY IF ANY GLOBAL ID IS DISPLAYING*/
 		  	List<WebElement> globalidlist=driver.findElements(By.cssSelector("div[id='idGlobalError'] div, div[id='idGlobalError']"));
-			//logger.info("globalid list size "+globalidlist.size());
-		  	WebElement popups=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[*]"));
-		    	for(int i=3; i<=7; i++)
-		    	{
-		    		if(popups.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).isDisplayed())
+			logger.info("globalid list size "+globalidlist.size());
+			if(globalidlist.size()>=1)
+			  {
+				WebElement popups=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div"));
+		    	if(popups.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).isDisplayed())
 		    		{
-		    			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")));
-		    	 		actmsg=driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td[2]")).getText();
-		    	 		//logger.info("Actmsg for del is  "+actmsg);
-		    			driver.findElement(By.xpath("/html/body/section/div[4]/div/table/tbody/tr/td["+i+"]/span")).click();
+		    			//logger.info("Yes displayed with i value "+" txt "+popups.getAttribute("text content"));
+		    			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")));
+		    	 		actmsg=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).getText();
+		    	 		logger.info("Actmsg "+actmsg);
+		    			driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[3]")).click();
 		    		}
 		    	 
-		    	}
-			
+		    	
+			  }
 	     }
 	     catch(Exception e1)
 	     {
@@ -354,6 +358,7 @@ public class UnitConversionHomePage extends LaunchApplication
 	
 	 return false;
  }
+ /* METHOD TO CLOSE UNIT CONVERSION */
  public boolean unitConvClose()
  {
 	 wait.until(ExpectedConditions.attributeToBe(driver.findElement(By.cssSelector("section[id='mainDiv']")), "style", "pointer-events: auto;"));
@@ -364,7 +369,9 @@ public class UnitConversionHomePage extends LaunchApplication
 	 {
 	  if(driver.findElement(By.xpath("//*[@id='dashName']")).isDisplayed())
 	  {
+		  logger.info("true");
 		  return true;
+		  
 	  } 
 	 }
   	catch(Exception e)
@@ -374,6 +381,8 @@ public class UnitConversionHomePage extends LaunchApplication
 return false;
 	 
  }
+ 
+ /* METHOD TO CLICK ON LOAD FROM AND COMPARE THE RESPECTIVE VALUES WHICH ARE LOADED BY PASSING THE LABEL NAMES AND ITS VALUES AS PARAMETERS  */
  public boolean checkUnitConvLoadFrom(ArrayList xlheadernames, ArrayList xlheadervalues) throws InterruptedException
  {
 	ArrayList<String> unmodifiedxlheadervalues=new ArrayList(xlheadervalues);
@@ -421,6 +430,7 @@ return false;
 	 
  }
 
+ /* METHOD TO GET THE RESPECTIVE VALUES BY CLICKING ON LOAD FROM  */
 public void getUnitConvLoadFromData() throws InterruptedException
  {
 	 List<WebElement> bodyrows=driver.findElements(By.xpath("//div[@id='mytableUnitConversion']/table[@id='myTagsTable']/tbody[@id='myTagsTable_body']/tr"));
@@ -462,8 +472,5 @@ public void getUnitConvLoadFromData() throws InterruptedException
 		 }
 		rowcolmap.put(row, cellsdata);
 	}
-	//logger.info("rowcolmap "+rowcolmap);
-	//return rowcolmap;
-	 
- }
+	}
 }

@@ -40,7 +40,6 @@ public class Masters extends LaunchApplication
 	int voucherrowno;
 	HomePage hp = new HomePage();
 	Menus menu=new Menus();
-	//MasterActions ms = new MasterActions();
 	MasterHomePage mhp = new MasterHomePage();
 	TransactionHeader trh=new TransactionHeader();
 	TransactionBody trb=new TransactionBody();
@@ -50,6 +49,7 @@ public class Masters extends LaunchApplication
 	MasterData md=new MasterData();
 	HomePageClose hpc=new HomePageClose();
 	UserCreation uc=new UserCreation();
+	/* METHOD TO GET ALL THE EXCEL FILE NAMES WHICH NEED TO BE EXECUTED BY PASSING THE FILE NAME AS PARENTXLFILE PARAMETER */
 	@Parameters({ "parentxlfile" })
 	@Test (priority=1)
 	public void Masters(String parentxlfile) throws IOException 
@@ -71,6 +71,7 @@ public class Masters extends LaunchApplication
 	 logger.info("Workbook's of Masters which need to be executed are "+xlnames);
 		 for(String xlname: xlnames)
 		 {
+			//ORDER OF THE KEYWORDS WHICH NEED TO BE EXEUCTED W.R.T TRANSACTIONS
 			 ArrayList<String> keywordorder=new ArrayList<String>(Arrays.asList("VOUCHERWORKFLOW","VOUCHERHEADERDATA", "VOUCHERBODYDATA", "VOUCHERFOOTERDATA", "VOUCHERSAVE", "NEWREFERENCE SAVE"));
 			 ArrayList<String> actkeywords=new ArrayList<String>();
 			 String xlfile="\\\\DESKTOP-C918GTA\\Keywords\\Automation Test Cases\\"+xlname;
@@ -86,30 +87,37 @@ public class Masters extends LaunchApplication
 			 int rowcount;
 			 String tcexeflg,tcid,tstcid,keyword;
 			 boolean res=false;
+			//LOOP TO GO TO EACH SHEET OF THE EXCEL WORKBOOK
 			 for(int sh=1; sh<shcount; sh++)
 			 {
 				 casessheet=wb.getSheetName(sh);
 				 logger.info("Executing Workbook sheet "+casessheet+" of Workbook "+xlfile);
 				 tccount=xl.getRowCount(xlfile, senariossheet);
 				 tscount=xl.getRowCount(xlfile, casessheet);
+				// FOR THE FIRST SCENARIOS SHEET GO TO THE "EXECUTE" COLUMN AND GET THE INFORMATION
 				 for (int i = 1; i <=tccount; i++) 
 				 {
 					tcexeflg=xl.getCellData(xlfile, senariossheet, i, 2);
+					// IF TO BE EXECUTED IS "Y" THEN EXECUTE THE RESPECTIVE TESTCASES
 					if (tcexeflg.equalsIgnoreCase("Y")) 
 					{
 						String tcres="";
 						tcid=xl.getCellData(xlfile, senariossheet, i, 0);
+						/* LOOP TO GO TO EACH AND EVERY ROW OF ALL THE TEST CASES SHEETS */
 						for (int j = 1; j <=tscount ; j++) 
 						{
 							colcount=xl.getCellCount(xlfile, casessheet, j);
 							rowcount=xl.getRowCount(xlfile, casessheet);
 							tstcid=xl.getCellData(xlfile, casessheet, j, 0);
+							/* IF THE ID WHICH IS CAPTURED IN TEST SCENARIO IS EQUAL TO THAT OF THE TEST CASES ID THEN GET THE KEYWORD FOR THE RESPECTIVE TEST CASE ROW */
 							if (tcid.equalsIgnoreCase(tstcid)) 
 							{
 								keyword=xl.getCellData(xlfile, casessheet, j, 4);
 								logger.info("Keyword which is getting exeucted is "+keyword+" whose Test Case ID is "+tcid);
+								/* GO TO RESPECTIVE SWITCH CASE WHICH MATCHES WITH THE KEYWORD WHICH IS SENT FROM EXCEL */
 								switch (keyword.toUpperCase()) 
 								{
+								//LOGIN TO THE APPLICATION
 								case("LOGIN"):
 								{
 									hp.username=xl.getCellData(xlfile, casessheet, j, 5);
@@ -122,6 +130,7 @@ public class Masters extends LaunchApplication
 									
 									break;
 								}
+								//TO NAVIGATE TO THE MENU WHICH HAS TWO TREE STRUCTURE
 								
 								case("TWOTREE"):
 								{
@@ -131,6 +140,8 @@ public class Masters extends LaunchApplication
 									res=menu.menuSelection(menu.menu1, menu.menu2, menu.expname);
 									break;
 								}
+								//TO NAVIGATE TO THE MENU WHICH HAS THREE TREE STRUCTURE
+								
 								case("THREETREE"):
 								{
 									menu.menu1=xl.getCellData(xlfile, casessheet, j, 5);
@@ -141,6 +152,7 @@ public class Masters extends LaunchApplication
 									res=menu.menuSelection(menu.menu1, menu.menu2, menu.menu3, menu.expname);
 									break;
 								}
+								//TO NAVIGATE TO THE MENU WHICH HAS FOUR TREE STRUCTURE
 									
 								case("FOURTREE"):
 								{
@@ -154,6 +166,7 @@ public class Masters extends LaunchApplication
 									
 									
 								}
+								//COMPANY CREATION
 								case("COMPANYCREATION"):
 								{
 									hp.compname=xl.getCellData(xlfile, casessheet, j, 5);
@@ -164,6 +177,7 @@ public class Masters extends LaunchApplication
 									
 									break;
 								}
+								//CREATE NEW USER
 								case("USERCREATE"):
 								{
 									ArrayList<String> uservalues=new ArrayList();
@@ -182,16 +196,19 @@ public class Masters extends LaunchApplication
 									xl.setCellData(xlfile, casessheet, j, startingcolno+1, uc.actmsg);
 									break;
 								}
+								//TO CLICK ON NEW MASTER
 								case("MASTERNEW"):
 								{
 									res=mhp.masterNew();
 									break;
 								}
+								//TO CLICK ON ADD MASTER GROUP
 								case("MASTERADDGROUP"):
 								{
 									res=mhp.masterAddGroup();
 									break;
 								}
+								//GO TO THE RESPECTIVE NODE WHICH IS PROVIDED 
 								case("MASTERNODE"):
 								{
 									String nodevalues;
@@ -209,6 +226,7 @@ public class Masters extends LaunchApplication
 									mhp.masterNode(nodes);
 									break;
 								}
+								//GET ALL THE LABEL NAMES OF THE MASTER 
 								case("GETMASTERLABELNAMES"):
 								{
 									ArrayList<String> xlattribs = new ArrayList<String>();
@@ -245,6 +263,7 @@ public class Masters extends LaunchApplication
 									}
 									break;
 								}
+								//TO SELECT THE RESPECTIVE MASTER
 								case("MASTERSELECTION"):
 								{
 									String code;
@@ -256,6 +275,7 @@ public class Masters extends LaunchApplication
 									res=mhp.masterSelection(code);
 									break;
 								}
+								//TO DELETE THE PROVIDED MASTER
 								case("MASTERDELETE"):
 								{
 									String expmsg;
@@ -269,6 +289,8 @@ public class Masters extends LaunchApplication
 									break;
 									
 								}
+								
+								//TO ENTER THE PROVIDED MASTER DATA
 								case("MASTERDATA"):
 								{
 									ArrayList<String> xlattribs = new ArrayList<String>();
@@ -301,6 +323,7 @@ public class Masters extends LaunchApplication
 									md.masterdataentry(xlattribs, unmodifiedxlattribs, xlvalues);
 									break;
 								}
+								//TO CLICK ON EDIT OF THE SELECTED MASTER
 								case("MASTEREDIT"):
 								{
 									String code = "";
@@ -313,6 +336,7 @@ public class Masters extends LaunchApplication
 									
 									break;
 								}
+								//TO UPDATE THE RESPECTIVE MASTER
 								case("MASTERUPDATE"):
 								{
 									String expmsg;
@@ -325,6 +349,7 @@ public class Masters extends LaunchApplication
 									xl.setCellData(xlfile, casessheet, j, startingcolno+1, mhp.actmsg);
 									break;
 								}
+								//TO SAVE THE RESPECTIVE MASTER
 								case("MASTERSAVE"):
 								{
 									String expmsg;
@@ -337,11 +362,13 @@ public class Masters extends LaunchApplication
 									xl.setCellData(xlfile, casessheet, j, startingcolno+1, mhp.actmsg);
 									break;
 								}
+								//LOGOUT FROM THE APPLICATION
 								case("LOGOUT"):
 								{
 									res=hp.Logout();
 									break;
 								}
+								//TO CLOSE THE MASTER
 								case("MASTERCLOSE"):
 								{
 									res=mhp.masterClose();
@@ -350,7 +377,7 @@ public class Masters extends LaunchApplication
 								}
 								String tsres=null;
 								
-								
+								/* PRINT EACH TEST CASE RESULT AND ITS RESPECTIVE COLORS */
 								if (res==true) 
 								{
 									tsres="Pass";
@@ -384,6 +411,7 @@ public class Masters extends LaunchApplication
 								
 							}
 						}
+						/* IF ANY OF THE TEST CASE WHICH IS LINKED WITH TEST SCENARIO ID IS A FAIL, THEN FAIL THAT RESPECTIVE TEST SCENARIO  AND FILL THE RESPECTIVE COLORS */
 						if(tcres.equalsIgnoreCase("Pass"))
 						{
 							xl.setCellData(xlfile, senariossheet, i, 3, tcres);

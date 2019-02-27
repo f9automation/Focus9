@@ -23,7 +23,8 @@ public class CurrencyMasterHomePage extends LaunchApplication
 	Menus mp=new Menus();
 	 long slowkeys=500;
 	 String actmsg;
-  @Test
+  /*
+@Test
   public void login() throws InterruptedException
   {
 	  hp.LoginApp("su", "su", "A0407");
@@ -42,6 +43,8 @@ public class CurrencyMasterHomePage extends LaunchApplication
 		Thread.sleep(3000);
 		driver.quit();
   }
+  */
+	 /* METHOD TO ENTER DATA INTO CURRENCY DETAILS TAB BY PROVIDING LABEL NAMES AND ITS VALUES AS ARRAYLIST FROM EXCEL */
   public void currencyDetails(ArrayList<String> xllabelnames , ArrayList<String> xllabelvalues) throws InterruptedException 
   {
 	  ArrayList<String> currencyDet=new ArrayList(Arrays.asList("General Round Off", "Currency Unit", "Currency SubUnit", "Connector", "Rounding Type"));
@@ -54,7 +57,6 @@ public class CurrencyMasterHomePage extends LaunchApplication
 	  {
 		 if(currencyDet.contains(val))
 		 {
-			 //logger.info("index "+xllabelnames.indexOf(val));
 			 toremoveindicies.add(xllabelnames.indexOf(val));
 			 
 		 }
@@ -64,12 +66,11 @@ public class CurrencyMasterHomePage extends LaunchApplication
 		  labelvalues.set(ind, "null");
 	  }
 	  labelvalues.removeAll(Arrays.asList("null"));
-	 // labelvalues.removeAll(labelnames.indexOf("General Round Off", "Currency Unit", "Currency SubUnit", "Connector", "Rounding Type"));
 	  labelnames.removeAll(Arrays.asList("General Round Off", "Currency Unit", "Currency SubUnit", "Connector", "Rounding Type"));
-	  
 	  logger.info("labelnames are "+labelnames);
 	  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//fieldset[@class='clsFieldset']")));
 	  driver.findElement(By.xpath("//fieldset[@class='clsFieldset']"));
+	  /* GO TO EACH ROW OF CURRENCY LABELS SECTION AND GET ALL THE LABEL NAMES */
 	  List<WebElement> totrows=driver.findElements(By.xpath("//fieldset[@class='clsFieldset']/div/div"));
 	  int col;
 	  String value;
@@ -89,12 +90,13 @@ public class CurrencyMasterHomePage extends LaunchApplication
 					  col=c+1;
 					  if(!(labelname.startsWith("var")))
 					  {
+						  /* IF THE LABEL NAME WHICH IS SENT FROM EXCEL EQUALS TO THE ONE WHICH IS CAPTURED FROM APPLICATION */
 						 if(labelname.equalsIgnoreCase(xllabelname))
 						  {
 							 wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//fieldset[@class='clsFieldset']/div[1]/div["+r+"]/div["+col+"]")));
 							 WebElement elem=driver.findElement(By.xpath("//fieldset[@class='clsFieldset']/div[1]/div["+r+"]/div["+col+"]"));
 							 elem.click();
-							
+							//THEN SEND THE RESPECTIVE VALUES TO THE APPLICATION
 							  try
 							  {
 								  value= labelvalues.get(labelnames.indexOf(labelname));
@@ -133,6 +135,8 @@ public class CurrencyMasterHomePage extends LaunchApplication
 	  }
 	  
   }
+  
+  /* METHOD TO ENTER DATA TO ROUNDINF OFF DETAILS SECTION BY SENDING LABEL NAMES AND ITS RESPECTIVE VALUES AS ARRAYLIST FROM EXCEL */
   public void roundingOffDetails(ArrayList<String> xllabelnames, ArrayList<String> xllabelvalues) throws InterruptedException
   {
 	  ArrayList<String> roundOffDet=new ArrayList(Arrays.asList("ISO Currency Code", "Symbol","Coins Name", "No Of Decimals"));
@@ -156,9 +160,7 @@ public class CurrencyMasterHomePage extends LaunchApplication
 	  }
 	  labelvalues.removeAll(Arrays.asList("null"));
 	  labelnames.removeAll(Arrays.asList("ISO Currency Code", "Symbol","Coins Name", "No Of Decimals"));
-	  //logger.info("xllabelnames "+labelnames);
-	  
-	  try
+	 try
 	  {
 		  driver.switchTo().alert().accept();
 	  }
@@ -169,6 +171,7 @@ public class CurrencyMasterHomePage extends LaunchApplication
 	  }
 	  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='currencyMasterWidth']/div[1]/div[1]")));
 	  List<WebElement> totrows=driver.findElements(By.xpath("//*[@id='currencyMasterWidth']/div[1]/div[1]/div"));
+	 /* GO TO EACH ROW OF THE ROUNDING OFF DETAILS SECTION AND GET THE LABEL NAMES AND COMPARE EACH OF IT WITH THE NAME WHICHI IS SENT FROM EXCEL */
 	  for(String xllabelname: labelnames)
 	  {
 		  for(int r=1;r<=totrows.size();r++)
@@ -186,14 +189,15 @@ public class CurrencyMasterHomePage extends LaunchApplication
 				  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='currencyMasterWidth']/div[1]/div[1]/div["+r+"]/div["+c+"]/label")));
 				  WebElement label=driver.findElement(By.xpath("//*[@id='currencyMasterWidth']/div[1]/div[1]/div["+r+"]/div["+c+"]/label"));
 				  String labelname=label.getAttribute("textContent");
+				  //IF THE NAME WHICH IS CAPTURED FROM APPLICATION EQUALS TO THE ONE WHIH IS SENT FROM EXCEL
 				  if(labelname.equalsIgnoreCase(xllabelname))
 				  {
 					  int col=c+1;
-					 // logger.info("labelvalues "+labelvalues+" labelnames.indexOf(labelname) " +labelnames.indexOf(labelname));
-					  String value=labelvalues.get(labelnames.indexOf(labelname));
+					 String value=labelvalues.get(labelnames.indexOf(labelname));
 					  WebElement child= driver.findElement(By.xpath("//*[@id='currencyMasterWidth']/div[1]/div[1]/div["+r+"]/div["+col+"]"));
 					  Thread.sleep(1000);
 					  WebElement followingSibling = child.findElement(By.xpath(".//*"));
+					  //IF IT IS A SELECT FIELD
 					  if(followingSibling.getTagName().equalsIgnoreCase("select"))
 					  {
 						  WebElement mySelectElement =driver.findElement(By.xpath("//*[@id='currencyMasterWidth']/div[1]/div[1]/div["+r+"]/div["+col+"]/select"));
@@ -203,6 +207,7 @@ public class CurrencyMasterHomePage extends LaunchApplication
 					      for(int li=0; li<list.size(); li++) 
 					      {
 					    	  String optionName = list.get(li).getText();
+					    	  //IF THE SELECTION OPTION EQUALS TO THAT OF THE VALUE WHICH IS SENT FROM EXCEL THEN SELECT IT
 					    	  if(value.equalsIgnoreCase(optionName))
 					    	  {
 					    		  list.get(li).click();
@@ -211,6 +216,8 @@ public class CurrencyMasterHomePage extends LaunchApplication
 					    	  }
 					    	}
 					  }
+					  
+					  //ELSE SEND THE RESPECTIVE VALUE TO THAT FIELD 
 					  else
 					  {
 						  WebElement elem= driver.findElement(By.xpath("//*[@id='currencyMasterWidth']/div[1]/div[1]/div["+r+"]/div["+col+"]"));
@@ -230,6 +237,8 @@ public class CurrencyMasterHomePage extends LaunchApplication
 		  }
 	  }
   }
+  
+  /* METHOD TO SAVE CURRENCY */
   public void saveCurrency()
   {
 	  wait.until(ExpectedConditions.elementToBeClickable(By.id("btnSave")));
@@ -244,7 +253,6 @@ public class CurrencyMasterHomePage extends LaunchApplication
 				WebElement popups=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div"));
 		    	if(popups.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).isDisplayed())
 		    		{
-		    			//logger.info("Yes displayed with i value "+" txt "+popups.getAttribute("text content"));
 		    			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")));
 		    	 		actmsg=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).getText();
 		    	 		logger.info("Actmsg "+actmsg);
@@ -259,16 +267,15 @@ public class CurrencyMasterHomePage extends LaunchApplication
 	    	 
 	     }
   }
+  
+  /* METHOD TO CLEAR THE DATA BY CLICKING ON CLEAR ICON */
   public void clearData()
   {
-	  //wait.until(ExpectedConditions.elementToBeClickable(By.id("clear_Currency")));
-	  //driver.findElement(By.id("clear_Currency")).click();
-	  List<WebElement> totrows=driver.findElements(By.xpath("//fieldset[@class='clsFieldset']/div/div"));
+	 List<WebElement> totrows=driver.findElements(By.xpath("//fieldset[@class='clsFieldset']/div/div"));
 	  for(int r=1;r<=totrows.size();r++)
 	  {
 		  List<WebElement> totcols= driver.findElements(By.xpath("//*[@id='currencyMasterWidth']/div[1]/div[1]/div["+r+"]/div"));
-		  //logger.info("cols "+totcols.size());
-		  for(int c=1;c<=totcols.size();c+=2)
+		 for(int c=1;c<=totcols.size();c+=2)
 		  {
 			  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//fieldset[@class='clsFieldset']/div[1]/div["+r+"]/div["+c+"]/label | //fieldset[@class='clsFieldset']/div[1]/div["+r+"]/div["+c+"]")));
 			  WebElement label=driver.findElement(By.xpath("//fieldset[@class='clsFieldset']/div[1]/div["+r+"]/div["+c+"]/label | //fieldset[@class='clsFieldset']/div[1]/div["+r+"]/div["+c+"]"));

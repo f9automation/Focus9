@@ -247,7 +247,7 @@ public class MasterHomePage extends LaunchApplication {
 		 }
 		catch(Exception e)
 		{
-			logger.info("Stale element exception ");
+			//logger.info("Stale element exception ");
 		}
 		if(actmsg.toLowerCase().contains(expmsg.toLowerCase()))
 		{
@@ -415,9 +415,7 @@ public class MasterHomePage extends LaunchApplication {
 		    	 		actmsg=driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[2]/div[2]")).getText();
 		    	 		driver.findElement(By.xpath("//*[@id='idGlobalError']/div/table/tbody/tr/td[3]")).click();
 		    		}
-		    	 
-		    	
-			}
+		    }
 	     }
 	     catch(Exception e1)
 	     {

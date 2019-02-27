@@ -117,9 +117,9 @@ public class TransactionsNet<K, V> extends LaunchApplication
 	 			totrows=row-1;
 	 		}
 	 	}
-	 		 logger.info("tot rows "+totrows);
-	 		 for(int k=1;k<totrows;k++)
-	 		 {
+	 	/* BODY NET  CALCULATION */
+	 	for(int k=1;k<totrows;k++)
+	 	{
 		 body.removeAll(bodyintvalue);
 		 if(bodyintvalue.size()>0)
 		 {
@@ -177,7 +177,7 @@ public class TransactionsNet<K, V> extends LaunchApplication
 		  	}
 		
 	   bodyrowvalues.clear();
-	   /*  */
+	   
 	     for(String bodyattr: body)
 	     {
 	     String key=(String) getKeyFromValue(bodysortedMap,bodysortedMap.get(bodyattr));
@@ -198,7 +198,7 @@ public class TransactionsNet<K, V> extends LaunchApplication
 	logger.info("Total calculated Body Net value is "+bodynet);
 	
 	
-     /* Footer Calculation*/
+     /* FOOTER CALCULATION*/
 	 Map<String, String> footermap=new HashMap<String, String>();
 	 ArrayList<String> footerrowvalues=new ArrayList();
 	 trf.getLabelNames();
@@ -482,6 +482,7 @@ public class TransactionsNet<K, V> extends LaunchApplication
 			 String headername=	tbodyheaderlist.get(header).getAttribute("title");	 
 			 headernames.add(headername);
 		 }
+		 /* BODY NET CALCULATION */
 		 String bodyformula=bodyformulas;
 		 ArrayList<String> bodybreakup= new ArrayList(Arrays.asList(bodyformula.split("(?<=[\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]])|(?=[\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]])")));
 		 ArrayList<String> body= new ArrayList(Arrays.asList(bodyformula.split("\\[|\\(|\\-|\\+|\\*|\\/|\\%|\\)|\\]")));
@@ -511,8 +512,8 @@ public class TransactionsNet<K, V> extends LaunchApplication
 			
 			 String bodydoubstr;
 			
-		 Map<String, String> bodymap=new HashMap<String, String>();
-		 ArrayList<String> bodyrowvalues=new ArrayList();
+		Map<String, String> bodymap=new HashMap<String, String>();
+		ArrayList<String> bodyrowvalues=new ArrayList();
 		List<WebElement> tbody;
 		tbody= table.findElements(By.cssSelector("div[id='id_transactionentry_body_section'] div:nth-of-type(4) div:nth-of-type(1) table[id='id_transaction_entry_detail_table'] tbody[id='id_transaction_entry_detail_table_body'] tr[class='fgridrow']"));
 		 String bodyformulaattr;
@@ -598,17 +599,15 @@ public class TransactionsNet<K, V> extends LaunchApplication
 				bodyrowvalues.add(bodysortedMap.get(key));
 		     }
 		    bodynetrow= (double) calculation(body,bodyrowvalues,bodybreakup);
-		    //logger.info("Bodynet rw "+bodynetrow);
-			bodynet=bodynet+bodynetrow;
+		    bodynet=bodynet+bodynetrow;
 			for(int i:bodyintvalue)
 			{
 				body.add(String.valueOf(i));
 			}
 		 }
 		
-		 //logger.info("Total calculated Body Net value is "+bodynet);
-		 actroundoffnet = (double) Math.round(bodynet * 100) / 100;
-		 netr=netvalue.replace(",", "");
+		actroundoffnet = (double) Math.round(bodynet * 100) / 100;
+		netr=netvalue.replace(",", "");
 		if(Double.parseDouble(netr)==actroundoffnet)
 		{
 			logger.info("Actual Net from application is "+actroundoffnet+" & Expected Net is "+Double.parseDouble(netr));
@@ -619,6 +618,7 @@ public class TransactionsNet<K, V> extends LaunchApplication
 	  
   }
  
+  /* METHOD TO CALCULATE ALL THE VALUES BY PASSING ALL THE RESPECTIVE VALUES */
   
 	public Object calculation(ArrayList<String> values, ArrayList<String> rowvalues, ArrayList<String>breakup) throws ScriptException
 	{
@@ -651,7 +651,7 @@ public class TransactionsNet<K, V> extends LaunchApplication
 	 ArrayList<String> ar=new ArrayList();
 	 ar.clear();
 	int count=0;
-	/*Breakup of each value of the formula array and then combining it to perform calculation*/
+	/* BREAKUP OF EACH VALUE OF THE FORMULA ARRAY AND THEN COMBINING IT TO PERFORM CALCULATION */
 	 for(int n=0;n<rowvalues.size();n+=count)
 	 {
 		 count=0;
@@ -683,10 +683,9 @@ public class TransactionsNet<K, V> extends LaunchApplication
 	String rowevaluator=rowcommaseperated.replaceAll(",", "");
 	ScriptEngineManager mgr = new ScriptEngineManager();
     ScriptEngine engine = mgr.getEngineByName("JavaScript");
-   
+   /* ROW EVALUATOR METHOD TO PERFORM CALCULATION */
     try 
     {
-		//logger.info("Formula to be evaluated is "+rowevaluator+" & Evaluated value "+engine.eval(rowevaluator));
 		return engine.eval(rowevaluator);
 	} 
     catch (Exception e) 
